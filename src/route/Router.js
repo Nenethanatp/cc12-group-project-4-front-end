@@ -1,10 +1,10 @@
-import { Navigate, Routes, Route } from "react-router-dom";
-import AuthLayout from "../layout/auth/AuthLayout";
-import ProfileLayout from "../layout/profile/ProfileLayout";
-import HomePage from "../pages/HomePage";
-import LoginPage from "../pages/LoginPage";
-import SavePlacePage from "../pages/SavePlacePage";
-import SubscriptionPage from "../pages/subscriptionPage";
+import { Navigate, Routes, Route } from 'react-router-dom';
+import AuthLayout from '../layout/auth/AuthLayout';
+import ProfileLayout from '../layout/profile/ProfileLayout';
+import HomePage from '../pages/HomePage';
+import LoginPage from '../pages/LoginPage';
+import SavePlacePage from '../pages/SavePlacePage';
+import SubscriptionPage from '../pages/subscriptionPage';
 
 function Router() {
   const user = false; // redux state
@@ -13,21 +13,20 @@ function Router() {
     <Routes>
       {user ? (
         <>
-          <Route path="/" element={<AuthLayout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/profile/:id" element={<ProfileLayout />}>
-              <Route path="/map" element={<HomePage />} />
-              <Route path="/savePlace" element={<SavePlacePage />} />
+          <Route path='/' element={<AuthLayout />}>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/profile/:id' element={<ProfileLayout />}>
+              <Route path='/map' element={<HomePage />} />
+              <Route path='/savePlace' element={<SavePlacePage />} />
             </Route>
-            <Route path="/subscription" element={<SubscriptionPage />} />
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path='/subscription' element={<SubscriptionPage />} />
+            <Route path='*' element={<Navigate to='/' />} />
           </Route>
-          a
         </>
       ) : (
         <>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path='/' element={<LoginPage />} />
+          <Route path='*' element={<Navigate to='/' />} />
         </>
       )}
     </Routes>
