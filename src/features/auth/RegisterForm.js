@@ -27,9 +27,9 @@ function RegisterForm({ close }) {
   };
 
   return (
-    <div className='flex flex-col items-center gap-5 w-[100%]'>
-      <div className='text-2xl font-bold m-5'>REGISTER AN ACCOUNT</div>
-      <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
+      <div className='flex flex-col items-center gap-5 w-[100%]'>
+        <div className='text-2xl font-bold m-5'>REGISTER AN ACCOUNT</div>
         <div className='flex flex-col items-center gap-5'>
           <input
             className='bg-gray-200 h-11 w-[320px] px-5'
@@ -66,13 +66,13 @@ function RegisterForm({ close }) {
             }
           />
         </div>
-        <div className='h-full flex items-center'>
+        <div className='h-[140px] flex items-center'>
           <button className='bg-yellow-400 w-[320px] h-12 rounded-full font-bold text-lg'>
             SIGN UP
           </button>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 }
 
