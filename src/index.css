@@ -33,3 +33,19 @@ code {
     opacity: 1;
   }
 }
+
+.faderightside {
+  position: relative;
+  animation: animaterightside 0.5s;
+}
+
+@keyframes animaterightside {
+  from {
+    right: -500px;
+    opacity: 0;
+  }
+  to {
+    right: 0;
+    opacity: 1;
+  }
+}
