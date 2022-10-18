@@ -17,3 +17,19 @@ code {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.fadein {
+  position: relative;
+  animation: animatebottom 0.5s;
+}
+
+@keyframes animatebottom {
+  from {
+    bottom: -800px;
+    opacity: 0;
+  }
+  to {
+    bottom: 0;
+    opacity: 1;
+  }
+}

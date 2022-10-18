@@ -4,7 +4,7 @@ import ProfileLayout from '../layout/profile/ProfileLayout';
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import SavePlacePage from '../pages/SavePlacePage';
-import SubscriptionPage from '../pages/subscriptionPage';
+import SubscriptionPage from '../pages/SubscriptionPage';
 
 function Router() {
   const user = false; // redux state
