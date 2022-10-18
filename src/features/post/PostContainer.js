@@ -1,13 +1,26 @@
 import PostForm from "./PostForm";
 import PostList from "./PostList";
 
+import { useState } from 'react';
+
 function PostContainer() {
+  const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
+
+  const handleCreatePost = (input) => {
+
+    // call API create post
+
+    // then close create post pane
+
+    setIsCreatePostOpen((prev) => !prev);
+  };
+
   return (
-    <>
-      <button>Create Post</button>
+    <div className="relative">
+      <button onClick={handleCreatePost}>Create Post</button>
       <PostList />
-      <PostForm />
-    </>
+      {isCreatePostOpen && <PostForm handleCreatePost={handleCreatePost} />}
+    </div>
   );
 }
 

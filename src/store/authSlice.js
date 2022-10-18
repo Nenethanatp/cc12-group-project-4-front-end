@@ -5,7 +5,7 @@ import { addAccessToken } from '../utils/localStorage';
 const AuthSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: { firstName: '', lastName: '', email: '', imageUrl: '' }
+    user: null
   },
   reducers: {
     getMe: (state, action) => {
@@ -21,6 +21,17 @@ export const { getMe } = AuthSlice.actions;
 export const register = (input) => async (dispatch) => {
   try {
     const res = await authService.register(input);
+    addAccessToken(res.data.token);
+    const resMe = await authService.getMe();
+    dispatch(getMe(resMe.data.user));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const login = (input) => async (dispatch) => {
+  try {
+    const res = await authService.login(input);
     addAccessToken(res.data.token);
     const resMe = await authService.getMe();
     dispatch(getMe(resMe.data.user));
