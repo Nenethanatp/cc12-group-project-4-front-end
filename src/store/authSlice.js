@@ -5,7 +5,7 @@ import { addAccessToken } from '../utils/localStorage';
 const AuthSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: { firstName: '', lastName: '', email: '', imageUrl: '' }
+    user: null
   },
   reducers: {
     getMe: (state, action) => {

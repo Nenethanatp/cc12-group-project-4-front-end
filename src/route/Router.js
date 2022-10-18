@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { Navigate, Routes, Route } from 'react-router-dom';
 import AuthLayout from '../layout/auth/AuthLayout';
 import ProfileLayout from '../layout/profile/ProfileLayout';
@@ -7,7 +8,7 @@ import SavePlacePage from '../pages/SavePlacePage';
 import SubscriptionPage from '../pages/SubscriptionPage';
 
 function Router() {
-  const user = false; // redux state
+  const user = useSelector((state) => state.auth.user);
 
   return (
     <Routes>
