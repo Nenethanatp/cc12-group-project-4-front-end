@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PostDetail from './PostDetail';
 
 function Post() {
-  const image = [1];
+  const image = [6];
 
   const [openDetail, setOpenDetail] = useState(true);
   const [liked, setLiked] = useState(true);
@@ -12,9 +12,20 @@ function Post() {
     // add like sent to backend
     setLiked((prev) => !prev);
   };
+
+  const handleOption = (e) => {
+    e.stopPropagation();
+  };
   return (
     <>
-      {!openDetail ? (
+      {openDetail ? (
+        <PostDetail
+          image={image}
+          setOpenDetail={setOpenDetail}
+          liked={liked}
+          handleLike={handleLike}
+        />
+      ) : (
         <div
           className="flex flex-col "
           onClick={() => setOpenDetail((prev) => !prev)}
@@ -35,7 +46,10 @@ function Post() {
           >
             <div className="flex justify-between items-center">
               <div className="text-xl font-semibold">น้ำท่วมสุขุมวิท</div>
-              <i className="fa-solid fa-ellipsis-vertical"></i>
+              <i
+                className="fa-solid fa-ellipsis-vertical "
+                onClick={handleOption}
+              ></i>
             </div>
             <div className="flex justify-between">
               <div className="flex gap-5">
@@ -57,13 +71,6 @@ function Post() {
             </div>
           </div>
         </div>
-      ) : (
-        <PostDetail
-          image={image}
-          setOpenDetail={setOpenDetail}
-          liked={liked}
-          handleLike={handleLike}
-        />
       )}
     </>
   );

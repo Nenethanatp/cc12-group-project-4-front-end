@@ -5,25 +5,31 @@ import CommentForm from './CommentForm';
 function PostDetail({ image, setOpenDetail, liked, handleLike }) {
   return (
     <div className="flex flex-col ">
-      {image && (
+      {image.length !== 0 ? (
         <div className="w-full relative">
           <i
-            className="fa-solid fa-circle-chevron-left opacity-90 w-full h-full text-3xl absolute top-3 left-3"
+            className="fa-solid fa-circle-chevron-left opacity-90 text-3xl absolute top-3 left-3"
             onClick={() => setOpenDetail((prev) => !prev)}
           />
-
           <img
             src="https://ichef.bbci.co.uk/news/640/cpsprodpb/ea7e/live/dbb53ac0-491d-11ed-97ba-2d7f4db4e2b6.jpg"
             alt=""
             className="rounded-t-3xl w-full object-cover"
           ></img>
         </div>
+      ) : (
+        <div
+          className="w-full relative bg-white rounded-t-3xl "
+          onClick={(e) => e.stopPropagation()}
+        >
+          <i
+            className="fa-solid fa-circle-chevron-left opacity-90  h-full  text-2xl py-3 pl-3"
+            onClick={() => setOpenDetail((prev) => !prev)}
+          />
+          <hr />
+        </div>
       )}
-      <div
-        className={`bg-white flex flex-col p-5 gap-2 ${
-          image ? 'rounded-b-3xl' : 'rounded-3xl'
-        }`}
-      >
+      <div className="bg-white flex flex-col p-5 gap-2 rounded-b-3xl">
         <div className="flex gap-3 ">
           <div className="">
             <img
