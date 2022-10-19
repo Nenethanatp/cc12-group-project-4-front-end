@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../store/authSlice';
 import { gapi } from 'gapi-script';
 import LoginGoogle from '../../components/LoginGoogle';
+import LogoutGoogle from '../../components/LogoutGoogle';
 
 const clientId =
   '713136136398-r4nrmvg52fnsad1f466mnnq48ldh1862.apps.googleusercontent.com';
@@ -52,7 +53,7 @@ function LoginForm() {
           onChange={(e) => setInput({ ...input, password: e.target.value })}
         />
         <div className='basis-2/5 flex flex-col justify-center gap-3'>
-          <button className='bg-yellow-400 w-[320px] h-12 rounded-full font-bold text-lg shadow-md'>
+          <button className='bg-yellow-400 w-[320px] h-12 rounded-full font-bold text-lg text-gray-700 shadow-md'>
             LOG IN
           </button>
           <div className='flex justify-center'>

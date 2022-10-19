@@ -8,13 +8,11 @@ function LogoutGoogle() {
     console.log('Log out successful');
   };
   return (
-    <div>
-      <GoogleLogout
-        clientId={clientId}
-        buttonText={'Logout'}
-        onLogoutSuccess={onSuccess}
-      />
-    </div>
+    <GoogleLogout
+      clientId={clientId}
+      buttonText={'Logout'}
+      onLogoutSuccess={onSuccess}
+    />
   );
 }
 

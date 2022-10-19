@@ -1,23 +1,22 @@
 import { GoogleLogin } from 'react-google-login';
-import * as authService from '../api/authApi';
-import { addAccessToken, getAccessToken } from '../utils/localStorage';
+import { useDispatch } from 'react-redux';
+import { googleLogin } from '../store/authSlice';
 
 const clientId =
   '713136136398-r4nrmvg52fnsad1f466mnnq48ldh1862.apps.googleusercontent.com';
 
 function LoginGoogle() {
-  const onSuccess = async (res) => {
+  const dispatch = useDispatch();
+  const onSuccess = (res) => {
     try {
-      if (getAccessToken()) {
-        return alert('please logout before login');
-      }
-      const result = await authService.loginGoogle({
-        firstName: res.profileObj.givenName,
-        lastName: res.profileObj.familyName,
-        email: res.profileObj.email,
-        googleId: res.profileObj.googleId
-      });
-      addAccessToken(result.data.token);
+      dispatch(
+        googleLogin({
+          firstName: res.profileObj.givenName,
+          lastName: res.profileObj.familyName,
+          email: res.profileObj.email,
+          googleId: res.profileObj.googleId
+        })
+      );
     } catch (err) {
       console.log(err);
     }
@@ -35,7 +34,16 @@ function LoginGoogle() {
         onSuccess={onSuccess}
         onFailure={onFailure}
         cookiePolicy={'single_host_origin'}
-        isSignedIn={true}
+        isSignedIn={false}
+        render={(renderProps) => (
+          <button
+            onClick={renderProps.onClick}
+            disabled={renderProps.disabled}
+            className='bg-green-500 w-[320px] h-12 rounded-full font-bold text-md text-white shadow-md'
+          >
+            LOG IN WITH GOOGLE ACCOUNT
+          </button>
+        )}
       />
     </div>
   );
