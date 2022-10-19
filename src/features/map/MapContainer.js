@@ -1,6 +1,6 @@
-import Category from "../../components/Category";
-import PostContainer from "../post/PostContainer";
-import Map from "./Map";
+import Category from '../../components/Category';
+import PostContainer from '../post/PostContainer';
+import Map from './Map';
 
 function MapContainer() {
   return (

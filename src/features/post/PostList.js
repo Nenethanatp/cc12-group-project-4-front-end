@@ -1,11 +1,10 @@
-import Post from "./Post";
+import Post from './Post';
 
 function PostList() {
   return (
-    <div>
+    <div className="w-full">
       <Post />
-      <Post />
-      <Post />
+      {/* <Post /> */}
     </div>
   );
 }
