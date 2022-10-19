@@ -1,12 +1,18 @@
 import { useState } from 'react';
 import Comment from './Comment';
+import CommentForm from './CommentForm';
 
 function Post() {
   const image = [1];
 
   const [openDetail, setOpenDetail] = useState(true);
+  const [liked, setLiked] = useState(true);
 
-  console.log(openDetail);
+  const handleLike = (e) => {
+    e.stopPropagation();
+    // add like sent to backend
+    setLiked((prev) => !prev);
+  };
   return (
     <>
       {!openDetail ? (
@@ -30,16 +36,21 @@ function Post() {
           >
             <div className="flex justify-between items-center">
               <div className="text-xl font-semibold">น้ำท่วมสุขุมวิท</div>
-              <i class="fa-solid fa-ellipsis-vertical"></i>
+              <i className="fa-solid fa-ellipsis-vertical"></i>
             </div>
             <div className="flex justify-between">
               <div className="flex gap-5">
                 <div className="flex items-center gap-1 text-sm">
-                  <i className="fa-regular fa-thumbs-up"></i>
+                  <i
+                    className={`fa-regular fa-thumbs-up${
+                      liked ? ' text-blue-600' : ''
+                    }`}
+                    onClick={handleLike}
+                  />
                   <div>24</div>
                 </div>
                 <div className="flex items-center gap-1 text-sm">
-                  <i className="fa-regular fa-message "></i>
+                  <i className="fa-regular fa-message " />
                   <div>15</div>
                 </div>
               </div>
@@ -54,7 +65,7 @@ function Post() {
               <i
                 className="fa-solid fa-circle-chevron-left opacity-90 w-full h-full text-3xl absolute top-3 left-3"
                 onClick={() => setOpenDetail((prev) => !prev)}
-              ></i>
+              />
 
               <img
                 src="https://ichef.bbci.co.uk/news/640/cpsprodpb/ea7e/live/dbb53ac0-491d-11ed-97ba-2d7f4db4e2b6.jpg"
@@ -87,16 +98,22 @@ function Post() {
             <div className="flex justify-between">
               <div className="flex gap-5">
                 <div className="flex items-center gap-1 text-sm">
-                  <i className="fa-regular fa-thumbs-up"></i>
+                  <i
+                    className={`fa-regular fa-thumbs-up${
+                      liked ? ' text-blue-600' : ''
+                    }`}
+                    onClick={handleLike}
+                  />
                   <div>24</div>
                 </div>
                 <div className="flex items-center gap-1 text-sm">
-                  <i className="fa-regular fa-message "></i>
+                  <i className="fa-regular fa-message " />
                   <div>15</div>
                 </div>
               </div>
             </div>
             <Comment />
+            <CommentForm />
           </div>
         </div>
       )}
