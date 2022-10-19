@@ -1,16 +1,31 @@
 import { useState } from 'react';
 import PostForm from './PostForm';
 import PostList from './PostList';
+import { useDispatch } from 'react-redux';
+import { createPost } from '../../store/postSlice';
 
 function PostContainer() {
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const toggleCreatePost = () => {
+    setIsCreatePostOpen((prev) => !prev);
+  }
 
   const handleCreatePost = (input) => {
-    // call API create post
-
+    const formData = new FormData();
+    formData.append("content", input.content);
+    formData.append("typeId", input.typeId);
+    formData.append("userId", input.userId);
+    formData.append("latitude", input.latitude);
+    formData.append("longitude", input.longitude);
+    for (let i=0; i<input.postImages.length; i++) {
+      formData.append("postImage", input.postImages[i]);
+    }
+    console.log(formData);
+    dispatch(createPost(formData));
     // then close create post pane
-
-    setIsCreatePostOpen((prev) => !prev);
+    toggleCreatePost();
   };
 
   return (
@@ -19,13 +34,13 @@ function PostContainer() {
         <div className="w-full flex flex-col items-center gap-6 ">
           <button
             className="bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-[100%]"
-            onClick={handleCreatePost}
+            onClick={toggleCreatePost}
           >
             CREATE POST
           </button>
           <PostList />
         </div>
-        {isCreatePostOpen && <PostForm handleCreatePost={handleCreatePost} />}
+        {isCreatePostOpen && <PostForm handleCreatePost={handleCreatePost} toggleCreatePost={toggleCreatePost} />}
       </div>
     </div>
   );
