@@ -1,11 +1,35 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as commentService from '../../api/commentApi';
+import { getPosts } from '../../store/postSlice';
 
-function CommentForm() {
-  const [comment, setComment] = useState();
-  const handleSubmit = (e) => {
+function CommentForm({ id }) {
+  const [comment, setComment] = useState('');
+  const [commentImage, setCommentImage] = useState(null);
+  const dispatch = useDispatch();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // sent comment to backend
+    try {
+      const formData = new FormData();
+      if (!comment || !comment.trim()) {
+        return toast.error('comment is required');
+      }
+
+      if (comment) {
+        formData.append('content', comment);
+      }
+      if (commentImage) {
+        formData.append('commentImage', commentImage);
+      }
+
+      await commentService.createCommentApi(id, formData);
+      dispatch(getPosts());
+    } catch (err) {
+      console.log(err);
+    }
     setComment('');
+    setCommentImage(null);
   };
 
   return (

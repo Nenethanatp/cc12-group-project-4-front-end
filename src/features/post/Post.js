@@ -43,6 +43,7 @@ function Post({ post }) {
             countLike={countLike}
             countComment={countComment}
             Comments={Comments}
+            id={id}
           />
         ) : (
           <div
