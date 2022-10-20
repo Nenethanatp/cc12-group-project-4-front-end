@@ -21,8 +21,7 @@ function PostContainer() {
     formData.append("longitude", input.longitude);
     for (let i=0; i<input.postImages.length; i++) {
       formData.append("postImage", input.postImages[i]);
-    }
-    console.log(formData);
+    }    
     dispatch(createPost(formData));
     // then close create post pane
     toggleCreatePost();
