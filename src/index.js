@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import 'react-toastify/dist/ReactToastify.css';
+import LoadingContextProvider from './context/LoadingContext';
 import './index.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import App from './App';
@@ -13,9 +15,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
   <BrowserRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <LoadingContextProvider>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </LoadingContextProvider>
   </BrowserRouter>
   // </React.StrictMode>
 );
