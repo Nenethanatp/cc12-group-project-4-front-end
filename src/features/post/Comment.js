@@ -1,4 +1,8 @@
+import { formatDate } from '../../utils/formatDate';
+
 function Comment({ comment }) {
+  console.log(comment);
+  const date = formatDate(comment.createdAt);
   return (
     <div className="flex flex-col gap-2">
       <hr />
@@ -14,7 +18,7 @@ function Comment({ comment }) {
           <div className="text-md">
             {comment.User.firstName} {comment.User.lastName}
           </div>
-          <div className="text-xs">18:00 18/10/2565</div>
+          <div className="text-xs">{date}</div>
         </div>
       </div>
       <div>{comment.content}</div>
