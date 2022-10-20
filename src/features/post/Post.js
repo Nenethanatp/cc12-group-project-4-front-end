@@ -1,4 +1,8 @@
-import { useState } from 'react';
+import { getNextKeyDef } from '@testing-library/user-event/dist/keyboard/getNextKeyDef';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleLike } from '../../api/postApi';
+import { getPosts } from '../../store/postSlice';
 import { formatDate } from '../../utils/formatDate';
 import PostDetail from './PostDetail';
 
@@ -9,17 +13,27 @@ function Post({ post }) {
   const countLike = Likes.length;
   const countComment = Comments.length;
 
+  const dispatch = useDispatch();
+
   const date = formatDate(createdAt);
 
-  // const image = [6];
+  const me = useSelector((state) => state.auth.user);
+  const likedList = Likes.map((like) => like.userId); //[1,3,2] //userId of liked post
 
   const [openDetail, setOpenDetail] = useState(true);
-  const [liked, setLiked] = useState(false);
-
-  const handleLike = (e) => {
+  const [liked, setLiked] = useState(likedList.includes(me.id));
+  const cbSetLike = () => {
+    setLiked(!likedList.includes(me.id));
+  };
+  const handleLike = async (e) => {
     e.stopPropagation();
-    // add like sent to backend
-    setLiked((prev) => !prev);
+    try {
+      await toggleLike(id);
+      dispatch(getPosts());
+      cbSetLike();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleOption = (e) => {

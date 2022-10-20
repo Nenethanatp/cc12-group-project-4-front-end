@@ -22,7 +22,7 @@ function PostContainer() {
     for (let i = 0; i < input.postImages.length; i++) {
       formData.append('postImage', input.postImages[i]);
     }
-    console.log(formData);
+    // console.log(formData);
     dispatch(createPost(formData));
     // then close create post pane
     toggleCreatePost();
