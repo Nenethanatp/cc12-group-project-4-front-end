@@ -3,6 +3,7 @@ import Comment from './Comment';
 import CommentForm from './CommentForm';
 
 function PostDetail({
+  id,
   firstName,
   lastName,
   imageUrl,
@@ -15,7 +16,7 @@ function PostDetail({
   content,
   countLike,
   countComment,
-  Comments,
+  Comments
 }) {
   return (
     <div className="flex flex-col ">
@@ -80,8 +81,7 @@ function PostDetail({
         {Comments.map((comment, index) => (
           <Comment key={comment.id} comment={comment} />
         ))}
-
-        <CommentForm />
+        <CommentForm id={id} />
       </div>
     </div>
   );
