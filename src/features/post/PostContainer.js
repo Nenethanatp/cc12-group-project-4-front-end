@@ -10,17 +10,17 @@ function PostContainer() {
 
   const toggleCreatePost = () => {
     setIsCreatePostOpen((prev) => !prev);
-  }
+  };
 
   const handleCreatePost = (input) => {
     const formData = new FormData();
-    formData.append("content", input.content);
-    formData.append("typeId", input.typeId);
-    formData.append("userId", input.userId);
-    formData.append("latitude", input.latitude);
-    formData.append("longitude", input.longitude);
-    for (let i=0; i<input.postImages.length; i++) {
-      formData.append("postImage", input.postImages[i]);
+    formData.append('content', input.content);
+    formData.append('typeId', input.typeId);
+    formData.append('userId', input.userId);
+    formData.append('latitude', input.latitude);
+    formData.append('longitude', input.longitude);
+    for (let i = 0; i < input.postImages.length; i++) {
+      formData.append('postImage', input.postImages[i]);
     }
     console.log(formData);
     dispatch(createPost(formData));
@@ -40,7 +40,12 @@ function PostContainer() {
           </button>
           <PostList />
         </div>
-        {isCreatePostOpen && <PostForm handleCreatePost={handleCreatePost} toggleCreatePost={toggleCreatePost} />}
+        {isCreatePostOpen && (
+          <PostForm
+            handleCreatePost={handleCreatePost}
+            toggleCreatePost={toggleCreatePost}
+          />
+        )}
       </div>
     </div>
   );
