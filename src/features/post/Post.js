@@ -1,10 +1,10 @@
-import { getNextKeyDef } from "@testing-library/user-event/dist/keyboard/getNextKeyDef";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleLike } from "../../api/postApi";
-import { getPosts } from "../../store/postSlice";
-import { formatDate } from "../../utils/formatDate";
-import PostDetail from "./PostDetail";
+import { getNextKeyDef } from '@testing-library/user-event/dist/keyboard/getNextKeyDef';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleLike } from '../../api/postApi';
+import { getPosts } from '../../store/postSlice';
+import { formatDate } from '../../utils/formatDate';
+import PostDetail from './PostDetail';
 
 function Post({ post }) {
   const { id, content, createdAt, PostImages, User, Likes, Comments } = post;
@@ -65,17 +65,17 @@ function Post({ post }) {
             onClick={() => setOpenDetail((prev) => !prev)}
           >
             {PostImages.length !== 0 && (
-              <div className="w-full h-60">
+              <div className="w-full">
                 <img
                   src={PostImages[0].imageUrl}
                   alt=""
-                  className="rounded-t-3xl w-full h-full object-cover"
+                  className="rounded-t-3xl w-full object-cover"
                 ></img>
               </div>
             )}
             <div
               className={`bg-white flex flex-col p-5 gap-2 ${
-                PostImages.length !== 0 ? "rounded-b-3xl" : "rounded-3xl"
+                PostImages.length !== 0 ? 'rounded-b-3xl' : 'rounded-3xl'
               }`}
             >
               <div className="flex justify-between items-center">
@@ -90,7 +90,7 @@ function Post({ post }) {
                   <div className="flex items-center gap-1 text-sm">
                     <i
                       className={`fa-regular fa-thumbs-up${
-                        liked ? " text-blue-600" : ""
+                        liked ? ' text-blue-600' : ''
                       }`}
                       onClick={handleLike}
                     />

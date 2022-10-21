@@ -6,7 +6,7 @@ function Comment({ comment }) {
   return (
     <div className="flex flex-col gap-2">
       <hr />
-      <div className="flex gap-3 ">
+      <div className="flex gap-3 pb-0 ">
         <div className="">
           <img
             src={comment.User.imageUrl}
@@ -22,9 +22,15 @@ function Comment({ comment }) {
         </div>
       </div>
       <div>{comment.content}</div>
-      <div>
-        <img src={comment.imageUrl} alt="" className="rounded-[5%]" />
-      </div>
+      {comment.imageUrl && (
+        <div className="w-full">
+          <img
+            src={comment.imageUrl}
+            alt=""
+            className="rounded-[5%] w-full my-2"
+          />
+        </div>
+      )}
     </div>
   );
 }

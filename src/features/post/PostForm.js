@@ -5,10 +5,9 @@ import { useDispatch } from 'react-redux';
 import { useLoading } from '../../context/LoadingContext';
 import { toast } from 'react-toastify';
 import PostFormImage from './PostFormImage';
-import AddPhotoButton from "./AddPhotoButton";
+import AddPhotoButton from './AddPhotoButton';
 
 function PostForm({ handleCreatePost, toggleCreatePost }) {
-
   const fileEl = useRef();
 
   const { startLoading, stopLoading } = useLoading();
@@ -32,37 +31,41 @@ function PostForm({ handleCreatePost, toggleCreatePost }) {
       e.preventDefault();
 
       if (!input.content) {
-        return toast.error("content is required");
+        return toast.error('content is required');
       }
       if (!input.typeId) {
-        return toast.error("type is required");
+        return toast.error('type is required');
       }
       if (!input.latitude || !input.longitude) {
-        return toast.error("location is required");
-      }     
-   
+        return toast.error('location is required');
+      }
+
       startLoading();
       await handleCreatePost(input);
-      
+
       input.content = '';
       input.typeId = 1;
       input.userId = user.id;
       input.latitude = 111;
       input.longitude = 222;
-      input.postImages = [];    
+      input.postImages = [];
     } catch (err) {
       console.log(err);
     } finally {
       stopLoading();
     }
-  }
+  };
 
   return (
     <form onSubmit={onCreatePost} className="h-full w-full">
       <div className="flex flex-col items-center h-auto w-[100%]  ">
         <div className="items-center w-full">
           <div className="h-12 w-12">
-            <button className="bg-gray-200 rounded-full p-2 material-symbols-outlined" type={"button"} onClick={toggleCreatePost}>
+            <button
+              className="bg-gray-200 rounded-full p-2 material-symbols-outlined"
+              type={'button'}
+              onClick={toggleCreatePost}
+            >
               keyboard_arrow_down
             </button>
           </div>
@@ -83,17 +86,21 @@ function PostForm({ handleCreatePost, toggleCreatePost }) {
               name="categoryId"
               value={input.typeId}
               className="bg-gray-200 w-full rounded-2xl p-4"
-              onChange={(e) => setInput({ ...input, typeId: parseInt(e.target.value) })}
+              onChange={(e) =>
+                setInput({ ...input, typeId: parseInt(e.target.value) })
+              }
             >
-              <option value='1'>Cat#1</option>
-              <option value='2'>Cat#2</option>
-              <option value='3'>Cat#3</option>
-              <option value='4'>Cat#4</option>
+              <option value="1">Cat#1</option>
+              <option value="2">Cat#2</option>
+              <option value="3">Cat#3</option>
+              <option value="4">Cat#4</option>
             </select>
           </div>
 
-          
-          <div className="flex flex-col items-center w-full mt-5" style={{ maxWidth: "300px" }}>
+          <div
+            className="flex flex-col items-center w-full mt-5"
+            style={{ maxWidth: '300px' }}
+          >
             <label htmlFor="postImage" className="form-label">
               อัพโหลดรูปภาพ
             </label>
@@ -102,7 +109,13 @@ function PostForm({ handleCreatePost, toggleCreatePost }) {
                 <>
                   {input.postImages.map((postImage, index) => {
                     return (
-                     <PostFormImage key={index} postImage={postImage} index={index} input={input} setInput ={setInput}/>
+                      <PostFormImage
+                        key={index}
+                        postImage={postImage}
+                        index={index}
+                        input={input}
+                        setInput={setInput}
+                      />
                     );
                   })}
                 </>
@@ -115,14 +128,12 @@ function PostForm({ handleCreatePost, toggleCreatePost }) {
               className="d-none"
               ref={fileEl}
               onChange={(e) => {
-
                 if (e.target.files[0]) {
                   handleSetPostImage(e.target.files[0]);
                 }
               }}
             />
           </div>
-
         </div>
         <button className="bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-full mt-5">
           POST

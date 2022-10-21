@@ -16,7 +16,7 @@ function PostDetail({
   content,
   countLike,
   countComment,
-  Comments
+  Comments,
 }) {
   return (
     <div className="flex flex-col ">
@@ -81,6 +81,7 @@ function PostDetail({
         {Comments.map((comment, index) => (
           <Comment key={comment.id} comment={comment} />
         ))}
+
         <CommentForm id={id} />
       </div>
     </div>
