@@ -17,8 +17,8 @@ function App() {
     };
     if (getAccessToken()) {
       dispatch(getUser());
+      dispatch(getPosts());
     }
-    dispatch(getPosts());
   }, [dispatch]);
 
   return (
