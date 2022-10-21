@@ -41,7 +41,7 @@ function Post({ post }) {
   };
   return (
     <>
-      <div className="m-2">
+      <div className="mt-8">
         {openDetail ? (
           <PostDetail
             content={content}
@@ -65,11 +65,11 @@ function Post({ post }) {
             onClick={() => setOpenDetail((prev) => !prev)}
           >
             {PostImages.length !== 0 && (
-              <div className="w-full ">
+              <div className="w-full h-60">
                 <img
                   src={PostImages[0].imageUrl}
                   alt=""
-                  className="rounded-t-3xl w-full object-cover"
+                  className="rounded-t-3xl w-full h-full object-cover"
                 ></img>
               </div>
             )}
