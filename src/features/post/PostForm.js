@@ -58,11 +58,11 @@ function PostForm({ handleCreatePost, toggleCreatePost }) {
   }
 
   return (
-    <form onSubmit={onCreatePost} className="absolute top-0 h-[100%] w-[100%] mt-6">
-      <div className="flex flex-col items-center h-full w-[100%] bg-slate-200">
-        <div className="items-center w-[90%]">
+    <form onSubmit={onCreatePost} className="h-full w-full">
+      <div className="flex flex-col items-center h-auto w-[100%]  ">
+        <div className="items-center w-full">
           <div className="h-12 w-12">
-            <button className="bg-white rounded-full p-2 material-symbols-outlined" type={"button"} onClick={toggleCreatePost}>
+            <button className="bg-gray-200 rounded-full p-2 material-symbols-outlined" type={"button"} onClick={toggleCreatePost}>
               keyboard_arrow_down
             </button>
           </div>
@@ -70,19 +70,19 @@ function PostForm({ handleCreatePost, toggleCreatePost }) {
 
         <div className="flex flex-col items-center w-[100%] mt-5">
           <textarea
-            className="bg-white-000 w-[90%] rounded-2xl p-4"
+            className="bg-gray-200 w-full rounded-2xl p-4"
             placeholder="what were you thinking?"
             rows="5"
             value={input.content}
             onChange={(e) => setInput({ ...input, content: e.target.value })}
           ></textarea>
 
-          <div className="w-[90%] pt-5">
+          <div className="w-full pt-5">
             <select
               id="categoryId"
               name="categoryId"
               value={input.typeId}
-              className="bg-white-000 w-[100%] rounded-2xl p-4"
+              className="bg-gray-200 w-full rounded-2xl p-4"
               onChange={(e) => setInput({ ...input, typeId: parseInt(e.target.value) })}
             >
               <option value='1'>Cat#1</option>
@@ -93,7 +93,7 @@ function PostForm({ handleCreatePost, toggleCreatePost }) {
           </div>
 
           
-          <div className="flex flex-col items-center w-[100%] mt-5" style={{ maxWidth: "300px" }}>
+          <div className="flex flex-col items-center w-full mt-5" style={{ maxWidth: "300px" }}>
             <label htmlFor="postImage" className="form-label">
               อัพโหลดรูปภาพ
             </label>
@@ -124,7 +124,7 @@ function PostForm({ handleCreatePost, toggleCreatePost }) {
           </div>
 
         </div>
-        <button className="bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-[90%] mt-5">
+        <button className="bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-full mt-5">
           POST
         </button>
       </div>

@@ -1,11 +1,11 @@
-import Router from './route/Router';
-import { ToastContainer } from 'react-toastify';
-import { getMe } from './store/authSlice';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import * as authService from './api/authApi';
-import { getAccessToken } from './utils/localStorage';
-import { getPosts } from './store/postSlice';
+import Router from "./route/Router";
+import { ToastContainer } from "react-toastify";
+import { getMe } from "./store/authSlice";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import * as authService from "./api/authApi";
+import { getAccessToken } from "./utils/localStorage";
+import { getPosts } from "./store/postSlice";
 
 function App() {
   const dispatch = useDispatch();

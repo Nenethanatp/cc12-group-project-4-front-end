@@ -1,10 +1,10 @@
-import { getNextKeyDef } from '@testing-library/user-event/dist/keyboard/getNextKeyDef';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toggleLike } from '../../api/postApi';
-import { getPosts } from '../../store/postSlice';
-import { formatDate } from '../../utils/formatDate';
-import PostDetail from './PostDetail';
+import { getNextKeyDef } from "@testing-library/user-event/dist/keyboard/getNextKeyDef";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleLike } from "../../api/postApi";
+import { getPosts } from "../../store/postSlice";
+import { formatDate } from "../../utils/formatDate";
+import PostDetail from "./PostDetail";
 
 function Post({ post }) {
   const { id, content, createdAt, PostImages, User, Likes, Comments } = post;
@@ -20,7 +20,7 @@ function Post({ post }) {
   const me = useSelector((state) => state.auth.user);
   const likedList = Likes.map((like) => like.userId); //[1,3,2] //userId of liked post
 
-  const [openDetail, setOpenDetail] = useState(true);
+  const [openDetail, setOpenDetail] = useState(false);
   const [liked, setLiked] = useState(likedList.includes(me.id));
   const cbSetLike = () => {
     setLiked(!likedList.includes(me.id));
@@ -75,7 +75,7 @@ function Post({ post }) {
             )}
             <div
               className={`bg-white flex flex-col p-5 gap-2 ${
-                PostImages.length !== 0 ? 'rounded-b-3xl' : 'rounded-3xl'
+                PostImages.length !== 0 ? "rounded-b-3xl" : "rounded-3xl"
               }`}
             >
               <div className="flex justify-between items-center">
@@ -90,7 +90,7 @@ function Post({ post }) {
                   <div className="flex items-center gap-1 text-sm">
                     <i
                       className={`fa-regular fa-thumbs-up${
-                        liked ? ' text-blue-600' : ''
+                        liked ? " text-blue-600" : ""
                       }`}
                       onClick={handleLike}
                     />
