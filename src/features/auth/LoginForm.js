@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../store/authSlice';
 import { gapi } from 'gapi-script';
 import LoginGoogle from '../../components/LoginGoogle';
-import LogoutGoogle from '../../components/LogoutGoogle';
 
 const clientId =
   '713136136398-r4nrmvg52fnsad1f466mnnq48ldh1862.apps.googleusercontent.com';
