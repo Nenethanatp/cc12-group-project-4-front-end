@@ -1,6 +1,11 @@
 import Logout from './Logout';
 
-function Menu({ handleMenu }) {
+function Menu({ handleMenu, openChat }) {
+  const handleOpenChat = () => {
+    handleMenu();
+    openChat();
+  };
+
   return (
     <div
       onClick={handleMenu}
@@ -17,6 +22,9 @@ function Menu({ handleMenu }) {
           </div>
           <div>
             <div className='mb-3'>Home</div>
+            <div className='mb-3' onClick={handleOpenChat}>
+              Messages
+            </div>
             <div className='mb-3'>Favorite</div>
             <div className='mb-3'>Subscription</div>
             <div className='mb-3'>About</div>
