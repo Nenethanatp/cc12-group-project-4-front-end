@@ -1,10 +1,16 @@
 import { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { getTypes } from '../../store/typeSlice';
+import { useDispatch } from 'react-redux';
+import { useLoading } from '../../context/LoadingContext';
+import { toast } from 'react-toastify';
 import PostFormImage from './PostFormImage';
 import AddPhotoButton from './AddPhotoButton';
 
 function PostForm({ handleCreatePost, toggleCreatePost }) {
   const fileEl = useRef();
+
+  const { startLoading, stopLoading } = useLoading();
 
   const user = useSelector((state) => state.auth.user);
   const [input, setInput] = useState({
@@ -21,21 +27,42 @@ function PostForm({ handleCreatePost, toggleCreatePost }) {
   };
 
   const onCreatePost = async (e) => {
-    e.preventDefault();
-    console.log(input);
-    await handleCreatePost(input);
+    try {
+      e.preventDefault();
+
+      if (!input.content) {
+        return toast.error('content is required');
+      }
+      if (!input.typeId) {
+        return toast.error('type is required');
+      }
+      if (!input.latitude || !input.longitude) {
+        return toast.error('location is required');
+      }
+
+      startLoading();
+      await handleCreatePost(input);
+
+      input.content = '';
+      input.typeId = 1;
+      input.userId = user.id;
+      input.latitude = 111;
+      input.longitude = 222;
+      input.postImages = [];
+    } catch (err) {
+      console.log(err);
+    } finally {
+      stopLoading();
+    }
   };
 
   return (
-    <form
-      onSubmit={onCreatePost}
-      className='absolute top-0 h-[100%] w-[100%] mt-6'
-    >
-      <div className='flex flex-col items-center h-full w-[100%] bg-slate-200'>
-        <div className='items-center w-[90%]'>
+    <form onSubmit={onCreatePost} className='h-full w-full'>
+      <div className='flex flex-col items-center h-auto w-[100%]  '>
+        <div className='items-center w-full'>
           <div className='h-12 w-12'>
             <button
-              className='bg-white rounded-full p-2 material-symbols-outlined'
+              className='bg-gray-200 rounded-full p-2 material-symbols-outlined'
               type={'button'}
               onClick={toggleCreatePost}
             >
@@ -46,19 +73,19 @@ function PostForm({ handleCreatePost, toggleCreatePost }) {
 
         <div className='flex flex-col items-center w-[100%] mt-5'>
           <textarea
-            className='bg-white-000 w-[90%] rounded-2xl p-4'
+            className='bg-gray-200 w-full rounded-2xl p-4'
             placeholder='what were you thinking?'
             rows='5'
             value={input.content}
             onChange={(e) => setInput({ ...input, content: e.target.value })}
           ></textarea>
 
-          <div className='w-[90%] pt-5'>
+          <div className='w-full pt-5'>
             <select
               id='categoryId'
               name='categoryId'
               value={input.typeId}
-              className='bg-white-000 w-[100%] rounded-2xl p-4'
+              className='bg-gray-200 w-full rounded-2xl p-4'
               onChange={(e) =>
                 setInput({ ...input, typeId: parseInt(e.target.value) })
               }
@@ -70,41 +97,8 @@ function PostForm({ handleCreatePost, toggleCreatePost }) {
             </select>
           </div>
 
-          {/*
-          <div className="w-[85%] h-[60px] items-center grid grid-cols-4 gap-2">
-            <div>
-              <button className="bg-gray-200 rounded-2xl text-sm p-2">
-                Cat#1
-              </button>
-            </div>
-            <div>
-              <button className="bg-gray-200 rounded-2xl text-sm p-2">
-                Cat#2
-              </button>
-            </div>
-            <div>
-              <button className="bg-gray-200 rounded-2xl text-sm p-2">
-                Cat#3
-              </button>
-            </div>
-            <div>
-              <button className="bg-gray-200 rounded-2xl text-sm p-2">
-                Cat#4
-              </button>
-            </div>
-          </div>
-          */}
-
-          {/*<div className="mt-5 w-[90%]">*/}
-          {/*  <img*/}
-          {/*    src={'https://via.placeholder.com/350x150'}*/}
-          {/*    alt="Upload_Photo"*/}
-          {/*    className="img-fluid rounded-2xl"*/}
-          {/*    width="100%"*/}
-          {/*  ></img>*/}
-          {/*</div>*/}
           <div
-            className='flex flex-col items-center w-[100%] mt-5'
+            className='flex flex-col items-center w-full mt-5'
             style={{ maxWidth: '300px' }}
           >
             <label htmlFor='postImage' className='form-label'>
@@ -134,23 +128,14 @@ function PostForm({ handleCreatePost, toggleCreatePost }) {
               className='d-none'
               ref={fileEl}
               onChange={(e) => {
-                // console.log(e.target.value);
-                // if (req.files?.postImage) {
-                //   for (let el of req.files.postImage) {
-
                 if (e.target.files[0]) {
                   handleSetPostImage(e.target.files[0]);
                 }
               }}
             />
           </div>
-          {/* <input
-          className='bg-gray-200 h-11 w-[320px] px-5'
-          placeholder='upload photo'
-
-        /> */}
         </div>
-        <button className='bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-[90%] mt-5'>
+        <button className='bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-full mt-5'>
           POST
         </button>
       </div>

@@ -7,7 +7,7 @@ function Modal({ open, content, close }) {
           onClick={close}
         >
           <div
-            className='bg-white w-[100vw] h-[70%] p-5 flex justify-center fadein'
+            className='bg-white w-[100vw] h-[70%] p-5 flex justify-center fadein overflow-auto'
             onClick={(e) => e.stopPropagation()}
           >
             {content}
