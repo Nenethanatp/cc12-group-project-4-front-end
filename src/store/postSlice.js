@@ -15,12 +15,15 @@ const PostSlice = createSlice({
     setPosts: (state, action) => {
       state.items = action.payload;
     },
+    deletePost: (state, action) => {
+      state.items.splice(0,action.payload);
+    },
   },
 });
 
 export default PostSlice.reducer;
 
-export const { addPost, setPosts } = PostSlice.actions;
+export const { addPost, setPosts} = PostSlice.actions;
 
 export const createPost = (input) => async (dispatch) => {
   try {
@@ -41,5 +44,15 @@ export const getPosts = () => async (dispatch) => {
   } catch (err) {
     console.log(err);
     toast.error('Failed to get posts!');
+  }
+};
+
+export const deletePost = (input) => async (dispatch) => {
+  try {
+    const res = await postService.destroy(input);
+    dispatch(deletePost(res.data.post));
+  } catch (err) {
+    console.log(err);
+    toast.error('Failed to delete post!');
   }
 };

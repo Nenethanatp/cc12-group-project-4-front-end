@@ -11,3 +11,5 @@ export const update = (id, input) => axios.put(`/posts/${id}`, input);
 export const destroy = (id) => axios.delete(`/posts/${id}`);
 
 export const toggleLike = (id) => axios.post(`/posts/${id}/likes`);
+
+export const toggleReport = (id) => axios.post(`/posts/${id}/reports`);
