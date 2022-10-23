@@ -15,15 +15,38 @@ const PostSlice = createSlice({
     setPosts: (state, action) => {
       state.items = action.payload;
     },
+    updatePost: (state, action) => {
+      const idx = state.items.findIndex(item => item.id === action.payload.id);
+      if (idx >= 0) {
+        state.items.splice(idx, 1, action.payload);
+      }
+    },
     deletePost: (state, action) => {
-      state.items.splice(0,action.payload);
+      const idx = state.items.findIndex(item => item.id === action.payload);
+      if (idx >= 0) {
+        state.items.splice(idx, 1);
+      }
+    },
+    deletePostImage: (state, action) => {
+      console.log(action.payload.id);
+      console.log(action.payload.imageId);
+      const post = state.items.find(item => item.id === action.payload.id);
+      if (post) {
+        if (post.PostImages) {
+          const idx = post.PostImages.findIndex(image => image.id === action.payload.imageId);
+          if (idx >= 0) {
+            post.PostImages.splice(idx, 1);
+          }
+        }
+      }
+
     },
   },
 });
 
 export default PostSlice.reducer;
 
-export const { addPost, setPosts} = PostSlice.actions;
+export const { addPost, setPosts, updatePost, deletePost, deletePostImage} = PostSlice.actions;
 
 export const createPost = (input) => async (dispatch) => {
   try {
@@ -47,12 +70,35 @@ export const getPosts = () => async (dispatch) => {
   }
 };
 
-export const deletePost = (input) => async (dispatch) => {
+export const editPost = (id, payload) => async (dispatch) => {
   try {
-    const res = await postService.destroy(input);
-    dispatch(deletePost(res.data.post));
+    const res = await postService.update(id, payload);
+    dispatch(updatePost(res.data.post));
+    toast.success('Post updated');
+  } catch (err) {
+    console.log(err);
+    toast.error('Failed to get posts!');
+  }
+};
+
+export const destroyPost = (id) => async (dispatch) => {
+  try {
+    const res = await postService.destroy(id);
+    dispatch(deletePost(id));
+    toast.success('Post deleted');
   } catch (err) {
     console.log(err);
     toast.error('Failed to delete post!');
+  }
+};
+
+export const destroyPostImage = (id, imageId) => async (dispatch) => {
+  try {
+    const res = await postService.deletePostImage(id, imageId);
+    dispatch(deletePostImage({ id, imageId }));
+    toast.success('Post Image deleted');
+  } catch (err) {
+    console.log(err);
+    toast.error('Failed to delete post image!');
   }
 };

@@ -13,3 +13,5 @@ export const destroy = (id) => axios.delete(`/posts/${id}`);
 export const toggleLike = (id) => axios.post(`/posts/${id}/likes`);
 
 export const toggleReport = (id) => axios.post(`/posts/${id}/reports`);
+
+export const deletePostImage = (id, imageId) => axios.delete(`/posts/${id}/images/${imageId}`);

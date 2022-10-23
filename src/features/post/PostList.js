@@ -6,7 +6,6 @@ import Post from './Post';
 function PostList() {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.post.items);
-  console.log(posts);
 
   return (
     <div className="w-full">

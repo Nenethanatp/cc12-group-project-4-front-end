@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleLike, toggleReport } from "../../api/postApi";
-import { getPosts, deletePost } from "../../store/postSlice";
+import { getPosts, editPost, destroyPost } from "../../store/postSlice";
 import { formatDate } from "../../utils/formatDate";
 import PostDetail from "./PostDetail";
+import PostForm from "./PostForm";
+import Modal from "../../components/Modal";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 
 function Post({ post}) {
   const { id, content, createdAt, PostImages, User, Likes, Comments, Reports } =
     post;
+
+  const [isEditPostOpen, setIsEditPostOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   const { firstName, lastName, imageUrl } = User;
   const countLike = Likes.length;
@@ -30,6 +35,10 @@ function Post({ post}) {
   const [reported, setReported] = useState(reportedList.includes(me.id));
   const [isShowActions, setIsShowActions] = useState(false);
   // const [myPost, deletePost] = useState(false)
+
+  useEffect(() => {
+    console.log(post);
+  }, [post]);
 
   const handleLike = async (e) => {
     e.stopPropagation();
@@ -55,16 +64,19 @@ function Post({ post}) {
 
  
   const handleDeletePost = async (post) => {
-    if (
-      window.confirm(`Are you sure you want to delete post '${post.content}'`)
-    ) 
-    try {
-      // await deletePost(post.id);
-      dispatch(deletePost());
-      toast.success("Successfully deleted.");
-    } catch {
+    if (window.confirm(`Are you sure you want to delete post '${post.content}'`)) {
+      try {
+        dispatch(destroyPost(post.id));
+      } catch (err) {
+        console.log(err)
+      }
+    } else {
       console.log("cancel");
     }
+  };
+
+  const toggleEditPost = () => {
+    setIsEditPostOpen((prev) => !prev);
   };
 
   const toggleShowActions = (e) => {
@@ -72,6 +84,23 @@ function Post({ post}) {
     e.preventDefault();
     setIsShowActions((prev) => !prev);
   };
+
+  const handleEditPost = (input) => {
+    const formData = new FormData();
+    formData.append("content", input.content);
+    formData.append("typeId", input.typeId);
+    formData.append("userId", input.userId);
+    formData.append("latitude", input.latitude);
+    formData.append("longitude", input.longitude);
+    for (let i = 0; i < input.postImages.length; i++) {
+      formData.append("postImage", input.postImages[i]);
+    }
+    // console.log(formData);
+    dispatch(editPost(post.id, formData));
+    // then close create post pane
+    toggleEditPost();
+  };
+
   return (
     <>
       <div className="m-2">
@@ -114,7 +143,7 @@ function Post({ post}) {
               <div className="flex justify-between items-center">
                 <div className="text-xl font-semibold">{content}</div>
                 <div className="relative inline-block">
-                  <button onClick={toggleShowActions}>
+                  <button onClick={toggleShowActions} className="p-5">
                     <i className="fa-solid fa-ellipsis-vertical"></i>
                   </button>
                   {/* {true ? <div></div> : <div></div>} */}
@@ -149,6 +178,8 @@ function Post({ post}) {
                         <div
                           type="button"
                           className="block px-4 py-3 text-sm dark:text-black-300"
+                          style={{cursor: "pointer"}}
+                          onClick={toggleEditPost}
                         >
                           Edit
                         </div>
@@ -158,6 +189,7 @@ function Post({ post}) {
                         <div
                           type="button"
                           className="block px-4 py-3 text-sm dark:text-black-300"
+                          style={{cursor: "pointer"}}
                           onClick={() => handleDeletePost(post)}
                         >
                           Delete
@@ -188,6 +220,18 @@ function Post({ post}) {
             </div>
           </div>
         )}
+
+        <Modal
+          open={isEditPostOpen}
+          content={
+            <PostForm
+              post={post}
+              handleCreatePost={handleEditPost}
+              toggleCreatePost={toggleEditPost}
+            />
+          }
+          close={toggleEditPost}
+        />
       </div>
     </>
   );
