@@ -1,12 +1,10 @@
-import { Outlet } from "react-router-dom";
-import ProfileContainer from "../../features/profile/ProfileContainer";
-import ProfileNav from "./ProfileNav";
+import { Outlet } from 'react-router-dom';
+import ProfileContainer from '../../features/profile/ProfileContainer';
 
 function ProfileLayout() {
   return (
     <>
       <ProfileContainer />
-      <ProfileNav />
       <Outlet />
     </>
   );

@@ -16,7 +16,7 @@ function Router() {
         <>
           <Route path="/" element={<AuthLayout />}>
             <Route path="/" element={<HomePage />} />
-            <Route path="/profile/:id" element={<ProfileLayout />}>
+            <Route path={`/profile/:userId`} element={<ProfileLayout />}>
               <Route path="map" element={<HomePage />} />
               <Route path="savePlace" element={<SavePlacePage />} />
             </Route>
@@ -27,7 +27,7 @@ function Router() {
       ) : (
         <>
           <Route path="/" element={<LoginPage />} />
-          <Route path="*" element={<Navigate to="/" />} />
+          {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </>
       )}
     </Routes>

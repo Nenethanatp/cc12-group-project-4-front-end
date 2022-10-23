@@ -1,7 +1,7 @@
 import { formatDate } from '../../utils/formatDate';
 
 function Comment({ comment }) {
-  console.log(comment);
+  // console.log(comment);
   const date = formatDate(comment.createdAt);
   return (
     <div className="flex flex-col gap-2">
