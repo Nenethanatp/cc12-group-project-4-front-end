@@ -12,7 +12,7 @@ function Header() {
   return (
     <>
       <nav>
-        <div className='m-8'>
+        <div className="p-8 bg-black bg-opacity-40">
           <SearchBar handleMenu={handleMenu} />
           {isMenuOpen && <Menu handleMenu={handleMenu} />}
         </div>
