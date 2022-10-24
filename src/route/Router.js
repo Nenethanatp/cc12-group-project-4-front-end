@@ -27,7 +27,7 @@ function Router() {
       ) : (
         <>
           <Route path="/" element={<LoginPage />} />
-          <Route path="*" element={<Navigate to="/" />} />
+          {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </>
       )}
     </Routes>
