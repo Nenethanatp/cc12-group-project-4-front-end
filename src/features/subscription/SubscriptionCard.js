@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import Script from 'react-load-script';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { payment } from '../../api/subscriptionApi';
 
 let OmiseCard;
@@ -15,10 +18,13 @@ const handleLoadScript = () => {
 };
 
 function SubscriptionCard({ allPac }) {
-  const { type, price, id } = allPac;
+  const navigate = useNavigate();
+  const me = useSelector((state) => state.auth.user);
 
-  const [resCharge, setResCharge] = useState({ amount: null, status: null });
-  console.log(resCharge);
+  const { type, price, id, detail } = allPac;
+
+  // const [resCharge, setResCharge] = useState({ amount: null, status: null });
+  // console.log(resCharge);
 
   const creditCardConfigure = () => {
     OmiseCard.configure({
@@ -31,23 +37,20 @@ function SubscriptionCard({ allPac }) {
 
   const createCharge = async (token) => {
     try {
-      const startDate = new Date();
-      const endDate = Date.today().next().month();
-
-      console.log(startDate);
-      console.log(endDate);
       const res = await payment({
-        email: 'w@gmail.com',
-        name: 'nene',
+        email: me.email,
+        name: me.firstName,
         amount: String(Number(price) * 100),
         token,
         packageId: id,
+        type,
         headers: { 'Content-Type': 'application/json' },
       });
-      if (res) {
-        const amountThb = (res.data.amount / 100).toFixed(2);
-        setResCharge({ amount: amountThb, status: res.data.status });
-      }
+      // if (res) {
+      //   console.log(res);
+      // }
+      navigate('/');
+      toast.success('Success subscribed');
     } catch (err) {
       console.log(err);
     }
