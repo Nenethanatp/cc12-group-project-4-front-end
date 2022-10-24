@@ -2,12 +2,19 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Logout from './Logout';
 
+
+
+import {getAccessToken} from "../../utils/localStorage"
+
 function Menu({ handleMenu, openChat }) {
   const handleOpenChat = () => {
     handleMenu();
     openChat();
   };
   const user = useSelector((state) => state.auth.user);
+
+  const accessToken = getAccessToken();
+  const lineloginUrl = `https://notify-bot.line.me/oauth/authorize?response_type=code&client_id=XfyZEDKOR7ihHaJwCDaqkh&redirect_uri=http://localhost:8080/user/line/callback&scope=notify&state=${accessToken}`
 
   return (
     <div
@@ -31,6 +38,11 @@ function Menu({ handleMenu, openChat }) {
             <div className="mb-3">Favorite</div>
             <div className="mb-3">Subscription</div>
             <div className="mb-3">About</div>
+          </div>
+          <div className='mb-3'>
+            <a target= "_blank" href={lineloginUrl}>
+              รับการแจ้งเตือนผ่าน LINE Notify
+            </a>
           </div>
         </div>
         <div>
