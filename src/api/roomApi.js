@@ -10,3 +10,5 @@ export const createMessage = (room, userId, message) =>
   axios.post('/room/createMessage', { room, userId, message });
 
 export const getAllMessages = (room) => axios.get(`/room/get/${room}`);
+
+export const getAllChatRooms = () => axios.get('/room/getAll');

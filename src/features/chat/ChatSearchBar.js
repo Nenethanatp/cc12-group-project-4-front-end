@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import * as userService from '../../api/userApi';
 
-function ChatSearchBar({ searchUsers }) {
+function ChatSearchBar({ searchUsers, openChatHistory }) {
   const [input, setInput] = useState('');
 
   const handleSubmit = async (e) => {
@@ -14,6 +14,13 @@ function ChatSearchBar({ searchUsers }) {
   return (
     <form onSubmit={handleSubmit}>
       <div className='flex justify-center items-center gap-2'>
+        <button
+          type='button'
+          className='bg-orange-500 w-10 h-10 rounded-xl text-white'
+          onClick={openChatHistory}
+        >
+          X
+        </button>
         <input
           type='text'
           placeholder='Search for user'

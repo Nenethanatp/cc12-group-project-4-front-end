@@ -1,8 +1,10 @@
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Logout from './Logout';
+
 import { getAccessToken } from '../../utils/localStorage';
 import profileImage from '../../assets/images/profile-image.png';
+
 
 function Menu({ handleMenu, openChat }) {
   const handleOpenChat = () => {

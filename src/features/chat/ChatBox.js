@@ -16,7 +16,8 @@ function ChatBox({
   messageReceived,
   handleMessageReceived,
   handleMessages,
-  messages
+  messages,
+  openChatBox
 }) {
   const { firstName, lastName, imageUrl, id } = chatUser;
   const [isSent, setIsSent] = useState(false);
@@ -44,8 +45,12 @@ function ChatBox({
     if (room !== '') {
       fetchMessages();
     }
+    if (openChatBox) {
+      document.body.style.overflow = 'hidden';
+    }
+    return () => (document.body.style.overflow = 'unset');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [room]);
+  }, [room, openChatBox]);
 
   useEffect(() => {
     handleMessages([
@@ -70,7 +75,9 @@ function ChatBox({
             X
           </div>
         </div>
-        <div className='w-[80%] h-[70%] bg-gray-200 rounded-2xl flex flex-col gap-2 overflow-scroll'>
+        <div
+          className={`w-[80%] h-[70%] bg-gray-200 p-2 rounded-2xl flex flex-col gap-2 overflow-y-scroll`}
+        >
           {messages?.map((item) => {
             if (+item.user === user.id) {
               return <ChatSender key={item.id} message={item.message} />;
@@ -99,6 +106,7 @@ function ChatBox({
               className='h-10 w-[80%] rounded-full scroll-px-3 bg-gray-200 outline-green-400 px-5'
               value={message}
               onChange={(e) => handleMessage(e.target.value)}
+              placeholder='Reply'
             />
             <button className='bg-yellow-400 h-[40px] w-[20%] rounded-full'>
               send
