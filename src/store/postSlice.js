@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 const PostSlice = createSlice({
   name: 'post',
   initialState: {
-    items: [],
+    items: [],filter1: [], filter2:[], seleted: []
   },
   reducers: {
     addPost: (state, action) => {

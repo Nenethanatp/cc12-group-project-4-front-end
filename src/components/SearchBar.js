@@ -10,7 +10,7 @@ import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import { setLocation } from "../../store/mapSlice";
+import { setLocation } from "../store/mapSlice";
 
 function SearchBar() {
   const {
@@ -37,9 +37,9 @@ function SearchBar() {
   };
 
   return (
-    <Combobox className="flex-1" onSelect={handleSelect}>
+    <Combobox onSelect={handleSelect}>
       <ComboboxInput
-        className="w-full h-8 bg-white flex justify-center rounded-full p-2 px-4 "
+        className="w-56 h-8 bg-slate-200 flex justify-center rounded-full p-2 "
         placeholder="Search an address..."
         value={value}
         onChange={(e) => {
