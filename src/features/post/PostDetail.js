@@ -1,9 +1,12 @@
 import React from 'react';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
+import profileImage from '../../assets/images/profile-image.png';
+import { Link } from 'react-router-dom';
 
 function PostDetail({
   id,
+  post,
   firstName,
   lastName,
   imageUrl,
@@ -16,7 +19,7 @@ function PostDetail({
   content,
   countLike,
   countComment,
-  Comments,
+  Comments
 }) {
   return (
     <div className="flex flex-col ">
@@ -46,21 +49,23 @@ function PostDetail({
       )}
       <div className="bg-white flex flex-col p-5 gap-2 rounded-b-3xl">
         <div className="flex gap-3 ">
-          <div className="">
-            <img
-              src={imageUrl}
-              alt=""
-              className="rounded-full w-[40px] h-[40px]  object-cover"
-            ></img>
+          <div>
+            <Link to={`/profile/${post.User.id}`}>
+              <img
+                src={imageUrl ? imageUrl : profileImage}
+                alt=""
+                className="rounded-full w-[40px] h-[40px]  object-cover"
+              ></img>
+            </Link>
           </div>
           <div className="flex flex-col">
-            <div className="text-md">{`${firstName} ${lastName}`}</div>
+            <Link to={`/profile/${post.User.id}`}>
+              <div className="text-md">{`${firstName} ${lastName}`}</div>
+            </Link>
             <div className="text-xs">{date}</div>
           </div>
         </div>
-
         <div className="text-lg font-semibold">{content}</div>
-
         <div className="flex justify-between">
           <div className="flex gap-5">
             <div className="flex items-center gap-1 text-sm">
