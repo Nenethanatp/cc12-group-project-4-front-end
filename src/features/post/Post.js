@@ -37,7 +37,7 @@ function Post({ post}) {
   // const [myPost, deletePost] = useState(false)
 
   useEffect(() => {
-    console.log(post);
+
   }, [post]);
 
   const handleLike = async (e) => {
