@@ -5,6 +5,7 @@ import ChatList from './ChatList';
 import ChatSearchBar from './ChatSearchBar';
 import * as roomService from '../../api/roomApi';
 import socket from '../../config/socket';
+import ChatHistory from './ChatHistory';
 
 function ChatContainer({ open, close }) {
   const [searchUsers, setSearchUsers] = useState([]);
@@ -14,11 +15,14 @@ function ChatContainer({ open, close }) {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [messageReceived, setMessageReceived] = useState('');
+  const [showChatHistory, setShowChatHistory] = useState(true);
   const user = useSelector((state) => state.auth.user);
 
   const handleClose = () => {
     setSearchUsers([]);
     close();
+    setOpenChatBox(false);
+    setShowChatHistory(true);
   };
 
   const selectChatUser = (input) => {
@@ -93,11 +97,28 @@ function ChatContainer({ open, close }) {
                   handleMessageReceived={handleMessageReceived}
                   handleMessages={handleMessages}
                   messages={messages}
+                  openChatBox={openChatBox}
                 />
               </div>
+            ) : showChatHistory ? (
+              <ChatHistory
+                showChatHistory={showChatHistory}
+                openSearch={() => {
+                  setShowChatHistory(false);
+                }}
+                handleChatUser={(input) => setChatUser(input)}
+                handleOpenChatBox={() => setOpenChatBox(true)}
+                fetchRoom={fetchRoom}
+              />
             ) : (
               <div>
-                <ChatSearchBar searchUsers={(input) => setSearchUsers(input)} />
+                <ChatSearchBar
+                  searchUsers={(input) => setSearchUsers(input)}
+                  openChatHistory={() => {
+                    setSearchUsers([]);
+                    setShowChatHistory(true);
+                  }}
+                />
                 <ChatList
                   searchUsers={searchUsers}
                   openChatBox={() => setOpenChatBox(true)}
