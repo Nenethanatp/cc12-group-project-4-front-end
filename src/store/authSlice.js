@@ -6,16 +6,19 @@ import { addAccessToken, getAccessToken } from '../utils/localStorage';
 const AuthSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: null
+    user: null,
+    status: null,
   },
   reducers: {
     getMe: (state, action) => {
-      state.user = action.payload;
+      state.user = action.payload.user;
+      state.status = action.payload.status;
     },
+
     logout: (state, action) => {
       state.user = null;
-    }
-  }
+    },
+  },
 });
 
 export default AuthSlice.reducer;
@@ -30,7 +33,7 @@ export const register = (input) => async (dispatch) => {
     dispatch(getMe(resMe.data.user));
   } catch (err) {
     console.log(err);
-    toast.error(err.response.data.message)
+    toast.error(err.response.data.message);
   }
 };
 
@@ -42,7 +45,7 @@ export const login = (input) => async (dispatch) => {
     dispatch(getMe(resMe.data.user));
   } catch (err) {
     console.log(err);
-    toast.error(err.response.data.message)
+    toast.error(err.response.data.message);
   }
 };
 
@@ -57,6 +60,6 @@ export const googleLogin = (input) => async (dispatch) => {
     dispatch(getMe(resMe.data.user));
   } catch (err) {
     console.log(err);
-    toast.error(err.response.data.message)
+    toast.error(err.response.data.message);
   }
 };
