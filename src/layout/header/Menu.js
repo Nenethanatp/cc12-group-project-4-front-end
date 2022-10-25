@@ -30,14 +30,6 @@ function Menu({ handleMenu, openChat }) {
             <div>WEB</div>
           </div>
           <div>
-            <div className="mb-3">Home</div>
-            <div className="mb-3">Favorite</div>
-            <div className="mb-3">
-              <Link to="/subscription" className="mb-3">
-                Subscription
-              </Link>
-            </div>
-            <div className="mb-3">About</div>
             <Link to="/">
               <div className="mb-3" onClick={handleMenu}>
                 Home
@@ -47,7 +39,11 @@ function Menu({ handleMenu, openChat }) {
               Messages
             </div>
             <div className="mb-3">Favorite</div>
-            <div className="mb-3">Subscription</div>
+            <div className="mb-3">
+              <Link to="/subscription" className="mb-3">
+                Subscription
+              </Link>
+            </div>
             <div className="mb-3">About</div>
           </div>
           <div className="mb-3">
