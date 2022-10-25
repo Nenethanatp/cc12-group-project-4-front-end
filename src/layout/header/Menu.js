@@ -54,13 +54,18 @@ function Menu({ handleMenu, openChat }) {
         </div>
         <div>
           <div className="flex items-center gap-3 text-xl font-bold border-t-2 border-gray-400 pt-3  mb-2">
-            <div className="w-[50px] w- h-[50px] bg-slate-300 rounded-[40px] object-cover">
-              <img
-                src={user.imageUrl ? user.imageUrl : profileImage}
-                alt=""
+            <Link to={`/profile/${user.id}`}>
+              <div
                 className="w-[50px] w- h-[50px] bg-slate-300 rounded-[40px] object-cover"
-              />
-            </div>
+                onClick={handleMenu}
+              >
+                <img
+                  src={user.imageUrl ? user.imageUrl : profileImage}
+                  alt=""
+                  className="w-[50px] w- h-[50px] bg-slate-300 rounded-[40px] object-cover"
+                />
+              </div>
+            </Link>
             <Link to={`/profile/${user.id}`}>
               <div
                 onClick={handleMenu}

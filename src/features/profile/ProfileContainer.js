@@ -17,8 +17,8 @@ function ProfileContainer() {
   const { userId } = useParams();
   const me = useSelector((state) => state.auth.user);
 
-  const handlePost = () => {
-    setIsPost((prev) => !prev);
+  const openPost = () => {
+    setIsPost(true);
   };
 
   const fetchFollow = async () => {
@@ -70,10 +70,9 @@ function ProfileContainer() {
   };
 
   const handleClickFollow = async () => {
-    // await handleFollow();
     await getAllFollower();
     await fetchFollow();
-    setIsPost((prev) => !prev);
+    setIsPost(false);
   };
 
   return (
@@ -87,11 +86,11 @@ function ProfileContainer() {
           follow={follow}
           followed={followed}
           handleClickFollow={handleClickFollow}
-          handlePost={handlePost}
+          openPost={openPost}
         />
 
         {isPost ? (
-          <PostList handlePost={handlePost} />
+          <PostList />
         ) : (
           <FollowList
             allFollower={allFollower}
