@@ -30,16 +30,18 @@ function PostContainer() {
   };
 
   return (
-    <div className="h-full">
-      <div className=" mt-52 bg-slate-200  rounded-t-3xl flex justify-center p-6 relative">
-        <div className="w-full flex flex-col items-center gap-6 ">
-          <button
-            className="bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-[100%]"
-            onClick={toggleCreatePost}
-          >
-            CREATE POST
-          </button>
-          <PostList />
+    <>
+      <div className="h-full">
+        <div className="bg-slate-200  rounded-t-3xl flex justify-center p-6 relative">
+          <div className="w-full flex flex-col items-center">
+            <button
+              className="bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-full"
+              onClick={toggleCreatePost}
+            >
+              CREATE POST
+            </button>
+            <PostList />
+          </div>
         </div>
         <Modal
           open={isCreatePostOpen}
@@ -51,14 +53,8 @@ function PostContainer() {
           }
           close={toggleCreatePost}
         />
-        {/* {isCreatePostOpen && (
-          <PostForm
-            handleCreatePost={handleCreatePost}
-            toggleCreatePost={toggleCreatePost}
-          />
-        )} */}
       </div>
-    </div>
+    </>
   );
 }
 
