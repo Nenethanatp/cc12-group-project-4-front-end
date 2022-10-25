@@ -30,7 +30,7 @@ export const register = (input) => async (dispatch) => {
     const res = await authService.register(input);
     addAccessToken(res.data.token);
     const resMe = await authService.getMe();
-    dispatch(getMe(resMe.data.user));
+    dispatch(getMe(resMe.data));
   } catch (err) {
     console.log(err);
     toast.error(err.response.data.message);
@@ -42,7 +42,7 @@ export const login = (input) => async (dispatch) => {
     const res = await authService.login(input);
     addAccessToken(res.data.token);
     const resMe = await authService.getMe();
-    dispatch(getMe(resMe.data.user));
+    dispatch(getMe(resMe.data));
   } catch (err) {
     console.log(err);
     toast.error(err.response.data.message);
@@ -57,7 +57,7 @@ export const googleLogin = (input) => async (dispatch) => {
     const result = await authService.loginGoogle(input);
     addAccessToken(result.data.token);
     const resMe = await authService.getMe();
-    dispatch(getMe(resMe.data.user));
+    dispatch(getMe(resMe.data));
   } catch (err) {
     console.log(err);
     toast.error(err.response.data.message);

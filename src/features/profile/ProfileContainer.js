@@ -1,9 +1,13 @@
-import ProfileInfo from "./ProfileInfo";
+import ProfileInfo from './ProfileInfo';
+import ProfileNav from '../../layout/profile/ProfileNav';
 
 function ProfileContainer() {
   return (
     <div>
-      <ProfileInfo />
+      <div className="flex flex-col gap-10">
+        <ProfileInfo />
+        <ProfileNav />
+      </div>
     </div>
   );
 }

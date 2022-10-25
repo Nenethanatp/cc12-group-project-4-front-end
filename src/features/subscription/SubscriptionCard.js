@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { payment } from '../../api/subscriptionApi';
+import { genStartEndDate } from '../../utils/formatDate';
+import dateFormat from 'dateformat';
 
 let OmiseCard;
 const handleLoadScript = () => {
@@ -50,7 +52,9 @@ function SubscriptionCard({ allPac }) {
       //   console.log(res);
       // }
       navigate('/');
-      toast.success('Success subscribed');
+      const { startDate, endDate } = genStartEndDate(type);
+
+      toast.success(`Subscribed expire on ${endDate}`);
     } catch (err) {
       console.log(err);
     }

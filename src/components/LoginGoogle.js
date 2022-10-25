@@ -39,7 +39,7 @@ function LoginGoogle() {
           <button
             onClick={renderProps.onClick}
             disabled={renderProps.disabled}
-            className='bg-green-500 w-[320px] h-12 rounded-full font-bold text-md text-white shadow-md'
+            className='bg-green-500 w-[320px] h-12 rounded-full font-bold text-md text-white shadow-lg'
           >
             LOG IN WITH GOOGLE ACCOUNT
           </button>

@@ -1,7 +1,20 @@
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Logout from './Logout';
 
-function Menu({ handleMenu }) {
+import { getAccessToken } from '../../utils/localStorage';
+import profileImage from '../../assets/images/profile-image.png';
+
+function Menu({ handleMenu, openChat }) {
+  const handleOpenChat = () => {
+    handleMenu();
+    openChat();
+  };
+  const user = useSelector((state) => state.auth.user);
+
+  const accessToken = getAccessToken();
+  const lineloginUrl = `https://notify-bot.line.me/oauth/authorize?response_type=code&client_id=XfyZEDKOR7ihHaJwCDaqkh&redirect_uri=http://localhost:8080/user/line/callback&scope=notify&state=${accessToken}`;
+
   return (
     <div
       onClick={handleMenu}
@@ -25,14 +38,44 @@ function Menu({ handleMenu }) {
               </Link>
             </div>
             <div className="mb-3">About</div>
+            <Link to="/">
+              <div className="mb-3" onClick={handleMenu}>
+                Home
+              </div>
+            </Link>
+            <div className="mb-3" onClick={handleOpenChat}>
+              Messages
+            </div>
+            <div className="mb-3">Favorite</div>
+            <div className="mb-3">Subscription</div>
+            <div className="mb-3">About</div>
+          </div>
+          <div className="mb-3">
+            <a target="_blank" href={lineloginUrl}>
+              รับการแจ้งเตือนผ่าน LINE Notify
+            </a>
           </div>
         </div>
         <div>
           <div className="flex items-center gap-3 text-xl font-bold border-t-2 border-gray-400 pt-3  mb-2">
-            <div className="w-[50px] w- h-[50px] bg-slate-300 rounded-[40px] "></div>
-            <div>John Doe</div>
+            <div className="w-[50px] w- h-[50px] bg-slate-300 rounded-[40px] object-cover">
+              <img
+                src={user.imageUrl ? user.imageUrl : profileImage}
+                alt=""
+                className="w-[50px] w- h-[50px] bg-slate-300 rounded-[40px] object-cover"
+              />
+            </div>
+            <Link to={`/profile/${user.id}`}>
+              <div
+                onClick={handleMenu}
+              >{`${user.firstName} ${user.lastName}`}</div>
+            </Link>
           </div>
-          <div className="mb-3">Go to profile</div>
+          <Link to={`/profile/${user.id}`}>
+            <div className="mb-3" onClick={handleMenu}>
+              Go to profile
+            </div>
+          </Link>
           <Logout />
         </div>
       </div>
