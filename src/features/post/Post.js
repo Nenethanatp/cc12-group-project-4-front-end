@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleLike, toggleReport } from "../../api/postApi";
-import { getPosts, editPost, destroyPost } from "../../store/postSlice";
-import { formatDate } from "../../utils/formatDate";
-import PostDetail from "./PostDetail";
-import PostForm from "./PostForm";
-import Modal from "../../components/Modal";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleLike, toggleReport } from '../../api/postApi';
+import { getPosts, editPost, destroyPost } from '../../store/postSlice';
+import { formatDate } from '../../utils/formatDate';
+import PostDetail from './PostDetail';
+import PostForm from './PostForm';
+import Modal from '../../components/Modal';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-function Post({ post}) {
+function Post({ post }) {
   const { id, content, createdAt, PostImages, User, Likes, Comments, Reports } =
     post;
 
@@ -17,6 +17,7 @@ function Post({ post}) {
   const [selectedPost, setSelectedPost] = useState(null);
 
   const { firstName, lastName, imageUrl } = User;
+
   const countLike = Likes.length;
   const countComment = Comments.length;
 
@@ -37,7 +38,7 @@ function Post({ post}) {
   // const [myPost, deletePost] = useState(false)
 
   useEffect(() => {
-    console.log(post);
+    // console.log(post);
   }, [post]);
 
   const handleLike = async (e) => {
@@ -62,16 +63,17 @@ function Post({ post}) {
     }
   };
 
- 
   const handleDeletePost = async (post) => {
-    if (window.confirm(`Are you sure you want to delete post '${post.content}'`)) {
+    if (
+      window.confirm(`Are you sure you want to delete post '${post.content}'`)
+    ) {
       try {
         dispatch(destroyPost(post.id));
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     } else {
-      console.log("cancel");
+      console.log('cancel');
     }
   };
 
@@ -87,13 +89,13 @@ function Post({ post}) {
 
   const handleEditPost = (input) => {
     const formData = new FormData();
-    formData.append("content", input.content);
-    formData.append("typeId", input.typeId);
-    formData.append("userId", input.userId);
-    formData.append("latitude", input.latitude);
-    formData.append("longitude", input.longitude);
+    formData.append('content', input.content);
+    formData.append('typeId', input.typeId);
+    formData.append('userId', input.userId);
+    formData.append('latitude', input.latitude);
+    formData.append('longitude', input.longitude);
     for (let i = 0; i < input.postImages.length; i++) {
-      formData.append("postImage", input.postImages[i]);
+      formData.append('postImage', input.postImages[i]);
     }
     // console.log(formData);
     dispatch(editPost(post.id, formData));
@@ -106,6 +108,7 @@ function Post({ post}) {
       <div className="mt-8">
         {openDetail ? (
           <PostDetail
+            post={post}
             content={content}
             firstName={firstName}
             lastName={lastName}
@@ -178,18 +181,18 @@ function Post({ post}) {
                         <div
                           type="button"
                           className="block px-4 py-3 text-sm dark:text-black-300"
-                          style={{cursor: "pointer"}}
+                          style={{ cursor: 'pointer' }}
                           onClick={toggleEditPost}
                         >
                           Edit
                         </div>
                       )}
 
-                      {(User.id === me.id || User.role === "admin") && (
+                      {(User.id === me.id || User.role === 'admin') && (
                         <div
                           type="button"
                           className="block px-4 py-3 text-sm dark:text-black-300"
-                          style={{cursor: "pointer"}}
+                          style={{ cursor: 'pointer' }}
                           onClick={() => handleDeletePost(post)}
                         >
                           Delete
