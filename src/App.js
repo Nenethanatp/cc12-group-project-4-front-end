@@ -15,7 +15,7 @@ function App() {
   useEffect(() => {
     const getUser = () => async (dispatch) => {
       const res = await authService.getMe();
-      dispatch(getMe(res.data.user));
+      dispatch(getMe(res.data));
     };
     if (getAccessToken()) {
       startLoading();
