@@ -97,13 +97,14 @@ function Post({ post}) {
     }
     // console.log(formData);
     dispatch(editPost(post.id, formData));
+
     // then close create post pane
     toggleEditPost();
   };
 
   return (
     <>
-      <div className="mt-8">
+      {/* <div className="mt-8">
         {openDetail ? (
           <PostDetail
             content={content}
@@ -121,7 +122,8 @@ function Post({ post}) {
             Comments={Comments}
             id={id}
           />
-        ) : (
+        ) :  */}
+        <br/>
           <div
             className="flex flex-col "
             onClick={() => setOpenDetail((prev) => !prev)}
@@ -141,12 +143,15 @@ function Post({ post}) {
               }`}
             >
               <div className="flex justify-between items-center">
-                <div className="text-xl font-semibold">{content}</div>
+                <div className="text-xl font-semibold">
+                  <Link to={`/post/${post.id}`}>{content}</Link>
+                </div>
                 <div className="relative inline-block">
                   <button onClick={toggleShowActions} className="p-5">
                     <i className="fa-solid fa-ellipsis-vertical"></i>
                   </button>
                   {/* {true ? <div></div> : <div></div>} */}
+                
 
                   {isShowActions && (
                     <div
@@ -195,7 +200,9 @@ function Post({ post}) {
                           Delete
                         </div>
                       )}
+                      
                     </div>
+                    
                   )}
                 </div>
               </div>
@@ -217,9 +224,10 @@ function Post({ post}) {
                 </div>
                 <div className="text-sm">{date}</div>
               </div>
+              <Link to={`/post/${post.id}`}>อ่านต่อ...</Link>
             </div>
           </div>
-        )}
+        {/* )} */}
 
         <Modal
           open={isEditPostOpen}
@@ -232,7 +240,7 @@ function Post({ post}) {
           }
           close={toggleEditPost}
         />
-      </div>
+      {/* </div> */}
     </>
   );
 }

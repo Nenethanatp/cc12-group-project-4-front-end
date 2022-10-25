@@ -14,11 +14,13 @@ const PostSlice = createSlice({
     },
     setPosts: (state, action) => {
       state.items = action.payload;
-    },
+    },   
     updatePost: (state, action) => {
       const idx = state.items.findIndex(item => item.id === action.payload.id);
       if (idx >= 0) {
         state.items.splice(idx, 1, action.payload);
+      } else {
+        state.items.push(action.payload);
       }
     },
     deletePost: (state, action) => {
@@ -64,6 +66,16 @@ export const getPosts = () => async (dispatch) => {
   try {
     const res = await postService.getAll();
     dispatch(setPosts(res.data.posts));
+  } catch (err) {
+    console.log(err);
+    toast.error('Failed to get posts!');
+  }
+};
+
+export const getPostById = (id) => async (dispatch) => {
+  try {
+    const res = await postService.getById(id);
+    dispatch(updatePost(res.data.post));
   } catch (err) {
     console.log(err);
     toast.error('Failed to get posts!');

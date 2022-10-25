@@ -27,7 +27,7 @@ function Comment({ comment }) {
           <img
             src={comment.imageUrl}
             alt=""
-            className="rounded-[5%] w-full my-2"
+            className="rounded-[5%] w-[30%] my-2"
           />
         </div>
       )}
