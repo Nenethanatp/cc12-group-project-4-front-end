@@ -12,17 +12,28 @@ function Header() {
   };
 
   return (
-    <>
-      <nav>
-        <div className="p-8 bg-black bg-opacity-40">
-          <SearchBar handleMenu={handleMenu} />
-          {isMenuOpen && (
-            <Menu handleMenu={handleMenu} openChat={() => setOpenChat(true)} />
-          )}
-        </div>
-        <ChatContainer open={openChat} close={() => setOpenChat(false)} />
-      </nav>
-    </>
+    <nav className="flex justify-center items-center gap-2 w-full bg-red-500 p-3 px-6">
+      <SearchBar />
+      <div className="flex items-center" onClick={handleMenu}>
+        <button className="material-symbols-outlined bg-white rounded-3xl w-8 h-8">
+          menu
+        </button>
+      </div>
+      <ChatContainer open={openChat} close={() => setOpenChat(false)} />
+      {isMenuOpen && <Menu handleMenu={handleMenu} openChat={() => setOpenChat(true)} />}
+    </nav>
+
+    // <>
+    //   <nav>
+    //     <div className="p-8 bg-black bg-opacity-40">
+    //       <SearchBar handleMenu={handleMenu} />
+    //       {isMenuOpen && (
+    //         <Menu handleMenu={handleMenu} openChat={() => setOpenChat(true)} />
+    //       )}
+    //     </div>
+    //     <ChatContainer open={openChat} close={() => setOpenChat(false)} />
+    //   </nav>
+    // </>
   );
 }
 

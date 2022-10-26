@@ -11,11 +11,10 @@ function ProfileInfo() {
   const [isFollow, setIsFollow] = useState('');
   const { userId } = useParams();
   const me = useSelector((state) => state.auth.user);
-  console.log(follow, 'followState');
-  console.log(otherUser?.id, 'otherUser');
   const isMe = me.id === otherUser?.id;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchUser = async () => {
       try {
         const res = await getUserService.getUserById(userId);
@@ -35,7 +34,7 @@ function ProfileInfo() {
   const fetchFollow = async () => {
     try {
       const res = await followService.getFollow();
-      setIsFollow(res.data.follow, 'followBackEnd');
+      setIsFollow(res.data.follow);
     } catch (err) {
       console.log(err);
     }

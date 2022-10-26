@@ -18,8 +18,8 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
     content: '',
     typeId: 1,
     userId: user.id,
-    latitude: 111,
-    longitude: 222,
+    latitude: 13.5,
+    longitude: 100,
     postImages: []
   });
 
@@ -62,8 +62,8 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
       input.content = '';
       input.typeId = 1;
       input.userId = user.id;
-      input.latitude = 111;
-      input.longitude = 222;
+      input.latitude = 13.5;
+      input.longitude = 100;
       input.postImages = [];
     } catch (err) {
       console.log(err);
@@ -73,7 +73,7 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
   };
 
   return (
-    <form onSubmit={onCreatePost} className='h-full w-full'>
+    <form onSubmit={onCreatePost} className="h-full w-full p-6 flex justify-center bg-white rounded-t-xl">
       <div className='flex flex-col items-center h-auto w-[100%]  '>
         <div className='items-center w-full'>
           <div className='h-12 w-12'>
