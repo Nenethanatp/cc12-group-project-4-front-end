@@ -25,18 +25,18 @@ function Comment({ comment }) {
             </div>
           </Link>
           <div className="text-xs">{date}</div>
+          <div className='my-3'>{comment.content}</div>
+          {comment.imageUrl && (
+            <div className="w-full">
+              <img
+                src={comment.imageUrl}
+                alt=""
+                className="rounded-[5%] w-[30%] my-2"
+              />
+            </div>
+          )}
         </div>
       </div>
-      <div>{comment.content}</div>
-      {comment.imageUrl && (
-        <div className="w-full">
-          <img
-            src={comment.imageUrl}
-            alt=""
-            className="rounded-[5%] w-full my-2"
-          />
-        </div>
-      )}
     </div>
   );
 }
