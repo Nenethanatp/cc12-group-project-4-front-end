@@ -1,7 +1,7 @@
-import PostDetailContainer from "../features/post/PostDetailPage";
+import PostDetail from "../features/post/PostDetail";
 
 function PostDetailPage() {
-  return <PostDetailContainer />;
+  return <PostDetail />;
 }
 
 export default PostDetailPage;
