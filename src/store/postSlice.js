@@ -13,7 +13,7 @@ const PostSlice = createSlice({
   },
   reducers: {
     addPost: (state, action) => {
-      state.items.push(action.payload);
+      state.items.unshift(action.payload);
     },
     setPosts: (state, action) => {
       state.items = action.payload;
@@ -25,7 +25,7 @@ const PostSlice = createSlice({
       if (idx >= 0) {
         state.items.splice(idx, 1, action.payload);
       } else {
-        state.items.push(action.payload);
+        state.items.unshift(action.payload);
       }
     },
     deletePost: (state, action) => {

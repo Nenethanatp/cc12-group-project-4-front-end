@@ -32,7 +32,7 @@ function PostContainer() {
   return (
     <>
       <div className="h-full">
-        <div className="bg-slate-200  rounded-t-3xl flex justify-center p-6 relative">
+        <div className="bg-slate-200 h-full rounded-t-3xl flex justify-center p-6 relative">
           <div className="w-full flex flex-col items-center">
             <button
               className="bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-full"
