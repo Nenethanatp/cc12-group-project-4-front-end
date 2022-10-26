@@ -5,7 +5,7 @@ const TypeSlice = createSlice({
   name: 'types',
   initialState: {
     value: null,
-    selectedType: null,
+    selectedType: 0,
   },
   reducers: {
     setTypes: (state, action) => {
