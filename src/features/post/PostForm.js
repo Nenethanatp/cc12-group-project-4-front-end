@@ -5,11 +5,10 @@ import { useDispatch } from 'react-redux';
 import { useLoading } from '../../context/LoadingContext';
 import { toast } from 'react-toastify';
 import PostFormImage from './PostFormImage';
-import AddPhotoButton from "./AddPhotoButton";
-import PostFormRemoteImage from "./PostFormRemoteImage";
+import AddPhotoButton from './AddPhotoButton';
+import PostFormRemoteImage from './PostFormRemoteImage';
 
 function PostForm({ post, handleCreatePost, toggleCreatePost }) {
-
   const fileEl = useRef();
 
   const { startLoading, stopLoading } = useLoading();
@@ -19,8 +18,8 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
     content: '',
     typeId: 1,
     userId: user.id,
-    latitude: 111,
-    longitude: 222,
+    latitude: 13.5,
+    longitude: 100,
     postImages: []
   });
 
@@ -32,12 +31,10 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
         userId: post.userId,
         latitude: post.Location.latitude,
         longitude: post.Location.longitude,
-        postImages: [],
+        postImages: []
       });
     }
   }, [post]);
-
-
 
   const handleSetPostImage = (value) => {
     setInput({ ...input, postImages: [...input.postImages, value] });
@@ -65,8 +62,8 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
       input.content = '';
       input.typeId = 1;
       input.userId = user.id;
-      input.latitude = 111;
-      input.longitude = 222;
+      input.latitude = 13.5;
+      input.longitude = 100;
       input.postImages = [];
     } catch (err) {
       console.log(err);
@@ -76,7 +73,7 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
   };
 
   return (
-    <form onSubmit={onCreatePost} className='h-full w-full'>
+    <form onSubmit={onCreatePost} className="h-full w-full p-6 flex justify-center bg-white rounded-t-xl">
       <div className='flex flex-col items-center h-auto w-[100%]  '>
         <div className='items-center w-full'>
           <div className='h-12 w-12'>
@@ -92,7 +89,7 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
 
         <div className='flex flex-col items-center w-[100%] mt-5'>
           <textarea
-            className='bg-gray-200 w-full rounded-2xl p-4'
+            className='bg-gray-200 w-full rounded-2xl p-4 shadow-lg'
             placeholder='what were you thinking?'
             rows='5'
             value={input.content}
@@ -104,7 +101,7 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
               id='categoryId'
               name='categoryId'
               value={input.typeId}
-              className='bg-gray-200 w-full rounded-2xl p-4'
+              className='bg-gray-200 w-full rounded-2xl p-4 shadow-lg'
               onChange={(e) =>
                 setInput({ ...input, typeId: parseInt(e.target.value) })
               }
@@ -116,45 +113,47 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
             </select>
           </div>
 
-          { post && post.PostImages && post.PostImages.length > 0 &&
-            <div className="w-full pt-5">
-              <div className="grid grid-cols-3 gap-4">
+          {post && post.PostImages && post.PostImages.length > 0 && (
+            <div className='w-full pt-5'>
+              <div className='grid grid-cols-3 gap-4'>
                 {post.PostImages.map((postImage, index) => {
                   return (
-                    <PostFormRemoteImage postImage={postImage} post={post} key={index} />
+                    <PostFormRemoteImage
+                      postImage={postImage}
+                      post={post}
+                      key={index}
+                    />
                     // <img src={postImage.imageUrl} key={index} alt={postImage.id} style={{maxWidth: "150px"}} />
                   );
                 })}
               </div>
             </div>
-          }
-          
-          <div className="flex flex-col items-center w-full mt-5" style={{ maxWidth: "300px" }}>
-            <label htmlFor="postImage" className="form-label">
+          )}
+
+          <div
+            className='flex flex-col items-center w-full mt-5'
+            style={{ maxWidth: '300px' }}
+          >
+            {/* <label htmlFor='postImage' className='form-label'>
               อัพโหลดรูปภาพ
-            </label>
+            </label> */}
             <div>
-              {input.postImages.length !== 0 ? (
-                <>
-                  {input.postImages.map((postImage, index) => {
-                    return (
-                      <PostFormImage
-                        key={index}
-                        postImage={postImage}
-                        index={index}
-                        input={input}
-                        setInput={setInput}
-                      />
-                    );
-                  })}
-                </>
-              ) : (
-                <AddPhotoButton />
-              )}
+              {input.postImages.length !== 0 &&
+                input.postImages.map((postImage, index) => {
+                  return (
+                    <PostFormImage
+                      key={index}
+                      postImage={postImage}
+                      index={index}
+                      input={input}
+                      setInput={setInput}
+                    />
+                  );
+                })}
             </div>
             <input
               type='file'
-              className='d-none'
+              className='hidden'
               ref={fileEl}
               onChange={(e) => {
                 if (e.target.files[0]) {
@@ -164,9 +163,20 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
             />
           </div>
         </div>
-        <button className='bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-full mt-5'>
-          POST
-        </button>
+        <div className='h-[240px] w-full flex items-center'>
+          <div className='w-full flex flex-col gap-2'>
+            <button
+              type='button'
+              onClick={() => fileEl.current.click()}
+              className='bg-blue-500 rounded-3xl p-3 text-lg font-semibold w-full text-white shadow-lg'
+            >
+              CHOOSE FILES
+            </button>
+            <button className='bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-full shadow-lg'>
+              POST
+            </button>
+          </div>
+        </div>
       </div>
     </form>
   );

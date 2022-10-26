@@ -7,6 +7,9 @@ const PostSlice = createSlice({
   name: 'post',
   initialState: {
     items: [],
+    filter1: [],
+    filter2: [],
+    selected: [],
   },
   reducers: {
     addPost: (state, action) => {
@@ -30,8 +33,6 @@ const PostSlice = createSlice({
       }
     },
     deletePostImage: (state, action) => {
-      console.log(action.payload.id);
-      console.log(action.payload.imageId);
       const post = state.items.find((item) => item.id === action.payload.id);
       if (post) {
         if (post.PostImages) {

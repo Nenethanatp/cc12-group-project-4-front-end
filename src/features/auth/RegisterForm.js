@@ -27,10 +27,10 @@ function RegisterForm({ close }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className='flex flex-col items-center gap-5 w-[100%]'>
-        <div className='text-2xl font-bold m-5'>REGISTER AN ACCOUNT</div>
-        <div className='flex flex-col items-center gap-5'>
+    <form onSubmit={handleSubmit} className="h-full p-5 flex justify-center bg-white ">
+      <div className="flex flex-col items-center gap-5 w-[100%]">
+        <div className="text-2xl font-bold m-5">REGISTER AN ACCOUNT</div>
+        <div className="flex flex-col items-center gap-5">
           <input
             className='bg-gray-200 h-11 w-[320px] px-5 shadow-lg outline-green-500'
             placeholder='First Name'
@@ -67,7 +67,7 @@ function RegisterForm({ close }) {
           />
         </div>
         <div className='h-[140px] flex items-center'>
-          <button className='bg-yellow-400 w-[320px] h-12 rounded-full font-bold text-lg shadow-lg'>
+          <button className='bg-yellow-400 w-[320px] h-12 rounded-full font-bold text-lg shadow-lg mt-12'>
             SIGN UP
           </button>
         </div>
