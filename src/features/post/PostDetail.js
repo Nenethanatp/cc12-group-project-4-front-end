@@ -19,8 +19,13 @@ function PostDetail({
   content,
   countLike,
   countComment,
-  Comments
+  Comments,
 }) {
+  const sortComments = [...Comments];
+  if (sortComments) {
+    sortComments.sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1));
+  }
+
   return (
     <div className="flex flex-col ">
       {PostImages.length !== 0 ? (
@@ -83,7 +88,7 @@ function PostDetail({
             </div>
           </div>
         </div>
-        {Comments.map((comment, index) => (
+        {sortComments.map((comment, index) => (
           <Comment key={comment.id} comment={comment} />
         ))}
 

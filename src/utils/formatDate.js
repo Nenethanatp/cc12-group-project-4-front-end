@@ -5,6 +5,11 @@ export const formatDate = (dateObj) => {
   return newDate;
 };
 
+export const dateObjToString = (dateObj) => {
+  const stringDate = dateFormat(new Date(dateObj), 'dd mmm yyyy');
+  return stringDate;
+};
+
 export const genStartEndDate = (type) => {
   const monthlyEndDate = () => {
     const today = new Date();
@@ -42,7 +47,7 @@ export const genStartEndDate = (type) => {
     return { startDate, endDate };
   };
 
-  const annualyEndDate = () => {
+  const annuallyEndDate = () => {
     const today = new Date();
     const startDateFormat = `${today.getFullYear()}-${
       today.getMonth() + 1
@@ -57,7 +62,7 @@ export const genStartEndDate = (type) => {
   };
 
   if (type === 'annually') {
-    const result = annualyEndDate();
+    const result = annuallyEndDate();
     return result;
   } else {
     const result = monthlyEndDate();
