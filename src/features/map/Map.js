@@ -5,19 +5,23 @@ import {
   Marker,
   MarkerClusterer,
 } from "@react-google-maps/api";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 
-function Map({ handleOpenPost }) {
+import {setLocation} from "../../store/mapSlice";
+
+function Map({handleOpenPost}) {
   const [marker, setMarker] = useState();
   const [selects, setSelects] = useState();
+
+  const dispatch = useDispatch();
 
   const mapRef = useRef();
 
   const location = useSelector((state) => state.map.location);
   const posts = useSelector((state) => state.post.items);
 
-  const initCenter = useMemo(() => ({ lat: 13.75, lng: 100.5 }), []);
+  const initCenter = useMemo(() => ({lat: 13.75, lng: 100.5}), []);
 
   // const center = useMemo(() => {
   //   return navigator.geolocation.getCurrentPosition(
@@ -41,22 +45,27 @@ function Map({ handleOpenPost }) {
     []
   );
 
+  // useEffect(() => {
+  //   if (location) {
+  //     mapRef.current?.panTo(location);
+  //   }
+  // }, [location]);
+
   useEffect(() => {
-    if (location) {
-      mapRef.current?.panTo(location);
-    }
-  }, [location]);
+    // console.log(marker);
+  }, [marker]);
 
   const onMapLoad = useCallback((map) => (mapRef.current = map), []);
   const onMapClick = useCallback((e) => {
-    setMarker({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+    setMarker({lat: e.latLng.lat(), lng: e.latLng.lng()});
+    dispatch(setLocation({latitude: e.latLng.lat(), longitude: e.latLng.lng()}))
   }, []);
 
   return (
     <div className="h-screen">
       <div className="h-full w-full">
         <GoogleMap
-          zoom={10}
+          zoom={11}
           center={initCenter}
           mapContainerClassName="h-full w-full"
           options={options}
@@ -79,6 +88,11 @@ function Map({ handleOpenPost }) {
               // alert(e.getMarkers()[0].position.lng()); ---> get position to filter shown posts when click
 
               setSelects(e.getMarkers());
+              setMarker({lat: e.getMarkers()[0].getPosition().lat(), lng: e.getMarkers()[0].getPosition().lng()});
+              dispatch(setLocation({
+                latitude: e.getMarkers()[0].getPosition().lat(),
+                longitude: e.getMarkers()[0].getPosition().lng()
+              }))
               handleOpenPost();
             }}
             title="cluster"
@@ -95,7 +109,12 @@ function Map({ handleOpenPost }) {
                   clusterer={clusterer}
                   onClick={(e) => {
                     console.log(e);
+
                     setSelects(e);
+                    setMarker({lat: e.latLng.lat(), lng: e.latLng.lng()});
+                    dispatch(setLocation({latitude: e.latLng.lat(), longitude: e.latLng.lng()}))
+
+                    handleOpenPost();
                   }}
                   onLoad={() => {
                     console.log({
@@ -107,13 +126,13 @@ function Map({ handleOpenPost }) {
               ))
             }
           </MarkerClusterer>
-          {location && (
-            <>
-              <Marker
-                position={location}
-                icon="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
-              />
-{/* 
+          {/*{location && (*/}
+          {/*  <>*/}
+          {/*    <Marker*/}
+          {/*      position={location}*/}
+          {/*      icon="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"*/}
+          {/*    />*/}
+          {/*
               <Circle center={location} radius={15000} options={closeOptions} />
               <Circle
                 center={location}
@@ -122,19 +141,19 @@ function Map({ handleOpenPost }) {
               />
               <Circle center={location} radius={45000} options={farOptions} /> */}
 
-              {selects && (
-                <InfoWindow
-                  position={initCenter}
-                  onCloseClick={() => {
-                    setSelects(null);
-                  }}
-                >
-                  <div>
-                    <h1>hi</h1>
-                  </div>
-                </InfoWindow>
-              )}
-            </>
+          {/*  {selects && (*/}
+          {/*    <InfoWindow*/}
+          {/*      position={initCenter}*/}
+          {/*      onCloseClick={() => {*/}
+          {/*        setSelects(null);*/}
+          {/*      }}*/}
+          {/*    >*/}
+          {/*      <div>*/}
+          {/*        <h1>hi</h1>*/}
+          {/*      </div>*/}
+          {/*    </InfoWindow>*/}
+          {/*  )}*/}
+          {/*</>*/}
           )}
         </GoogleMap>
       </div>

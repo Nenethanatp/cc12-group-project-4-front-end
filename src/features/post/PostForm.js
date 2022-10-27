@@ -1,15 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getTypes } from '../../store/typeSlice';
-import { useDispatch } from 'react-redux';
 import { useLoading } from '../../context/LoadingContext';
 import { toast } from 'react-toastify';
 import PostFormImage from './PostFormImage';
-import AddPhotoButton from './AddPhotoButton';
 import PostFormRemoteImage from './PostFormRemoteImage';
 
 function PostForm({ post, handleCreatePost, toggleCreatePost }) {
   const fileEl = useRef();
+
+  const types = useSelector((state) => state.types.value);
+  const location = useSelector((state) => state.map.location);
 
   const { startLoading, stopLoading } = useLoading();
 
@@ -18,8 +18,8 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
     content: '',
     typeId: 1,
     userId: user.id,
-    latitude: 13.5,
-    longitude: 100,
+    latitude: location.latitude,
+    longitude: location.longitude,
     postImages: []
   });
 
@@ -44,8 +44,6 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
     try {
       e.preventDefault();
 
-      console.log(input);
-
       if (!input.content) {
         return toast.error('content is required');
       }
@@ -62,8 +60,8 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
       input.content = '';
       input.typeId = 1;
       input.userId = user.id;
-      input.latitude = 13.5;
-      input.longitude = 100;
+      input.latitude = location.latitude;
+      input.longitude = location.longitude;
       input.postImages = [];
     } catch (err) {
       console.log(err);
@@ -106,10 +104,10 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
                 setInput({ ...input, typeId: parseInt(e.target.value) })
               }
             >
-              <option value='1'>Cat#1</option>
-              <option value='2'>Cat#2</option>
-              <option value='3'>Cat#3</option>
-              <option value='4'>Cat#4</option>
+              { types.map((type, index) =>
+                <option key={index} value={type.id}>{type.type}</option>
+
+              )}
             </select>
           </div>
 
