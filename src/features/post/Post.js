@@ -161,7 +161,7 @@ function Post({ post }) {
                   {isShowActions && (
                     <div
                       onClick={toggleShowActions}
-                      className="absolute right-0 z-20 w-32 py-2 mt-2 bg-white rounded-md shadow-xl dark:bg-gray-300"
+                      className="absolute right-0  w-32 py-2 mt-2 bg-white rounded-md shadow-xl dark:bg-gray-300"
                     >
                       {User.id !== me.id && (
                         <>

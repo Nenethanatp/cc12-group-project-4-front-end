@@ -77,7 +77,7 @@ function ProfileContainer() {
 
   return (
     <div>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5 ">
         <ProfileInfo />
 
         <ProfileNav
@@ -98,6 +98,7 @@ function ProfileContainer() {
             follow={follow}
             followed={followed}
             handleClickFollow={handleClickFollow}
+            openPost={openPost}
           />
         )}
       </div>

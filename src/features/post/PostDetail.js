@@ -14,17 +14,17 @@ function PostDetail() {
   const [post, setPost] = useState({
     User: {
       firstName: '',
-      lastName: '',
+      lastName: ''
     },
     PostImages: [],
     Likes: [],
-    Comments: [],
+    Comments: []
   });
   const me = useSelector((state) => state.auth.user);
   const posts = useSelector((state) => state.post.items);
 
-  const likedList = post.Likes.map((like) => like.userId);
-  const [liked, setLiked] = useState(likedList.includes(me.id));
+  const likedList = post?.Likes?.map((like) => like.userId);
+  const [liked, setLiked] = useState(likedList?.includes(me.id));
 
   useEffect(() => {
     setPost(posts.find((post) => post.id === Number(postId)));
