@@ -12,6 +12,7 @@ const FavoriteSlice = createSlice({
       state.items = action.payload;
     },
     addFavorite: (state, action) => {
+      console.log(action.payload)
       state.items.unshift(action.payload);
     },
   },

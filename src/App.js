@@ -7,6 +7,7 @@ import { getMe } from './store/authSlice';
 import * as authService from './api/authApi';
 import { getAccessToken } from './utils/localStorage';
 import { getPosts } from './store/postSlice';
+import { getFavorites } from "./store/favoriteSlice";
 import { useLoading } from './context/LoadingContext';
 import { getEndDate } from './store/subscribeSlice';
 
@@ -30,6 +31,7 @@ function App() {
       startLoading();
       dispatch(getUser());
       dispatch(getPosts());
+      dispatch(getFavorites());
       dispatch(getEndDate());
       stopLoading();
     }
