@@ -1,31 +1,43 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import * as getUserService from '../../api/authApi';
 import * as followService from '../../api/followApi';
 import profileImage from '../../assets/images/profile-image.png';
+import Modal from '../../components/Modal';
+import EditProfile from '../../components/EditProfile';
+import { getMe } from '../../store/authSlice';
 
 function ProfileInfo() {
   const [otherUser, setOtherUser] = useState(null);
+  const [isEditProfile, setIsEditProfile] = useState(false);
   const [follow, setFollow] = useState(null);
   const [isFollow, setIsFollow] = useState('');
   const { userId } = useParams();
   const me = useSelector((state) => state.auth.user);
   const isMe = me.id === otherUser?.id;
+  // console.log(me);
+  const openEditProfile = () => {
+    setIsEditProfile(true);
+    console.log(isEditProfile);
+  };
 
+  const dispatch = useDispatch();
+
+  const fetchUser = async () => {
+    try {
+      const res = await getUserService.getUserById(userId);
+      setOtherUser(res.data.user);
+      if (me === otherUser) {
+        // dispatch(getMe(res.data));
+        return setOtherUser(null);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     window.scrollTo(0, 0);
-    const fetchUser = async () => {
-      try {
-        const res = await getUserService.getUserById(userId);
-        setOtherUser(res.data.user);
-        if (me === otherUser) {
-          return setOtherUser(null);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
 
     fetchUser();
     fetchFollow();
@@ -60,8 +72,8 @@ function ProfileInfo() {
   const FOLLOWING = 'FOLLOWING';
 
   return (
-    <div className="flex flex-col-reverse bg-black bg-opacity-40    top-0 right-0 bottom-0 left-0 ">
-      <div className="flex text-black h-[90%] w-[100%]  pt-7 px-7   bg-white rounded-t-3xl ">
+    <div className="flex flex-col-reverse bg-red-500     top-0 right-0 bottom-0 left-0 h-96]">
+      <div className="flex text-black h-[200px] w-[100%]  pt-7 px-7   bg-white rounded-t-3xl">
         <div className="flex relative justify-end items-center w-full h-[50%] ">
           <div className="w-[20%] absolute top-0 left-0">
             <div className="w-[100px] h-[100px] bg-slate-300 rounded-full flex justify-center items-center">
@@ -86,8 +98,8 @@ function ProfileInfo() {
               )}
             </div>
           </div>
-          <div className=" flex flex-col h-[100%] w-[65%]">
-            <div className="   h-[130px]">
+          <div className=" flex relative top-10 flex-col  h-[178px] w-[65%]">
+            <div className="h-[170px] ">
               <div className="text-xl">
                 {otherUser ? (
                   <>{`${otherUser.firstName} ${otherUser.lastName}`}</>
@@ -98,8 +110,15 @@ function ProfileInfo() {
               <div>
                 {otherUser ? <>{`${otherUser.email}`}</> : <>{`${me.email}`}</>}
               </div>
+              <div className="text-xs">
+                {otherUser ? (
+                  <>{`${otherUser.description ? otherUser.description : ''}`}</>
+                ) : (
+                  <>{`${me.description ? me.description : ''}`}</>
+                )}
+              </div>
             </div>
-            <div className="flex justify-center gap-5 text-xs">
+            <div className="flex justify-center absolute gap-5 text-xs bottom-0 left-7">
               {!isMe ? (
                 <>
                   <button
@@ -111,7 +130,10 @@ function ProfileInfo() {
                 </>
               ) : (
                 <>
-                  <button className="bg-yellow-400 w-40 h-6 rounded-full">
+                  <button
+                    className="bg-yellow-400 w-40 h-6 rounded-full"
+                    onClick={openEditProfile}
+                  >
                     EDIT PROFILE
                   </button>
                 </>
@@ -120,6 +142,18 @@ function ProfileInfo() {
           </div>
         </div>
       </div>
+      <Modal
+        open={isEditProfile}
+        content={
+          <EditProfile
+            imageUrl={me.profileImage}
+            description={me.description}
+            closeModal={setIsEditProfile}
+            fetchUser={fetchUser}
+          />
+        }
+        close={() => setIsEditProfile(false)}
+      />
     </div>
   );
 }
