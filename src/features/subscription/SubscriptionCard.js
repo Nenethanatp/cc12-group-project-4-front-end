@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Script from 'react-load-script';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { payment } from '../../api/subscriptionApi';
-import { genStartEndDate } from '../../utils/formatDate';
-import dateFormat from 'dateformat';
+import { getEndDate } from '../../store/subscribeSlice';
+import { dateObjToString, genStartEndDate } from '../../utils/formatDate';
 
 let OmiseCard;
 const handleLoadScript = () => {
@@ -21,7 +21,11 @@ const handleLoadScript = () => {
 
 function SubscriptionCard({ allPac }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const me = useSelector((state) => state.auth.user);
+  const status = useSelector((state) => state.auth.status);
+  const subEndDate = useSelector((state) => state.subscribe.endDate);
 
   const { type, price, id, detail } = allPac;
 
@@ -53,7 +57,7 @@ function SubscriptionCard({ allPac }) {
       // }
       navigate('/');
       const { startDate, endDate } = genStartEndDate(type);
-
+      dispatch(getEndDate());
       toast.success(`Subscribed expire on ${endDate}`);
     } catch (err) {
       console.log(err);
@@ -87,25 +91,53 @@ function SubscriptionCard({ allPac }) {
         )} THB`}</div>
       </div>
       <hr />
-      <div className="flex flex-col gap-1 font-normal text-sm mb-4">
+      <div className="flex flex-col gap-1 font-normal text-sm m-3">
         <div>
           info info info info info infonfo info info fdghjkdhgkjd dfghkdfhg
           fdjghikdfh gdfoj ofdihgj fosd fdiohgpso
         </div>
       </div>
-      <div>
-        <Script url="https://cdn.omise.co/omise.js" />
-        <form className="">
+      <hr />
+
+      {subEndDate === 'expired' ? (
+        <div className="flex flex-col gap-5 mt-3">
+          <div className="text-center text-red-400 font-normal text-md ">
+            <p>Subscribe today will expire on</p>
+            <p>{`${genStartEndDate(type).endDate}`}</p>
+          </div>
+
+          <div className="">
+            <Script url="https://cdn.omise.co/omise.js" />
+            <form className="">
+              <button
+                id="credit-card"
+                className={`bg-yellow-400 text-lg p-1 font-semibold rounded-2xl w-full`}
+                type="button"
+                onClick={handleClick}
+              >
+                SELECT
+              </button>
+            </form>
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-5 mt-3">
+          <div className="text-center text-red-400 font-semibold text-md ">
+            <p>You already subscribe!!</p>
+            <p className="font-normal">You can subscribe again</p>
+            <p className="font-normal">after {dateObjToString(subEndDate)}</p>
+          </div>
           <button
-            id="credit-card"
-            className="bg-yellow-400 text-lg p-1 font-semibold rounded-2xl w-full"
+            className={`bg-yellow-400 text-lg p-1 font-semibold rounded-2xl w-full
+        opacity-30 text-black`}
             type="button"
             onClick={handleClick}
+            disabled={true}
           >
             SELECT
           </button>
-        </form>
-      </div>
+        </div>
+      )}
     </div>
   );
 }

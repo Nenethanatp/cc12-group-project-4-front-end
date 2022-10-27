@@ -7,3 +7,7 @@ export const payment = (input) => {
 export const getAllPackage = () => {
   return axios.get('/subscribe/allPackage');
 };
+
+export const getEndDate = () => {
+  return axios.get('/subscribe/endDate');
+};

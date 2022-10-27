@@ -6,6 +6,7 @@ import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import SavePlacePage from '../pages/SavePlacePage';
 import SubscriptionPage from '../pages/SubscriptionPage';
+import PostDetailPage from '../pages/PostDetailPage'
 
 function Router() {
   const user = useSelector((state) => state.auth.user);
@@ -16,6 +17,7 @@ function Router() {
         <>
           <Route path="/" element={<AuthLayout />}>
             <Route path="/" element={<HomePage />} />
+            <Route path="/post/:postId" element={<PostDetailPage />} />
             <Route path={`/profile/:userId`} element={<ProfileLayout />}>
               <Route path="map" element={<HomePage />} />
               <Route path="savePlace" element={<SavePlacePage />} />
