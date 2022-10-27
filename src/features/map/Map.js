@@ -3,6 +3,7 @@ import {
   GoogleMap,
   InfoWindow,
   Marker,
+
   MarkerClusterer,
 } from "@react-google-maps/api";
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
@@ -10,7 +11,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {setLocation} from "../../store/mapSlice";
 
-function Map({handleOpenPost}) {
+function Map({handleOpenPost, mapCenter}) {
   const [marker, setMarker] = useState();
   const [selects, setSelects] = useState();
 
@@ -20,8 +21,11 @@ function Map({handleOpenPost}) {
 
   const location = useSelector((state) => state.map.location);
   const posts = useSelector((state) => state.post.items);
+  const favorites = useSelector((state) => state.favorite.items);
 
-  const initCenter = useMemo(() => ({lat: 13.75, lng: 100.5}), []);
+  // const initCenter = useMemo(() => ({lat: 13.75, lng: 100.5}), []);
+
+
 
   // const center = useMemo(() => {
   //   return navigator.geolocation.getCurrentPosition(
@@ -66,7 +70,7 @@ function Map({handleOpenPost}) {
       <div className="h-full w-full">
         <GoogleMap
           zoom={11}
-          center={initCenter}
+          center={mapCenter}
           mapContainerClassName="h-full w-full"
           options={options}
           onLoad={onMapLoad}
@@ -80,6 +84,33 @@ function Map({handleOpenPost}) {
                 handleOpenPost();
               }}
             />
+          )}
+
+          {favorites && (
+            favorites.map((favorite, index) =>
+              <Marker
+                key={`favorite-${index}`}
+                position={{
+                  lat: +favorite.latitude,
+                  lng: +favorite.longitude,
+                }}
+                label={{
+                  text: favorite.name,
+                }}
+                // labelStyle={{
+                //   textAlign: "center",
+                //   width: labelSize.width + 'px',
+                //   backgroundColor: "#7fffd4",
+                //   fontSize: "14px",
+                //   padding: labelPadding + "px"
+                // }}
+                // labelAnchor={{x: (labelSize.width / 2) + labelPadding, y: 80}}
+                icon="/fav-pin.png"
+                onClick={() => {
+                  // handleOpenPost();
+                }}
+              />
+            )
           )}
 
           <MarkerClusterer
@@ -143,7 +174,7 @@ function Map({handleOpenPost}) {
 
           {/*  {selects && (*/}
           {/*    <InfoWindow*/}
-          {/*      position={initCenter}*/}
+          {/*      position={mapCenter}*/}
           {/*      onCloseClick={() => {*/}
           {/*        setSelects(null);*/}
           {/*      }}*/}
