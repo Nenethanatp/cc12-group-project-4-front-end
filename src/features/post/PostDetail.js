@@ -4,7 +4,7 @@ import { formatDate } from '../../utils/formatDate';
 import { toggleLike, toggleReport } from '../../api/postApi';
 import * as postService from '../../api/postApi';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import PostDetailGallery from './PostDetailGallery';
 import PostDetailComment from './PostDetailComment';
 
@@ -14,17 +14,17 @@ function PostDetail() {
   const [post, setPost] = useState({
     User: {
       firstName: '',
-      lastName: ''
+      lastName: '',
     },
     PostImages: [],
     Likes: [],
-    Comments: []
+    Comments: [],
   });
   const me = useSelector((state) => state.auth.user);
   const posts = useSelector((state) => state.post.items);
 
   const likedList = post?.Likes?.map((like) => like.userId);
-  const [liked, setLiked] = useState(likedList?.includes(me.id));
+  const liked = likedList?.includes(me.id);
 
   useEffect(() => {
     setPost(posts.find((post) => post.id === Number(postId)));
@@ -39,7 +39,6 @@ function PostDetail() {
     try {
       await toggleLike(post.id);
       dispatch(getPosts());
-      setLiked(!likedList.includes(me.id));
     } catch (err) {
       console.log(err);
     }
