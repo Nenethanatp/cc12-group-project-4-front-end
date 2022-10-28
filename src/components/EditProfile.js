@@ -118,11 +118,11 @@ function EditProfile({ description, closeModal, fetchUser }) {
         </div>
         <div className="w-60 mb-2">
           <div>Old password</div>
-          <input type="text" className="bg-gray-300 w-60" />
+          <input type="password" className="bg-gray-300 w-60" />
         </div>
         <div className="w-60 mb-2">
           <div>New password</div>
-          <input type="text" className="bg-gray-300 w-60" />
+          <input type="password" className="bg-gray-300 w-60" />
         </div>
         <button
           className="bg-yellow-400 rounded-lg w-20"

@@ -16,6 +16,14 @@ function ProfileContainer() {
   const [isPost, setIsPost] = useState(true);
   const { userId } = useParams();
   const me = useSelector((state) => state.auth.user);
+  console.log(me);
+  const allPosts = useSelector((state) => state.post.items);
+  console.log(allPosts);
+  let myPosts;
+  if (allPosts) {
+    myPosts = allPosts.filter((item) => item.userId === me.id);
+  }
+  console.log(myPosts);
 
   const openPost = () => {
     setIsPost(true);
@@ -90,7 +98,7 @@ function ProfileContainer() {
         />
 
         {isPost ? (
-          <PostList />
+          <PostList myPosts={myPosts} />
         ) : (
           <FollowList
             allFollower={allFollower}
