@@ -1,16 +1,24 @@
 import { useState } from "react";
 import PostForm from "./PostForm";
+import AddFavoriteForm from "./AddFavoriteForm";
 import PostList from "./PostList";
 import { useDispatch } from "react-redux";
 import { createPost } from "../../store/postSlice";
+import { createFavorite } from "../../store/favoriteSlice";
 import Modal from "../../components/Modal";
 
 function PostContainer() {
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
+  const [isAddFavoriteOpen, setIsAddFavoriteOpen] = useState(false);
+
   const dispatch = useDispatch();
 
   const toggleCreatePost = () => {
     setIsCreatePostOpen((prev) => !prev);
+  };
+
+  const toggleAddFavorite = () => {
+    setIsAddFavoriteOpen((prev) => !prev);
   };
 
   const handleCreatePost = (input) => {
@@ -29,26 +37,57 @@ function PostContainer() {
     toggleCreatePost();
   };
 
+  const handleAddFavorite = (input) => {
+    dispatch(createFavorite(input));
+    toggleAddFavorite();
+  };
+
+
   return (
     <>
       <div className="h-full">
-        <div className="bg-slate-200  rounded-t-3xl flex justify-center p-6 relative">
-          <div className="w-full flex flex-col items-center">
-            <button
-              className="bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-full"
-              onClick={toggleCreatePost}
-            >
-              CREATE POST
-            </button>
-            <PostList />
+        <div className="bg-slate-200 h-full rounded-t-3xl p-6 relative">
+          <div className="grid grid-cols-2 gap-4">
+
+            <div>
+              <button
+                className="bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-full"
+                onClick={toggleCreatePost}
+              >
+                CREATE POST
+              </button>
+            </div>
+            <div>
+              <button
+                className="bg-slate-50 rounded-3xl p-3 text-lg font-semibold w-full"
+                onClick={toggleAddFavorite}
+              >
+                ADD FAVORITE
+              </button>
+            </div>
           </div>
+
+          <PostList />
+
         </div>
+
         <Modal
           open={isCreatePostOpen}
           content={
             <PostForm
               handleCreatePost={handleCreatePost}
               toggleCreatePost={toggleCreatePost}
+            />
+          }
+          close={toggleCreatePost}
+        />
+
+        <Modal
+          open={isAddFavoriteOpen}
+          content={
+            <AddFavoriteForm
+              handleAddFavorite={handleAddFavorite}
+              toggleAddFavorite={toggleAddFavorite}
             />
           }
           close={toggleCreatePost}

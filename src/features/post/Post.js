@@ -39,6 +39,7 @@ function Post({ post }) {
 
   useEffect(() => {
     // console.log(post);
+
   }, [post]);
 
   const handleLike = async (e) => {
@@ -99,13 +100,15 @@ function Post({ post }) {
     }
     // console.log(formData);
     dispatch(editPost(post.id, formData));
+
     // then close create post pane
     toggleEditPost();
   };
+  
 
   return (
     <>
-      <div className="mt-8">
+      {/* <div className="mt-8">
         {openDetail ? (
           <PostDetail
             post={post}
@@ -124,7 +127,8 @@ function Post({ post }) {
             Comments={Comments}
             id={id}
           />
-        ) : (
+        ) :  */}
+        <br/>
           <div
             className="flex flex-col "
             onClick={() => setOpenDetail((prev) => !prev)}
@@ -144,17 +148,20 @@ function Post({ post }) {
               }`}
             >
               <div className="flex justify-between items-center">
-                <div className="text-xl font-semibold">{content}</div>
+                <div className="text-xl font-semibold">
+                  <Link to={`/post/${post.id}`}>{content}</Link>
+                </div>
                 <div className="relative inline-block">
                   <button onClick={toggleShowActions} className="p-5">
                     <i className="fa-solid fa-ellipsis-vertical"></i>
                   </button>
                   {/* {true ? <div></div> : <div></div>} */}
+                
 
                   {isShowActions && (
                     <div
                       onClick={toggleShowActions}
-                      className="absolute right-0 z-20 w-32 py-2 mt-2 bg-white rounded-md shadow-xl dark:bg-gray-300"
+                      className="absolute right-0  w-32 py-2 mt-2 bg-white rounded-md shadow-xl dark:bg-gray-300"
                     >
                       {User.id !== me.id && (
                         <>
@@ -198,7 +205,9 @@ function Post({ post }) {
                           Delete
                         </div>
                       )}
+                      
                     </div>
+                    
                   )}
                 </div>
               </div>
@@ -220,9 +229,10 @@ function Post({ post }) {
                 </div>
                 <div className="text-sm">{date}</div>
               </div>
+              <Link to={`/post/${post.id}`}>อ่านต่อ...</Link>
             </div>
           </div>
-        )}
+        {/* )} */}
 
         <Modal
           open={isEditPostOpen}
@@ -235,7 +245,7 @@ function Post({ post }) {
           }
           close={toggleEditPost}
         />
-      </div>
+      {/* </div> */}
     </>
   );
 }

@@ -1,16 +1,18 @@
-import { useLoadScript } from "@react-google-maps/api";
-import { useEffect, useMemo } from "react";
-import { useDispatch } from "react-redux";
+import { useLoadScript } from '@react-google-maps/api';
+import { useEffect, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
 import Router from './route/Router';
 import { ToastContainer } from 'react-toastify';
 import { getMe } from './store/authSlice';
 import * as authService from './api/authApi';
 import { getAccessToken } from './utils/localStorage';
 import { getPosts } from './store/postSlice';
+import { getFavorites } from "./store/favoriteSlice";
 import { useLoading } from './context/LoadingContext';
+import { getEndDate } from './store/subscribeSlice';
 
 function App() {
-  const libraries = useMemo(() => ["places"], []);
+  const libraries = useMemo(() => ['places'], []);
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
@@ -29,11 +31,13 @@ function App() {
       startLoading();
       dispatch(getUser());
       dispatch(getPosts());
+      dispatch(getFavorites());
+      dispatch(getEndDate());
       stopLoading();
     }
   }, [dispatch]);
 
- if (loadError) return <div>Load Error</div>;
+  if (loadError) return <div>Load Error</div>;
   if (!isLoaded) return <div>Loading...</div>;
 
   return (

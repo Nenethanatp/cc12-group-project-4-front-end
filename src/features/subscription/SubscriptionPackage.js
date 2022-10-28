@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import * as subscriptionApi from '../../api/subscriptionApi';
+import { getEndDate } from '../../store/subscribeSlice';
 import SubscriptionCard from './SubscriptionCard';
 
 function SubscriptionPackage() {
   const [allPackages, setAllPackages] = useState([]);
-  // const sortAllPackages =
-
-  // allPackages.forEach((pac,index)=> {
-  //   pac.
-  // }
-
-  // )
+  const dispatch = useDispatch();
   useEffect(() => {
     firstGetPackages();
+    dispatch(getEndDate());
   }, []);
 
   const firstGetPackages = async () => {

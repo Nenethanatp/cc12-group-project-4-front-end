@@ -38,9 +38,8 @@ function Menu({ handleMenu, openChat }) {
             <div className="mb-3" onClick={handleOpenChat}>
               Messages
             </div>
-            <div className="mb-3">Favorite</div>
             <div className="mb-3">
-              <Link to="/subscription" className="mb-3">
+              <Link to="/subscription" className="mb-3" onClick={handleMenu}>
                 Subscription
               </Link>
             </div>

@@ -31,6 +31,10 @@ function CommentForm({ id }) {
       console.log(err);
     }
   };
+  const clear = () => {
+    setCommentImage(null);
+    inputEl.current.value = null;
+  };
 
   const inputEl = useRef();
 
@@ -51,7 +55,7 @@ function CommentForm({ id }) {
                 <div
                   className="bg-white absolute right-2 top-2 rounded-full w-[20px] h-[20px] flex justify-center items-center"
                   onClick={() => {
-                    setCommentImage(null);
+                    clear();
                   }}
                 >
                   <i className="fa-solid fa-xmark "></i>
@@ -60,7 +64,7 @@ function CommentForm({ id }) {
             )}
             <div className="w-full flex rounded-lg bg-slate-100 justify-between items-center gap-2 ">
               <input
-                className="text-base py-1 pl-4 rounded-lg w-full bg-slate-100 "
+                className="text-base py-3 pl-4 rounded-lg w-full bg-slate-100 "
                 placeholder="comment . . ."
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}

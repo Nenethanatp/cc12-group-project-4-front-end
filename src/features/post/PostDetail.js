@@ -1,95 +1,85 @@
-import React from 'react';
-import Comment from './Comment';
-import CommentForm from './CommentForm';
-import profileImage from '../../assets/images/profile-image.png';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { getPosts, getPostById } from '../../store/postSlice';
+import { formatDate } from '../../utils/formatDate';
+import { toggleLike, toggleReport } from '../../api/postApi';
+import * as postService from '../../api/postApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import PostDetailGallery from './PostDetailGallery';
+import PostDetailComment from './PostDetailComment';
 
-function PostDetail({
-  id,
-  post,
-  firstName,
-  lastName,
-  imageUrl,
-  date,
-  PostImages,
-  setOpenDetail,
-  liked,
-  setLiked,
-  handleLike,
-  content,
-  countLike,
-  countComment,
-  Comments
-}) {
+function PostDetail() {
+  const dispatch = useDispatch();
+  const { postId } = useParams();
+  const [post, setPost] = useState({
+    User: {
+      firstName: '',
+      lastName: ''
+    },
+    PostImages: [],
+    Likes: [],
+    Comments: []
+  });
+  const me = useSelector((state) => state.auth.user);
+  const posts = useSelector((state) => state.post.items);
+
+  const likedList = post?.Likes?.map((like) => like.userId);
+  const [liked, setLiked] = useState(likedList?.includes(me.id));
+
+  useEffect(() => {
+    setPost(posts.find((post) => post.id === Number(postId)));
+  }, [posts, postId]);
+
+  useEffect(() => {
+    console.log(post);
+  }, [post]);
+
+  const handleLike = async (e) => {
+    e.stopPropagation();
+    try {
+      await toggleLike(post.id);
+      dispatch(getPosts());
+      setLiked(!likedList.includes(me.id));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
-    <div className="flex flex-col ">
-      {PostImages.length !== 0 ? (
-        <div className="w-full relative">
-          <i
-            className="fa-solid fa-circle-chevron-left opacity-90 text-3xl absolute top-3 left-3"
-            onClick={() => setOpenDetail((prev) => !prev)}
-          />
-          <img
-            src={PostImages[0].imageUrl}
-            alt=""
-            className="rounded-t-3xl w-full object-cover"
-          ></img>
-        </div>
-      ) : (
-        <div
-          className="w-full relative bg-white rounded-t-3xl "
-          onClick={(e) => e.stopPropagation()}
-        >
-          <i
-            className="fa-solid fa-circle-chevron-left opacity-90  h-full  text-2xl py-3 pl-3"
-            onClick={() => setOpenDetail((prev) => !prev)}
-          />
-          <hr />
+    <>
+      {post && (
+        <div className="bg-white flex flex-col p-5 gap-2 rounded-b-3xl">
+          <div className="flex gap-3 ">
+            <div className="">
+              {post.User && (
+                <img
+                  src={post.User.imageUrl}
+                  alt=""
+                  className="bg-orange-500 rounded-full w-[40px] h-[40px]  object-cover"
+                ></img>
+              )}
+            </div>
+            <div className="flex flex-col justify-center">
+              <div className="text-md">{`${post.User.firstName} ${post.User.lastName}`}</div>
+            </div>
+          </div>
+
+          <div className="text-lg font-semibold mt-5">{post.content}</div>
+
+          {post && <PostDetailGallery post={post}></PostDetailGallery>}
+
+          <div className="text-xs">{formatDate(post.createdAt)}</div>
+
+          {post && (
+            <PostDetailComment
+              post={post}
+              liked={liked}
+              handleLike={handleLike}
+            ></PostDetailComment>
+          )}
         </div>
       )}
-      <div className="bg-white flex flex-col p-5 gap-2 rounded-b-3xl">
-        <div className="flex gap-3 ">
-          <div>
-            <Link to={`/profile/${post.User.id}`}>
-              <img
-                src={imageUrl ? imageUrl : profileImage}
-                alt=""
-                className="rounded-full w-[40px] h-[40px]  object-cover"
-              ></img>
-            </Link>
-          </div>
-          <div className="flex flex-col">
-            <Link to={`/profile/${post.User.id}`}>
-              <div className="text-md">{`${firstName} ${lastName}`}</div>
-            </Link>
-            <div className="text-xs">{date}</div>
-          </div>
-        </div>
-        <div className="text-lg font-semibold">{content}</div>
-        <div className="flex justify-between">
-          <div className="flex gap-5">
-            <div className="flex items-center gap-1 text-sm">
-              <i
-                className={`fa-regular fa-thumbs-up${
-                  liked ? ' text-blue-600' : ''
-                }`}
-                onClick={handleLike}
-              />
-              <div>{countLike}</div>
-            </div>
-            <div className="flex items-center gap-1 text-sm">
-              <i className="fa-regular fa-message " />
-              <div>{countComment}</div>
-            </div>
-          </div>
-        </div>
-        {Comments.map((comment, index) => (
-          <Comment key={comment.id} comment={comment} />
-        ))}
-
-        <CommentForm id={id} />
-      </div>
-    </div>
+    </>
   );
 }
 
