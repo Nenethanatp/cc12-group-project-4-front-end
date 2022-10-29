@@ -18,11 +18,15 @@ function ReportContainer() {
   };
   console.log(isReport);
   return (
-    <>
+    <div className="flex flex-col gap-10 p-5">
       {isReport?.map((reported) => (
-        <ReportCard key={reported.id} reported={reported} />
+        <ReportCard
+          key={reported.id}
+          isReported={reported}
+          getReported={getReported}
+        />
       ))}
-    </>
+    </div>
   );
 }
 
