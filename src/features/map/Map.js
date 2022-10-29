@@ -1,14 +1,20 @@
-import { GoogleMap, Marker, MarkerClusterer } from "@react-google-maps/api";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  Circle,
+  GoogleMap,
+  InfoWindow,
+  Marker,
+  MarkerClusterer
+} from '@react-google-maps/api';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   clearPostLocationIds,
   setLocation,
-  setPostLocationIds,
-} from "../../store/mapSlice";
+  setPostLocationIds
+} from '../../store/mapSlice';
 
-function Map({ handleOpenPost , mapCenter}) {
+function Map({ handleOpenPost, mapCenter }) {
   const [marker, setMarker] = useState();
 
   const dispatch = useDispatch();
@@ -20,8 +26,6 @@ function Map({ handleOpenPost , mapCenter}) {
   const favorites = useSelector((state) => state.favorite.items);
 
   // const initCenter = useMemo(() => ({lat: 13.75, lng: 100.5}), []);
-
-
 
   // const center = useMemo(() => {
   //   return navigator.geolocation.getCurrentPosition(
@@ -38,9 +42,9 @@ function Map({ handleOpenPost , mapCenter}) {
 
   const options = useMemo(
     () => ({
-      mapId: "3713c985864a0e82",
+      mapId: '3713c985864a0e82',
       disableDefaultUI: true,
-      clickableIcons: false,
+      clickableIcons: false
     }),
     []
   );
@@ -83,16 +87,16 @@ function Map({ handleOpenPost , mapCenter}) {
             />
           )}
 
-          {favorites && (
-            favorites.map((favorite, index) =>
+          {favorites &&
+            favorites.map((favorite, index) => (
               <Marker
                 key={`favorite-${index}`}
                 position={{
                   lat: +favorite.latitude,
-                  lng: +favorite.longitude,
+                  lng: +favorite.longitude
                 }}
                 label={{
-                  text: favorite.name,
+                  text: favorite.name
                 }}
                 // labelStyle={{
                 //   textAlign: "center",
@@ -107,8 +111,7 @@ function Map({ handleOpenPost , mapCenter}) {
                   // handleOpenPost();
                 }}
               />
-            )
-          )}
+            ))}
 
           <MarkerClusterer
             onClick={(e) => {
@@ -125,11 +128,11 @@ function Map({ handleOpenPost , mapCenter}) {
                 <Marker
                   key={el.id}
                   options={{
-                    locationId: el.Location.id,
+                    locationId: el.Location.id
                   }}
                   position={{
                     lat: +el.Location.latitude,
-                    lng: +el.Location.longitude,
+                    lng: +el.Location.longitude
                   }}
                   clusterer={clusterer}
                   onClick={() => {

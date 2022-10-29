@@ -6,7 +6,9 @@ import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import SavePlacePage from '../pages/SavePlacePage';
 import SubscriptionPage from '../pages/SubscriptionPage';
-import PostDetailPage from '../pages/PostDetailPage'
+import PostDetailPage from '../pages/PostDetailPage';
+import ProfileAdminInfo from '../features/profile/admin/ProfileAdminInfo';
+import ReportedPage from '../pages/ReportedPage';
 
 function Router() {
   const user = useSelector((state) => state.auth.user);
@@ -24,6 +26,18 @@ function Router() {
             </Route>
             <Route path="/subscription" element={<SubscriptionPage />} />
             <Route path="*" element={<Navigate to="/" />} />
+            {user.role === 'admin' ? (
+              <>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/reported" element={<ReportedPage />} />
+                <Route
+                  path="/editProfile/:userId"
+                  element={<ProfileAdminInfo />}
+                />
+              </>
+            ) : (
+              <></>
+            )}
           </Route>
         </>
       ) : (

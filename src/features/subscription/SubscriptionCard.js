@@ -15,7 +15,7 @@ const handleLoadScript = () => {
     currency: 'thb',
     frameLabel: 'GOOGLEME',
     submitLabel: 'PAY NOW',
-    buttonLabel: 'Pay with Omise',
+    buttonLabel: 'Pay with Omise'
   });
 };
 
@@ -34,7 +34,7 @@ function SubscriptionCard({ allPac }) {
 
   const creditCardConfigure = () => {
     OmiseCard.configure({
-      defaultPaymentMethod: 'credit_card',
+      defaultPaymentMethod: 'credit_card'
       //   otherPaymentMethod: [],
     });
     OmiseCard.configureButton('#credit-card'); //bind configbutton
@@ -50,7 +50,7 @@ function SubscriptionCard({ allPac }) {
         token,
         packageId: id,
         type,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' }
       });
 
       navigate(`/profile/${me.id}`);
@@ -68,7 +68,7 @@ function SubscriptionCard({ allPac }) {
       onCreateTokenSuccess: (token) => {
         createCharge(token);
       },
-      onFormClose: () => {},
+      onFormClose: () => {}
     });
   };
 
