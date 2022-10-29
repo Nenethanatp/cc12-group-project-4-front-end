@@ -8,7 +8,7 @@ function PostDetailGallery({ post }) {
 
   return (
     <>
-      <div className="mx-5">
+      <div className="w-[100%]">
         <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
           {post.PostImages.length !== 0 &&
             post.PostImages.map((posterImage, index) => {

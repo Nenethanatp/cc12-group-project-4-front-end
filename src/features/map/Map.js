@@ -81,6 +81,7 @@ function Map({ handleOpenPost, mapCenter }) {
               key={marker.lat + marker.lng}
               position={marker}
               onClick={() => {
+                dispatch(setLocation({ lat: marker.lat, lng: marker.lng }));
                 dispatch(clearPostLocationIds());
                 handleOpenPost();
               }}
@@ -109,12 +110,14 @@ function Map({ handleOpenPost, mapCenter }) {
                 icon="/fav-pin.png"
                 onClick={() => {
                   // handleOpenPost();
+                  dispatch(setLocation({ lat: +favorite.latitude, lng: +favorite.longitude }));
                 }}
               />
             ))}
 
           <MarkerClusterer
             onClick={(e) => {
+              dispatch(setLocation({ lat: e.getMarkers()[0].getPosition().lat(), lng: e.getMarkers()[0].getPosition().lng() }));
               dispatch(
                 setPostLocationIds(e.getMarkers().map((el) => el.locationId))
               );
@@ -136,6 +139,7 @@ function Map({ handleOpenPost, mapCenter }) {
                   }}
                   clusterer={clusterer}
                   onClick={() => {
+                    dispatch(setLocation({ lat: +el.Location.latitude, lng: +el.Location.longitude }));
                     dispatch(setPostLocationIds([el.locationId]));
                     handleOpenPost();
                   }}
