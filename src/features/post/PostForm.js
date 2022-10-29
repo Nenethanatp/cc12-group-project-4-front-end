@@ -18,8 +18,8 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
     content: '',
     typeId: 1,
     userId: user.id,
-    latitude: location.latitude,
-    longitude: location.longitude,
+    latitude: location.lat,
+    longitude: location.lng,
     postImages: []
   });
 
@@ -60,8 +60,8 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
       input.content = '';
       input.typeId = 1;
       input.userId = user.id;
-      input.latitude = location.latitude;
-      input.longitude = location.longitude;
+      input.latitude = location.lat;
+      input.longitude = location.lng;
       input.postImages = [];
     } catch (err) {
       console.log(err);

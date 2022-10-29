@@ -28,9 +28,9 @@ function SubscriptionCard({ allPac }) {
   const subEndDate = useSelector((state) => state.subscribe.endDate);
 
   const { type, price, id, detail } = allPac;
-
-  // const [resCharge, setResCharge] = useState({ amount: null, status: null });
-  // console.log(resCharge);
+  const detailPerLine = detail.split('- ');
+  detailPerLine.shift();
+  console.log(detailPerLine);
 
   const creditCardConfigure = () => {
     OmiseCard.configure({
@@ -52,10 +52,8 @@ function SubscriptionCard({ allPac }) {
         type,
         headers: { 'Content-Type': 'application/json' }
       });
-      // if (res) {
-      //   console.log(res);
-      // }
-      navigate('/');
+
+      navigate(`/profile/${me.id}`);
       const { startDate, endDate } = genStartEndDate(type);
       dispatch(getEndDate());
       toast.success(`Subscribed expire on ${endDate}`);
@@ -84,18 +82,17 @@ function SubscriptionCard({ allPac }) {
 
   return (
     <div className="bg-white w-full p-5 rounded-2xl flex flex-col gap-3">
-      <div>
+      <div className="text-center">
         <div className="text-lg font-semibold">{type.toUpperCase()}</div>
         <div className="text-lg font-semibold">{`${Math.round(
           price
         )} THB`}</div>
       </div>
       <hr />
-      <div className="flex flex-col gap-1 font-normal text-sm m-3">
-        <div>
-          info info info info info infonfo info info fdghjkdhgkjd dfghkdfhg
-          fdjghikdfh gdfoj ofdihgj fosd fdiohgpso
-        </div>
+      <div className="text-sm m-3 ">
+        {detailPerLine.map((item) => (
+          <p>{'- ' + item}</p>
+        ))}
       </div>
       <hr />
 
