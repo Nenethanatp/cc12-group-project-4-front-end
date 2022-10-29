@@ -4,24 +4,22 @@ const mapSlice = createSlice({
   name: "map",
   initialState: {
     location: null,
+    postLocationIds: [],
   },
   reducers: {
     setLocation: (state, action) => {
       state.location = action.payload;
+    },
+    setPostLocationIds: (state, action) => {
+      state.postLocationIds = action.payload;
+    },
+    clearPostLocationIds: (state, action) => {
+      state.postLocationIds = [];
     },
   },
 });
 
 export default mapSlice.reducer;
 
-export const { setLocation } = mapSlice.actions;
-
-// export const getTypes = (input) => async (dispatch) => {
-//   try {
-//     const res = await typeService.getAllTypes(input);
-//     dispatch(setTypes(res.data.types));
-//     return res.data.types;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
+export const { setLocation, setPostLocationIds, clearPostLocationIds } =
+  mapSlice.actions;
