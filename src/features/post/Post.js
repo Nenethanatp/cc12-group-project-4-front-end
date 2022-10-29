@@ -20,7 +20,7 @@ function Post({ post }) {
     User,
     Likes,
     Comments,
-    Reports,
+    Reports
   } = post;
 
   const [isEditPostOpen, setIsEditPostOpen] = useState(false);
@@ -241,7 +241,6 @@ function Post({ post }) {
           <Link to={`/post/${post.id}`}>อ่านต่อ...</Link>
         </div>
       </div>
-      {/* )} */}
 
       <Modal
         open={isEditPostOpen}
