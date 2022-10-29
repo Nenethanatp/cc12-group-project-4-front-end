@@ -29,7 +29,6 @@ function Post({ post }) {
   const { firstName, lastName, imageUrl } = User;
 
   const [openConfirm, setOpenConfirm] = useState(false);
-  console.log(openConfirm);
 
   const countLike = Likes.length;
   const countComment = Comments.length;

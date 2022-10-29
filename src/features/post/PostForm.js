@@ -18,8 +18,8 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
     content: '',
     typeId: 1,
     userId: user.id,
-    latitude: location.lat,
-    longitude: location.lng,
+    latitude: post ? post.Location.latitude : location.lat,
+    longitude: post ? post.Location.longitude : location.lng,
     postImages: []
   });
 
