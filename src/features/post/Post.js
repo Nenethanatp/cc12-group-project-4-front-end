@@ -8,6 +8,7 @@ import PostForm from './PostForm';
 import Modal from '../../components/Modal';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import ConfirmDelete from './ConfirmDelete';
 
 function Post({ post }) {
   const {
@@ -27,6 +28,9 @@ function Post({ post }) {
 
   const { firstName, lastName, imageUrl } = User;
 
+  const [openConfirm, setOpenConfirm] = useState(false);
+  console.log(openConfirm);
+
   const countLike = Likes.length;
   const countComment = Comments.length;
 
@@ -41,7 +45,7 @@ function Post({ post }) {
   const reportedList = Reports.map((report) => report.userId);
 
   const [openDetail, setOpenDetail] = useState(false);
-  const [liked, setLiked] = useState(likedList.includes(me.id));
+  const liked = likedList?.includes(me.id);
   const [reported, setReported] = useState(reportedList.includes(me.id));
   const [isShowActions, setIsShowActions] = useState(false);
   // const [myPost, deletePost] = useState(false)
@@ -55,7 +59,6 @@ function Post({ post }) {
     try {
       await toggleLike(id);
       dispatch(getPosts());
-      setLiked(!likedList.includes(me.id));
     } catch (err) {
       console.log(err);
     }
@@ -73,17 +76,17 @@ function Post({ post }) {
   };
 
   const handleDeletePost = async (post) => {
-    if (
-      window.confirm(`Are you sure you want to delete post '${post.content}'`)
-    ) {
-      try {
-        dispatch(destroyPost(post.id));
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      console.log('cancel');
+    // if (
+    //   window.confirm(`Are you sure you want to delete post '${post.content}'`)
+    // ) {
+    try {
+      dispatch(destroyPost(post.id));
+    } catch (err) {
+      console.log(err);
     }
+    // } else {
+    //   console.log('cancel');
+    // }
   };
 
   const toggleEditPost = () => {
@@ -202,14 +205,16 @@ function Post({ post }) {
                   )}
 
                   {(User.id === me.id || User.role === 'admin') && (
-                    <div
-                      type="button"
-                      className="block px-4 py-3 text-sm dark:text-black-300"
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => handleDeletePost(post)}
-                    >
-                      Delete
-                    </div>
+                    <>
+                      <div
+                        type="button"
+                        className="block px-4 py-3 text-sm dark:text-black-300"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => setOpenConfirm(true)}
+                      >
+                        Delete
+                      </div>
+                    </>
                   )}
                 </div>
               )}
@@ -250,6 +255,22 @@ function Post({ post }) {
         close={toggleEditPost}
       />
       {/* </div> */}
+
+      <Modal
+        open={openConfirm}
+        content={
+          <ConfirmDelete
+            postContent={post.content}
+            cancel={() => {
+              setOpenConfirm(false);
+            }}
+            confirm={() => {
+              handleDeletePost(post);
+            }}
+          />
+        }
+        close={() => setOpenConfirm(false)}
+      />
     </>
   );
 }

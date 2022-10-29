@@ -53,7 +53,7 @@ function SubscriptionCard({ allPac }) {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      navigate('/');
+      navigate(`/profile/${me.id}`);
       const { startDate, endDate } = genStartEndDate(type);
       dispatch(getEndDate());
       toast.success(`Subscribed expire on ${endDate}`);
