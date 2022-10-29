@@ -16,6 +16,7 @@ function ProfileContainer() {
   const [isPost, setIsPost] = useState(true);
   const { userId } = useParams();
   const me = useSelector((state) => state.auth.user);
+  console.log(me);
 
   const openPost = () => {
     setIsPost(true);

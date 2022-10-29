@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import profileImage from '../assets/images/profile-image.png';
 import * as authService from '../api/authApi';
 import { getMe } from '../store/authSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 function EditProfile({ description, closeModal, fetchUser }) {
   const [isDescription, setDescription] = useState(description);
@@ -84,6 +84,9 @@ function EditProfile({ description, closeModal, fetchUser }) {
             src={isImageUrl ? URL.createObjectURL(isImageUrl) : profileImage}
             alt=""
             className="w-[100px] h-[100px] rounded-full mb-3 object-cover"
+            onClick={() => {
+              inputEl.current.click();
+            }}
           />
 
           <div>

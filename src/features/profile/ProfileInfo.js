@@ -6,7 +6,7 @@ import * as followService from '../../api/followApi';
 import profileImage from '../../assets/images/profile-image.png';
 import Modal from '../../components/Modal';
 import EditProfile from '../../components/EditProfile';
-import { getMe } from '../../store/authSlice';
+import { dateObjToString } from '../../utils/formatDate';
 
 function ProfileInfo() {
   const [otherUser, setOtherUser] = useState(null);
@@ -16,6 +16,13 @@ function ProfileInfo() {
   const { userId } = useParams();
   const me = useSelector((state) => state.auth.user);
   const isMe = me.id === otherUser?.id;
+  const subEndDate = useSelector((state) => state.subscribe.endDate);
+
+  let endDateNewFormat;
+  if (subEndDate !== 'expired' && subEndDate !== '') {
+    endDateNewFormat = dateObjToString(subEndDate);
+  }
+
   // console.log(me);
   const openEditProfile = () => {
     setIsEditProfile(true);
@@ -130,6 +137,14 @@ function ProfileInfo() {
                 </>
               ) : (
                 <>
+                  {subEndDate !== 'expired' && subEndDate !== '' ? (
+                    <div className="border-red-300 border-2 p-1 rounded-lg bg-red-300 text-white">
+                      Your subscribe will expire on {endDateNewFormat}
+                    </div>
+                  ) : (
+                    ''
+                  )}
+
                   <button
                     className="bg-yellow-400 w-40 h-6 rounded-full"
                     onClick={openEditProfile}
