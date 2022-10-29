@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react';
-import { getPosts, getPostById } from '../../store/postSlice';
-import { formatDate } from '../../utils/formatDate';
-import { toggleLike, toggleReport } from '../../api/postApi';
-import * as postService from '../../api/postApi';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import PostDetailGallery from './PostDetailGallery';
-import PostDetailComment from './PostDetailComment';
+import { useEffect, useState } from "react";
+import { getPosts, getPostById } from "../../store/postSlice";
+import { formatDate } from "../../utils/formatDate";
+import { toggleLike, toggleReport } from "../../api/postApi";
+import * as postService from "../../api/postApi";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import PostDetailGallery from "./PostDetailGallery";
+import PostDetailComment from "./PostDetailComment";
 
 function PostDetail() {
   const dispatch = useDispatch();
   const { postId } = useParams();
   const [post, setPost] = useState({
     User: {
-      firstName: '',
-      lastName: '',
+      firstName: "",
+      lastName: "",
     },
     PostImages: [],
     Likes: [],
@@ -48,20 +48,22 @@ function PostDetail() {
     <>
       {post && (
         <div className="bg-white flex flex-col p-5 gap-2 rounded-b-3xl">
-          <div className="flex gap-3 ">
-            <div className="">
-              {post.User && (
-                <img
-                  src={post.User.imageUrl}
-                  alt=""
-                  className="bg-orange-500 rounded-full w-[40px] h-[40px]  object-cover"
-                ></img>
-              )}
+          <Link to={`/profile/${post.User.id}`}>
+            <div className="flex gap-3 ">
+              <div className="">
+                {post.User && (
+                  <img
+                    src={post.User.imageUrl}
+                    alt=""
+                    className="bg-orange-500 rounded-full w-[40px] h-[40px]  object-cover"
+                  ></img>
+                )}
+              </div>
+              <div className="flex flex-col justify-center">
+                <div className="text-md">{`${post.User.firstName} ${post.User.lastName}`}</div>
+              </div>
             </div>
-            <div className="flex flex-col justify-center">
-              <div className="text-md">{`${post.User.firstName} ${post.User.lastName}`}</div>
-            </div>
-          </div>
+          </Link>
 
           <div className="text-lg font-semibold mt-5">{post.content}</div>
 

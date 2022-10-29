@@ -1,12 +1,12 @@
-import ProfileInfo from './ProfileInfo';
-import ProfileNav from '../../layout/profile/ProfileNav';
-import { useEffect, useState } from 'react';
-import * as followService from '../../api/followApi';
-import * as getUserService from '../../api/authApi';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import FollowList from '../../layout/profile/FollowList';
-import PostList from '../post/PostList';
+import ProfileInfo from "./ProfileInfo";
+import ProfileNav from "../../layout/profile/ProfileNav";
+import { useEffect, useState } from "react";
+import * as followService from "../../api/followApi";
+import * as getUserService from "../../api/authApi";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import FollowList from "../../layout/profile/FollowList";
+import PostList from "../post/PostList";
 
 function ProfileContainer() {
   const [otherUser, setOtherUser] = useState(null);
@@ -21,7 +21,7 @@ function ProfileContainer() {
   console.log(allPosts);
   let myPosts;
   if (allPosts) {
-    myPosts = allPosts.filter((item) => item.userId === me.id);
+    myPosts = allPosts.filter((item) => item.userId === +userId);
   }
   console.log(myPosts);
 
