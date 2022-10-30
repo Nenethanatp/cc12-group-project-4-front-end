@@ -53,7 +53,7 @@ function Menu({ handleMenu }) {
         </div>
         <div>
           <div className="flex items-center gap-3 text-xl font-bold border-t-2 border-gray-400 pt-3  mb-2">
-            <Link to={`/profile/${user.id}`}>
+            <Link to={`/editProfile/${user.id}`}>
               <div
                 className="w-[50px] w- h-[50px] bg-slate-300 rounded-[40px] object-cover"
                 onClick={handleMenu}

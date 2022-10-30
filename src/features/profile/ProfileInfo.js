@@ -7,6 +7,7 @@ import profileImage from '../../assets/images/profile-image.png';
 import Modal from '../../components/Modal';
 import EditProfile from '../../components/EditProfile';
 import { dateObjToString } from '../../utils/formatDate';
+import { getEndDate } from '../../store/subscribeSlice';
 
 function ProfileInfo() {
   const [otherUser, setOtherUser] = useState(null);
@@ -15,11 +16,16 @@ function ProfileInfo() {
   const [isFollow, setIsFollow] = useState('');
   const { userId } = useParams();
   const me = useSelector((state) => state.auth.user);
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(getEndDate());
+  // }, []);
   const isMe = me.id === otherUser?.id;
   const subEndDate = useSelector((state) => state.subscribe.endDate);
 
   let endDateNewFormat;
-  if (subEndDate !== 'expired' && subEndDate !== '') {
+  if (subEndDate !== 'expired' && subEndDate) {
     endDateNewFormat = dateObjToString(subEndDate);
   }
 
@@ -28,8 +34,6 @@ function ProfileInfo() {
     setIsEditProfile(true);
     console.log(isEditProfile);
   };
-
-  const dispatch = useDispatch();
 
   const fetchUser = async () => {
     try {
@@ -107,7 +111,7 @@ function ProfileInfo() {
           </div>
           <div className=" flex relative top-10 flex-col  h-[178px] w-[65%]">
             <div className="h-[170px] ">
-              <div className="text-xl">
+              <div className="text-xl ">
                 {otherUser ? (
                   <>{`${otherUser.firstName} ${otherUser.lastName}`}</>
                 ) : (
@@ -137,14 +141,6 @@ function ProfileInfo() {
                 </>
               ) : (
                 <>
-                  {subEndDate !== 'expired' && subEndDate !== '' ? (
-                    <div className="border-red-300 border-2 p-1 rounded-lg bg-red-300 text-white">
-                      Your subscribe will expire on {endDateNewFormat}
-                    </div>
-                  ) : (
-                    ''
-                  )}
-
                   <button
                     className="bg-yellow-400 w-40 h-6 rounded-full"
                     onClick={openEditProfile}
@@ -156,6 +152,14 @@ function ProfileInfo() {
             </div>
           </div>
         </div>
+        {subEndDate !== 'expired' && subEndDate ? (
+          <div className="border-red-300 border-2 p-1 rounded-lg text-red-300 absolute top-[230px] text-xs">
+            <p>Subscribe expire on</p>
+            <p>{endDateNewFormat}</p>
+          </div>
+        ) : (
+          ''
+        )}
       </div>
       <Modal
         open={isEditProfile}

@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { removeAccessToken } from '../../utils/localStorage';
 import { logout } from '../../store/authSlice';
+import { resetEndDate } from '../../store/subscribeSlice';
 import { Link } from 'react-router-dom';
 
 function Logout() {
@@ -8,6 +9,7 @@ function Logout() {
   const handleLogout = () => {
     removeAccessToken();
     dispatch(logout());
+    dispatch(resetEndDate());
   };
   return (
     <Link to="/">
