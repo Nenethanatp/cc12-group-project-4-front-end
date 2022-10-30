@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { useSpring, animated } from '@react-spring/web';
-import { useDrag } from '@use-gesture/react';
 import Modal from '../../components/Modal';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
