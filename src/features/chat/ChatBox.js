@@ -5,6 +5,7 @@ import * as roomService from '../../api/roomApi';
 import { useSelector } from 'react-redux';
 import ChatSender from './ChatSender';
 import ChatReceiver from './ChatReceiver';
+import BackIcon from '../../components/icons/BackIcon';
 
 function ChatBox({
   close,
@@ -48,7 +49,10 @@ function ChatBox({
     if (openChatBox) {
       document.body.style.overflow = 'hidden';
     }
-    return () => (document.body.style.overflow = 'unset');
+    return () => {
+      document.body.style.overflow = 'unset';
+      handleMessages([]);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [room, openChatBox]);
 
@@ -65,18 +69,18 @@ function ChatBox({
     <>
       <div className='w-[100%] h-[100%] flex flex-col items-center gap-5'>
         <div className='w-full flex justify-center relative'>
-          <div className='text-2xl'>
+          <div className='text-2xl text-cyan-600'>
             {firstName} {lastName}
           </div>
           <div
             onClick={close}
             className='absolute top-0 left-10 bg-red-300 rounded-full h-10 w-10 flex justify-center items-center'
           >
-            X
+            <BackIcon />
           </div>
         </div>
         <div
-          className={`w-[80%] h-[70%] bg-gray-200 p-2 rounded-2xl flex flex-col gap-2 overflow-y-scroll`}
+          className={`w-[80%] h-[70%] bg-gray-200 p-2 rounded-2xl flex flex-col gap-2 overflow-y-scroll chatListMorph`}
         >
           {messages?.map((item) => {
             if (+item.user === user.id) {
@@ -103,12 +107,12 @@ function ChatBox({
         >
           <div className='h-[5vh] w-[80%] flex justify-center items-center gap-2'>
             <input
-              className='h-10 w-[80%] rounded-full scroll-px-3 bg-gray-200 outline-green-400 px-5'
+              className='h-10 w-[80%] rounded-full scroll-px-3 bg-gray-200 outline-green-400 px-5 chatListMorph'
               value={message}
               onChange={(e) => handleMessage(e.target.value)}
               placeholder='Reply'
             />
-            <button className='bg-yellow-400 h-[40px] w-[20%] rounded-full'>
+            <button className='h-[40px] w-[20%] rounded-full customBgMorph bg-yellow-500 text-white font-bold'>
               send
             </button>
           </div>

@@ -17,21 +17,21 @@ function Header() {
   };
 
   return (
-    <nav className="flex justify-center items-center gap-2 w-full bg-red-500 p-3 px-6">
+    <nav className='flex justify-center items-center gap-2 w-full bg-cyan-600 p-3 px-6'>
       {user.role === 'admin' ? (
         <>
-          <div id="logo">
-            <Link to="/">
+          <div id='logo'>
+            <Link to='/'>
               <img
-                src="/logo-placeholder.png"
-                alt="Logo"
+                src='/logo-placeholder.png'
+                alt='Logo'
                 style={{ maxHeight: '50px' }}
               />
             </Link>
           </div>
           <SearchBar />
-          <div className="flex items-center" onClick={handleMenu}>
-            <button className="material-symbols-outlined bg-white rounded-3xl w-8 h-8">
+          <div className='flex items-center' onClick={handleMenu}>
+            <button className='material-symbols-outlined w-10 h-10 text-white'>
               menu
             </button>
           </div>
@@ -45,18 +45,18 @@ function Header() {
         </>
       ) : (
         <>
-          <div id="logo">
-            <Link to="/">
+          <div id='logo'>
+            <Link to='/'>
               <img
-                src="/logo-placeholder.png"
-                alt="Logo"
+                src='/logo-placeholder.png'
+                alt='Logo'
                 style={{ maxHeight: '50px' }}
               />
             </Link>
           </div>
           <SearchBar />
-          <div className="flex items-center" onClick={handleMenu}>
-            <button className="material-symbols-outlined bg-white rounded-3xl w-8 h-8">
+          <div className='flex items-center' onClick={handleMenu}>
+            <button className='material-symbols-outlined w-10 h-10 text-white'>
               menu
             </button>
           </div>

@@ -1,3 +1,5 @@
+import TextIcon from '../../components/icons/TextIcon';
+
 function ChatHistoryList({
   user,
   handleChatUser,
@@ -5,19 +7,19 @@ function ChatHistoryList({
   fetchRoom
 }) {
   return (
-    <div className='flex justify-between items-center p-3 mx-5 border-b-2 border-gray-200'>
+    <div className='flex justify-between items-center p-2 mx-5 h-14 rounded-2xl chatListMorph px-5'>
       <div>
         {user.firstName} {user.lastName}
       </div>
       <div
-        className='bg-blue-500 p-2 text-white rounded-xl italic'
+        className='bg-cyan-600 p-2 text-white rounded-xl '
         onClick={() => {
           handleChatUser(user);
           handleOpenChatBox();
           fetchRoom(user.id);
         }}
       >
-        message
+        <TextIcon />
       </div>
     </div>
   );

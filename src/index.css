@@ -20,7 +20,7 @@ code {
 
 .fadein {
   position: relative;
-  animation: animatebottom 0.5s;
+  animation: animatebottom 0.3s;
 }
 
 @keyframes animatebottom {
@@ -36,16 +36,61 @@ code {
 
 .faderightside {
   position: relative;
-  animation: animaterightside 0.5s;
+  animation: animaterightside 0.3s;
 }
 
 @keyframes animaterightside {
   from {
-    right: -500px;
+    right: -300px;
     opacity: 0;
   }
   to {
     right: 0;
     opacity: 1;
   }
+}
+
+.morph {
+  box-shadow: 32px 32px 64px #059bb4, -32px -32px 64px #07d1f4;
+}
+
+.morphIcon {
+  border-radius: 10px;
+  background: #e2e8f0;
+  box-shadow: 5px 5px 10px #c5cad1, -5px -5px 10px #ffffff;
+  height: 80px;
+  width: 80px;
+}
+
+.morphSearch {
+  background: #0891b2;
+  box-shadow: inset 20px -20px 60px #0787a6, inset -20px 20px 60px #099bbe;
+}
+
+.searchTextColor::placeholder {
+  color: #cbd5e1;
+}
+
+.textButton {
+  background: #e2e8f0;
+  box-shadow: 5px 5px 10px #c5cad1, -5px -5px 10px #ffffff;
+}
+
+.chatListMorph {
+  background: #e2e8f0;
+  box-shadow: 5px 5px 10px #c5cad1, -5px -5px 10px #ffffff;
+}
+
+.customBgMorph {
+  box-shadow: 5px 5px 10px #c5cad1, -5px -5px 10px #ffffff;
+}
+
+.chatReceiverMorph {
+  background: #0891b2;
+  box-shadow: inset 5px 5px 10px #07819e, inset -5px -5px 10px #09a1c6;
+}
+
+.chatSenderMorph {
+  background: #22c55e;
+  box-shadow: inset 5px 5px 10px #1eaf54, inset -5px -5px 10px #26db68;
 }

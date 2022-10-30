@@ -4830,11 +4830,6 @@
   "resolved" "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   "version" "1.0.0"
 
-"fsevents@^2.3.2", "fsevents@~2.3.2":
-  "integrity" "sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA=="
-  "resolved" "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
-  "version" "2.3.2"
-
 "fslightbox-react@^1.6.2-2":
   "integrity" "sha512-7jpiU6AiQkauIhKhN9ko3UIZ9GY4SUO1AoMzOypUFnmfH0+UgPgPeShJFN+B70bZHhmFjjH7r7xjyPFSo4mzCQ=="
   "resolved" "https://registry.npmjs.org/fslightbox-react/-/fslightbox-react-1.6.2-2.tgz"
@@ -7690,7 +7685,7 @@
     "strip-ansi" "^6.0.1"
     "text-table" "^0.2.0"
 
-"react-dom@^16 || ^17", "react-dom@^16.8 || ^17 || ^18", "react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^16.8.0 || 17.x", "react-dom@^18.0.0", "react-dom@^18.2.0", "react-dom@>=16", "react-dom@>=16.8", "react-dom@>=16.8.0":
+"react-dom@^16 || ^17", "react-dom@^16.8 || ^17 || ^18", "react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^16.8.0 || 17.x", "react-dom@^18.0.0", "react-dom@^18.2.0", "react-dom@>=16", "react-dom@>=16.8", "react-dom@>=16.8.0":
   "integrity" "sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   "version" "18.2.0"
