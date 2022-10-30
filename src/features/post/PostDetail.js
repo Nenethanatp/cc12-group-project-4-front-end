@@ -1,4 +1,4 @@
-import {useEffect, useState, useMemo, useCallback, useRef} from "react";
+import {useEffect, useState, useMemo, useCallback, useRef, Fragment} from "react";
 import {getPosts, getPostById} from "../../store/postSlice";
 import {formatDate} from "../../utils/formatDate";
 import {toggleLike, toggleReport} from "../../api/postApi";
@@ -17,6 +17,8 @@ import {
 
 function PostDetail() {
   const mapRef = useRef();
+
+  const radius = process.env.REACT_APP_MARKER_RADIUS || 5000;
 
   const dispatch = useDispatch();
   const {postId} = useParams();
@@ -112,12 +114,22 @@ function PostDetail() {
               onLoad={onMapLoad}
               onClick={onMapClick}
             >
-              <Marker
-                key={post.id}
-                position={{ lat: +post.Location.latitude, lng: +post.Location.longitude }}
-                onClick={() => {
-                }}
-              />
+              <Fragment>
+                <Marker
+                  key={post.id}
+                  position={{lat: +post.Location.latitude, lng: +post.Location.longitude}}
+                  onClick={() => {
+                  }}
+                />
+                {/* <Circle
+                  center={{
+                    lat: +post.Location.latitude,
+                    lng: +post.Location.longitude
+                  }}
+                  radius={radius}
+                  options={{strokeColor: "#ff0000", fillColor: "#9A9A9A"}}
+                /> */}
+              </Fragment>
             </GoogleMap>
           </div>
 
