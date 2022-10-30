@@ -31,7 +31,7 @@ function Header() {
           </div>
           <SearchBar />
           <div className='flex items-center' onClick={handleMenu}>
-            <button className='material-symbols-outlined w-10 h-10'>
+            <button className='material-symbols-outlined w-10 h-10 text-white'>
               menu
             </button>
           </div>
@@ -56,7 +56,7 @@ function Header() {
           </div>
           <SearchBar />
           <div className='flex items-center' onClick={handleMenu}>
-            <button className='material-symbols-outlined bg-white rounded-3xl w-8 h-8'>
+            <button className='material-symbols-outlined w-10 h-10 text-white'>
               menu
             </button>
           </div>

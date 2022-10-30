@@ -80,3 +80,17 @@ code {
   background: #e2e8f0;
   box-shadow: 5px 5px 10px #c5cad1, -5px -5px 10px #ffffff;
 }
+
+.customBgMorph {
+  box-shadow: 5px 5px 10px #c5cad1, -5px -5px 10px #ffffff;
+}
+
+.chatReceiverMorph {
+  background: #0891b2;
+  box-shadow: inset 5px 5px 10px #07819e, inset -5px -5px 10px #09a1c6;
+}
+
+.chatSenderMorph {
+  background: #22c55e;
+  box-shadow: inset 5px 5px 10px #1eaf54, inset -5px -5px 10px #26db68;
+}

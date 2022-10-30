@@ -32,14 +32,13 @@ function ChatHistory({
   };
 
   useEffect(() => {
-    if (rooms.length === 0) {
-      fetchAllChatRooms();
-    }
+    fetchAllChatRooms();
+
     if (showChatHistory) {
       document.body.style.overflow = 'hidden';
     }
     return () => (document.body.style.overflow = 'unset');
-  }, [rooms, showChatHistory]);
+  }, [showChatHistory]);
 
   useEffect(() => {
     if (rooms.length !== 0) {
