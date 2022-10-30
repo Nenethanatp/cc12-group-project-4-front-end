@@ -46,6 +46,7 @@ export const register = (input) => async (dispatch) => {
 
 export const login = (input) => async (dispatch) => {
   try {
+    console.log('first');
     const res = await authService.login(input);
     addAccessToken(res.data.token);
     const resMe = await authService.getMe();
