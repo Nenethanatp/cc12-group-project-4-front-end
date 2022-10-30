@@ -10,8 +10,8 @@ function AddFavoriteForm({ handleAddFavorite, toggleAddFavorite }) {
 
   const [input, setInput] = useState({
     name: '',
-    latitude: location.latitude,
-    longitude: location.longitude,
+    latitude: '',
+    longitude: '',
   });
 
   const onAddFavorite = async (e) => {
@@ -21,16 +21,21 @@ function AddFavoriteForm({ handleAddFavorite, toggleAddFavorite }) {
       if (!input.name) {
         return toast.error('name is required');
       }
-      if (!input.latitude || !input.longitude) {
+
+      console.log(location);
+      if (!location.lat || !location.lng) {
         return toast.error('location is required');
       }
+
+      input.latitude = location.lat;
+      input.longitude = location.lng;
 
       startLoading();
       await handleAddFavorite(input);
 
       input.name = '';
-      input.latitude = location.latitude;
-      input.longitude = location.longitude;
+      input.latitude = location.lat;
+      input.longitude = location.lng;
     } catch (err) {
       console.log(err);
     } finally {

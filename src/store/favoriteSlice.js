@@ -12,15 +12,20 @@ const FavoriteSlice = createSlice({
       state.items = action.payload;
     },
     addFavorite: (state, action) => {
-      console.log(action.payload)
       state.items.unshift(action.payload);
+    },
+    deleteFavorite: (state, action) => {
+      const idx = state.items.findIndex((item) => item.id === action.payload);
+      if (idx >= 0) {
+        state.items.splice(idx, 1);
+      }
     },
   },
 });
 
 export default FavoriteSlice.reducer;
 
-export const { setFavorites, addFavorite } = FavoriteSlice.actions;
+export const { setFavorites, addFavorite, deleteFavorite } = FavoriteSlice.actions;
 
 export const createFavorite = (input) => async (dispatch) => {
   try {
@@ -40,5 +45,16 @@ export const getFavorites = () => async (dispatch) => {
     return res.data.favorites;
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const destroyFavorite = (id) => async (dispatch) => {
+  try {
+    const res = await userService.deleteFavorite(id);
+    dispatch(deleteFavorite(id));
+    toast.success('Favorite deleted');
+  } catch (err) {
+    console.log(err);
+    toast.error('Failed to delete favorite!');
   }
 };
