@@ -52,7 +52,7 @@ export const login = (input) => async (dispatch) => {
     dispatch(getMe(resMe.data));
   } catch (err) {
     console.log(err);
-    toast.error(err.response.data.message);
+    toast.error(err.response?.data.message);
   }
 };
 

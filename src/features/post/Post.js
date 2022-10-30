@@ -20,7 +20,7 @@ function Post({ post }) {
     User,
     Likes,
     Comments,
-    Reports,
+    Reports
   } = post;
 
   const [isEditPostOpen, setIsEditPostOpen] = useState(false);
@@ -29,7 +29,6 @@ function Post({ post }) {
   const { firstName, lastName, imageUrl } = User;
 
   const [openConfirm, setOpenConfirm] = useState(false);
-  console.log(openConfirm);
 
   const countLike = Likes.length;
   const countComment = Comments.length;
@@ -241,7 +240,6 @@ function Post({ post }) {
           <Link to={`/post/${post.id}`}>อ่านต่อ...</Link>
         </div>
       </div>
-      {/* )} */}
 
       <Modal
         open={isEditPostOpen}

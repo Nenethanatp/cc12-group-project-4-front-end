@@ -3,11 +3,13 @@ import { getAccessToken, removeAccessToken } from '../utils/localStorage';
 import { API_ENDPOINT_URL } from './env';
 
 axios.defaults.baseURL = API_ENDPOINT_URL;
-
+// axios.defaults.baseURL =
+//   'https://e416-2403-6200-89a6-d9c9-89e-505d-8564-cba2.ap.ngrok.io';
 axios.interceptors.request.use(
   (config) => {
     const token = getAccessToken();
     if (token) {
+      config.headers['ngrok-skip-browser-warning'] = '*';
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
