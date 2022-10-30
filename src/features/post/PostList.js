@@ -1,24 +1,31 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
-import Post from './Post';
+import Post from "./Post";
 
-function PostList() {
-  const location = useSelector((state) => state.map.location);
+function PostList({ myPosts }) {
+  const postLocationIds = useSelector((state) => state.map.postLocationIds);
   const posts = useSelector((state) => state.post.items);
 
-  let filteredPosts = [];
-
-  if (location) {
-    filteredPosts = posts.filter(post => +post.Location.latitude === location.latitude && +post.Location.longitude === location.longitude);
-    console.log(filteredPosts);
-  }
+  const filteredPosts = posts.filter((post) =>
+    postLocationIds.includes(post.Location.id)
+  );
 
   return (
-    <div className="h-full w-full">
-      {filteredPosts.map((post, index) => (
-        <Post key={post.id} post={post} />
-      ))}
-    </div>
+    <>
+      {myPosts ? (
+        <div className="h-full w-full">
+          {myPosts.map((post, index) => (
+            <Post key={post.id} post={post} />
+          ))}
+        </div>
+      ) : (
+        <div className="h-full w-full">
+          {filteredPosts.map((post, index) => (
+            <Post key={post.id} post={post} />
+          ))}
+        </div>
+      )}
+    </>
   );
 }
 

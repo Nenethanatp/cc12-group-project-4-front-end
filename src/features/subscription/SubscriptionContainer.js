@@ -7,10 +7,8 @@ function SubscriptionContainer() {
         <div className="w-full  text-center flex flex-col items-center gap-3 py-3">
           <div className="text-2xl font-bold">SUBSCRIPTION</div>
           <div className="text-md">
-            info info info info info info info info info info info info info
-            info info info info info info info info info info info info info
-            info info info info info info info info info info info info info
-            info info info info info info info info info info
+            There are 2 packages available for now.
+            <br /> Try your new experience !
           </div>
         </div>
       </div>

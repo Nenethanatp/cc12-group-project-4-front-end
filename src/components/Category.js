@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTypes, setSelectedType } from '../store/typeSlice';
 import { getPosts, getPostsByTypeId } from '../store/postSlice';
@@ -9,10 +9,10 @@ function Category({ setOpenFavorite }) {
   const types = useSelector((state) => state.types.value);
 
   const selectedType = useSelector((state) => state.types.selectedType);
-  console.log(selectedType);
+
   useEffect(() => {
     dispatch(getTypes());
-  }, []);
+  }, [dispatch]);
 
   let typeWithAll = [];
   if (types) {
