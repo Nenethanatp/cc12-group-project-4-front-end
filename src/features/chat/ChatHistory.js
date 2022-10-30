@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import * as authService from '../../api/authApi';
 import * as roomService from '../../api/roomApi';
 import ChatHistoryList from './ChatHistoryList';
+import MessageIcon from '../../components/icons/MessageIcon';
 
 function ChatHistory({
   showChatHistory,
@@ -75,13 +76,13 @@ function ChatHistory({
     <div>
       <div className='flex justify-center pb-5 mx-5 border-b-2 border-gray-200'>
         <div
-          className='bg-yellow-500 p-2 rounded-xl text-white'
+          className='p-2 rounded-xl text-slate-500 textButton bg-slate-200 w-14 h-14 flex justify-center items-center'
           onClick={openSearch}
         >
-          Open new chat
+          <MessageIcon />
         </div>
       </div>
-      <div>
+      <div className='flex flex-col gap-3'>
         {chatUsers?.map((item) => {
           return (
             <ChatHistoryList

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTypes, setSelectedType } from '../store/typeSlice';
 import { getPosts, getPostsByTypeId } from '../store/postSlice';
 
-function Category() {
+function Category({ setOpenFavorite }) {
   const dispatch = useDispatch();
 
   const types = useSelector((state) => state.types.value);
@@ -29,24 +29,28 @@ function Category() {
   };
 
   return (
-    <div className="w-11/12 mx-auto">
-      <div
-        // className={`grid grid-cols-${types?.length} gap-1 mx-auto text-center `}
-        className={`flex gap-3 mx-auto text-center items-center`}
+    <div
+      // className={`grid grid-cols-${types?.length} gap-1 mx-auto text-center `}
+      className={`flex gap-3 justify-evenly items-center bg-cyan-700 w-full h-12`}
+    >
+      {typeWithAll?.map((type) => (
+        <div
+          className={`px-2 py-1 text-center rounded-2xl font-bold ${
+            selectedType === type.id ? 'text-yellow-400' : 'text-white'
+          } `}
+          key={type.id}
+          value={type.id}
+          onClick={() => handleSelectedType(type.id)}
+        >
+          {type.type}
+        </div>
+      ))}
+      <button
+        className='material-symbols-outlined text-white'
+        onClick={setOpenFavorite}
       >
-        {typeWithAll?.map((type) => (
-          <div
-            className={` p-1 text-center rounded-2xl  w-[400px] ${
-              selectedType === type.id ? 'bg-amber-400' : 'bg-slate-200'
-            } `}
-            key={type.id}
-            value={type.id}
-            onClick={() => handleSelectedType(type.id)}
-          >
-            {type.type}
-          </div>
-        ))}
-      </div>
+        star
+      </button>
     </div>
   );
 }

@@ -75,7 +75,7 @@ function ChatContainer({ open, close }) {
           onClick={handleClose}
         >
           <div
-            className={`bg-white w-full ${
+            className={`bg-slate-200 w-full ${
               openChatBox ? 'h-[95vh]' : 'h-[80vh]'
             } transition-all rounded-tl-3xl rounded-tr-3xl pt-10 fadein`}
             onClick={(e) => e.stopPropagation()}

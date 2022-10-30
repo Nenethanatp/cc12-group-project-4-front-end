@@ -48,7 +48,10 @@ function ChatBox({
     if (openChatBox) {
       document.body.style.overflow = 'hidden';
     }
-    return () => (document.body.style.overflow = 'unset');
+    return () => {
+      document.body.style.overflow = 'unset';
+      handleMessages([]);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [room, openChatBox]);
 
