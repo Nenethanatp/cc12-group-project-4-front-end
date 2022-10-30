@@ -5,8 +5,8 @@ import {
   Marker,
   MarkerClusterer
 } from '@react-google-maps/api';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {
   clearPostLocationIds,
@@ -14,9 +14,9 @@ import {
   setPostLocationIds
 } from '../../store/mapSlice';
 
-function Map({ handleOpenPost, mapCenter }) {
+function Map({handleOpenPost, mapCenter}) {
   const [marker, setMarker] = useState();
-
+  const radius = process.env.REACT_APP_MARKER_RADIUS || 5000;
   const dispatch = useDispatch();
 
   const mapRef = useRef();
@@ -51,16 +51,16 @@ function Map({ handleOpenPost, mapCenter }) {
 
   useEffect(() => {
     if (location) {
-      mapRef.current?.panTo({ lat: location.lat, lng: location.lng });
-      setMarker({ lat: location.lat, lng: location.lng });
+      mapRef.current?.panTo({lat: location.lat, lng: location.lng});
+      setMarker({lat: location.lat, lng: location.lng});
     }
   }, [location]);
 
   const onMapLoad = useCallback((map) => (mapRef.current = map), []);
   const onMapClick = useCallback(
     (e) => {
-      setMarker({ lat: e.latLng.lat(), lng: e.latLng.lng() });
-      dispatch(setLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() }));
+      setMarker({lat: e.latLng.lat(), lng: e.latLng.lng()});
+      dispatch(setLocation({lat: e.latLng.lat(), lng: e.latLng.lng()}));
     },
     [dispatch]
   );
@@ -81,7 +81,7 @@ function Map({ handleOpenPost, mapCenter }) {
               key={marker.lat + marker.lng}
               position={marker}
               onClick={() => {
-                dispatch(setLocation({ lat: marker.lat, lng: marker.lng }));
+                dispatch(setLocation({lat: marker.lat, lng: marker.lng}));
                 dispatch(clearPostLocationIds());
                 handleOpenPost();
               }}
@@ -110,14 +110,17 @@ function Map({ handleOpenPost, mapCenter }) {
                 icon="/fav-pin.png"
                 onClick={() => {
                   // handleOpenPost();
-                  dispatch(setLocation({ lat: +favorite.latitude, lng: +favorite.longitude }));
+                  dispatch(setLocation({lat: +favorite.latitude, lng: +favorite.longitude}));
                 }}
               />
             ))}
 
           <MarkerClusterer
             onClick={(e) => {
-              dispatch(setLocation({ lat: e.getMarkers()[0].getPosition().lat(), lng: e.getMarkers()[0].getPosition().lng() }));
+              dispatch(setLocation({
+                lat: e.getMarkers()[0].getPosition().lat(),
+                lng: e.getMarkers()[0].getPosition().lng()
+              }));
               dispatch(
                 setPostLocationIds(e.getMarkers().map((el) => el.locationId))
               );
@@ -127,23 +130,35 @@ function Map({ handleOpenPost, mapCenter }) {
             zoomOnClick={false}
           >
             {(clusterer) =>
-              posts.map((el) => (
-                <Marker
-                  key={el.id}
-                  options={{
-                    locationId: el.Location.id
-                  }}
-                  position={{
-                    lat: +el.Location.latitude,
-                    lng: +el.Location.longitude
-                  }}
-                  clusterer={clusterer}
-                  onClick={() => {
-                    dispatch(setLocation({ lat: +el.Location.latitude, lng: +el.Location.longitude }));
-                    dispatch(setPostLocationIds([el.locationId]));
-                    handleOpenPost();
-                  }}
-                />
+              posts.map((el, index) => (
+                <div key={index}>
+                  <Marker
+                    key={`marker_${el.id}`}
+                    options={{
+                      locationId: el.Location.id
+                    }}
+                    position={{
+                      lat: +el.Location.latitude,
+                      lng: +el.Location.longitude
+                    }}
+                    clusterer={clusterer}
+                    onClick={() => {
+                      dispatch(setLocation({lat: +el.Location.latitude, lng: +el.Location.longitude}));
+                      dispatch(setPostLocationIds([el.locationId]));
+                      handleOpenPost();
+                    }}
+                  />
+                  {/* <Circle
+                    key={`circle_${el.id}`}
+                    center={{
+                      lat: +el.Location.latitude,
+                      lng: +el.Location.longitude
+                    }}
+                    radius={radius}
+                    options={{strokeColor: "#ff0000", fillColor: "#9A9A9A"}}
+                  /> */}
+
+                </div>
               ))
             }
           </MarkerClusterer>
