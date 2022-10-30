@@ -141,6 +141,14 @@ function ProfileInfo() {
                 </>
               ) : (
                 <>
+                  {subEndDate !== 'expired' && subEndDate ? (
+                    <div className="border-red-300 border-2 p-1 rounded-lg text-red-300 absolute top-0 text-xs left-[-150px]">
+                      <p>Subscribe expire on</p>
+                      <p>{endDateNewFormat}</p>
+                    </div>
+                  ) : (
+                    ''
+                  )}
                   <button
                     className="bg-yellow-400 w-40 h-6 rounded-full"
                     onClick={openEditProfile}
@@ -152,14 +160,6 @@ function ProfileInfo() {
             </div>
           </div>
         </div>
-        {subEndDate !== 'expired' && subEndDate ? (
-          <div className="border-red-300 border-2 p-1 rounded-lg text-red-300 absolute top-[230px] text-xs">
-            <p>Subscribe expire on</p>
-            <p>{endDateNewFormat}</p>
-          </div>
-        ) : (
-          ''
-        )}
       </div>
       <Modal
         open={isEditProfile}
