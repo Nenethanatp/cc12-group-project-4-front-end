@@ -15,7 +15,6 @@ function ProfileAdminInfo() {
   const [isImageUrl, setIsImageUrl] = useState(null);
   const [isOldPassword, setIsOldPassword] = useState('');
   const [isNewPassword, setIsNewPassword] = useState('');
-  console.log(admin.imageUrl);
   const dispatch = useDispatch();
 
   const updateGetMe = async () => {
@@ -34,29 +33,33 @@ function ProfileAdminInfo() {
 
       if (isNewPassword || isOldPassword) {
         if (!isOldPassword) {
-          return toast.error('old password is required');
+          return toast.error('Old password is required');
         }
         if (!isNewPassword) {
-          return toast.error('new password is required');
-        }
-        if (isNewPassword !== isOldPassword) {
-          return toast.error('new password or old password is invalid');
+          return toast.error('New password is required');
         }
         if (isNewPassword === isOldPassword) {
+          return toast.error('New password is similar to old password');
+        }
+        if (isNewPassword !== isOldPassword) {
           formData.append('newPassword', isNewPassword);
           formData.append('oldPassword', isOldPassword);
         }
       }
+      if (!isNewPassword && !isOldPassword && !isImageUrl) {
+        toast.error('Nothing to update');
+      } else {
+        const res = await userService.updateUserApi(formData);
 
-      await userService.updateUserApi(formData);
-
-      await fetchUser();
-      await updateGetMe();
-      setIsImageUrl(null);
-      setIsOldPassword('');
-      setIsNewPassword('');
-      toast.success('success update');
+        await fetchUser();
+        await updateGetMe();
+        setIsImageUrl(null);
+        setIsOldPassword('');
+        setIsNewPassword('');
+        toast.success('Success update');
+      }
     } catch (err) {
+      toast.error(err.response?.data.message);
       console.log(err);
     }
   };
@@ -89,7 +92,7 @@ function ProfileAdminInfo() {
             <div className="flex flex-col items-center ">
               {isImageUrl && (
                 <button
-                  className="material-symbols-outlined flex absolute right-20"
+                  className="material-symbols-outlined absolute right-20"
                   onClick={() => clear()}
                 >
                   close
@@ -144,11 +147,19 @@ function ProfileAdminInfo() {
           <div className="flex gap-1 mb-3 pt-10">
             <div className="w-full">
               Old password:
-              <input type="text" className="bg-gray-300  w-[100%]" />
+              <input
+                type="password"
+                className="bg-gray-300  w-[100%]"
+                onChange={(e) => setIsOldPassword(e.target.value)}
+              />
             </div>
             <div className="w-full">
               New password:
-              <input type="text" className="bg-gray-300  w-[100%]" />
+              <input
+                type="password"
+                className="bg-gray-300  w-[100%]"
+                onChange={(e) => setIsNewPassword(e.target.value)}
+              />
             </div>
           </div>
 
