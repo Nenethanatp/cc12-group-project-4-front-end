@@ -5,6 +5,7 @@ import RegisterForm from './RegisterForm';
 
 function AuthForm() {
   const [openRegister, setOpenRegister] = useState(false);
+
   return (
     <div className='flex flex-col justify-end h-[100vh]'>
       <div className='bg-pink-300 h-[30vh]'></div>

@@ -3,23 +3,23 @@ import {
   ComboboxInput,
   ComboboxList,
   ComboboxOption,
-  ComboboxPopover,
-} from "@reach/combobox";
-import { useDispatch } from "react-redux";
+  ComboboxPopover
+} from '@reach/combobox';
+import { useDispatch } from 'react-redux';
 import usePlacesAutocomplete, {
   getGeocode,
-  getLatLng,
-} from "use-places-autocomplete";
-import { setLocation } from "../../store/mapSlice";
+  getLatLng
+} from 'use-places-autocomplete';
+import { setLocation } from '../../store/mapSlice';
 
 function SearchBar() {
-const {
+  const {
     ready,
     value,
     setValue,
     suggestions: { status, data },
-    clearSuggestions,
-  } = usePlacesAutocomplete({ requestOptions: { region: "th" } });
+    clearSuggestions
+  } = usePlacesAutocomplete({ requestOptions: { region: 'th' } });
 
   const dispatch = useDispatch();
 
@@ -37,10 +37,10 @@ const {
   };
 
   return (
-    <Combobox className="flex-1" onSelect={handleSelect}>
+    <Combobox className='flex-1' onSelect={handleSelect}>
       <ComboboxInput
-        className="w-full h-8 bg-white flex justify-center rounded-full p-2 px-4 "
-        placeholder="Search an address..."
+        className='w-full h-12 flex justify-center rounded-full p-2 px-4 outline-blue-500 morphSearch searchTextColor text-white'
+        placeholder='Search an address...'
         value={value}
         onChange={(e) => {
           setValue(e.target.value);
@@ -49,10 +49,10 @@ const {
       />
       <ComboboxPopover>
         <ComboboxList>
-          {status === "OK" &&
+          {status === 'OK' &&
             data.map(({ place_id, description }) => (
               <ComboboxOption
-                className="bg-white p-3 border-t-2 hover:bg-slate-100"
+                className='bg-white p-3 border-t-2 hover:bg-slate-100'
                 key={place_id}
                 value={description}
               />

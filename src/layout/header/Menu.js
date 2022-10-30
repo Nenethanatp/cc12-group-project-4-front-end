@@ -4,6 +4,13 @@ import Logout from './Logout';
 
 import { getAccessToken } from '../../utils/localStorage';
 import profileImage from '../../assets/images/profile-image.png';
+import HomeIcon from '../../components/icons/HomeIcon';
+import MessageIcon from '../../components/icons/MessageIcon';
+import AlertIcon from '../../components/icons/AlertIcon';
+import SubscribeIcon from '../../components/icons/SubscribeIcon';
+import AboutIcon from '../../components/icons/AboutIcon';
+import ProfileIcon from '../../components/icons/ProfileIcon';
+import PaymentIcon from '../../components/icons/PaymentIcon';
 
 function Menu({ handleMenu, openChat }) {
   const handleOpenChat = () => {
@@ -18,65 +25,58 @@ function Menu({ handleMenu, openChat }) {
   return (
     <div
       onClick={handleMenu}
-      className="flex  bg-black bg-opacity-40 fixed z-50  top-0 right-0 bottom-0 left-0 justify-end "
+      className='flex  bg-black bg-opacity-40 fixed z-50  top-0 right-0 bottom-0 left-0 justify-end '
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex flex-col justify-between  text-black h-full w-[80%]  pt-14 px-7 pb-7  bg-white rounded-tl-3xl rounded-bl-3xl faderightside"
+        className='flex flex-col justify-between h-full w-[40%]  pt-14 px-7 pb-7 bg-slate-200 rounded-tl-3xl rounded-bl-3xl faderightside text-black'
       >
         <div>
-          <div className="flex items-center gap-3 text-xl font-bold border-b-2 border-gray-400 pb-3 mb-2 ">
-            <div className="w-[50px] h-[50px] bg-slate-300 rounded-[40px] "></div>
+          <div className='flex items-center gap-3 text-xl font-bold border-b-2 border-gray-300 pb-3 mb-2 '>
+            <div className='w-[50px] h-[50px] bg-slate-300 rounded-[40px] '></div>
             <div>WEB</div>
           </div>
-          <div>
-            <Link to="/">
-              <div className="mb-3" onClick={handleMenu}>
-                Home
-              </div>
-            </Link>
-            <div className="mb-3" onClick={handleOpenChat}>
-              Messages
+          <div className='flex flex-wrap gap-4 justify-center mt-5 text-slate-500'>
+            <button
+              onClick={handleMenu}
+              className='morphIcon flex justify-center items-center'
+            >
+              <Link to='/'>
+                <HomeIcon />
+              </Link>
+            </button>
+            <div
+              className='morphIcon flex justify-center items-center'
+              onClick={handleOpenChat}
+            >
+              <MessageIcon />
             </div>
-            <div className="mb-3">
-              <Link to="/subscription" className="mb-3" onClick={handleMenu}>
-                Subscription
+            <div
+              onClick={handleMenu}
+              className='morphIcon flex justify-center items-center'
+            >
+              <Link to='/subscription'>
+                <PaymentIcon />
               </Link>
             </div>
-            <div className="mb-3">About</div>
-          </div>
-          <div className="mb-3">
-            <a target="_blank" href={lineloginUrl}>
-              รับการแจ้งเตือนผ่าน LINE Notify
-            </a>
-          </div>
-        </div>
-        <div>
-          <div className="flex items-center gap-3 text-xl font-bold border-t-2 border-gray-400 pt-3  mb-2">
-            <Link to={`/profile/${user.id}`}>
-              <div
-                className="w-[50px] w- h-[50px] bg-slate-300 rounded-[40px] object-cover"
-                onClick={handleMenu}
-              >
-                <img
-                  src={user.imageUrl ? user.imageUrl : profileImage}
-                  alt=""
-                  className="w-[50px] w- h-[50px] bg-slate-300 rounded-[40px] object-cover"
-                />
-              </div>
-            </Link>
-            <Link to={`/profile/${user.id}`}>
-              <div
-                onClick={handleMenu}
-              >{`${user.firstName} ${user.lastName}`}</div>
-            </Link>
-          </div>
-          <Link to={`/profile/${user.id}`}>
-            <div className="mb-3" onClick={handleMenu}>
-              Go to profile
+            <div className='morphIcon flex justify-center items-center'>
+              <AboutIcon />
             </div>
-          </Link>
-          <Logout />
+            <div className='morphIcon flex justify-center items-center'>
+              <a target='_blank' rel='noreferrer' href={lineloginUrl}>
+                <AlertIcon />
+              </a>
+            </div>
+            <div className='morphIcon flex justify-center items-center'>
+              <Link to={`/profile/${user.id}`}>
+                <ProfileIcon />
+              </Link>
+            </div>
+            <div className='w-[80%] border-b-2 border-gray-400'></div>
+            <div className='flex justify-end'>
+              <Logout />
+            </div>
+          </div>
         </div>
       </div>
     </div>
