@@ -17,7 +17,7 @@ function Header() {
   };
 
   return (
-    <nav className='flex justify-center items-center gap-2 w-full bg-cyan-600 p-3 px-6'>
+    <nav className='flex justify-center items-end gap-2 w-full bg-cyan-600 p-3 px-6 h-24'>
       {user.role === 'admin' ? (
         <>
           <div id='logo'>
