@@ -12,7 +12,6 @@ function Favorite({ favorite, handleSetMapCenter }) {
 
   function onSetMapCenter(e) {
     e.preventDefault();
-    console.log(favorite);
     handleSetMapCenter(favorite);
   }
 

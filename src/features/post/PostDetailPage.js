@@ -30,9 +30,7 @@ function PostDetailPage() {
     setPost(posts.find((post) => post.id === Number(postId)));
   }, [posts, postId]);
 
-  useEffect(() => {
-    console.log(post);
-  }, [post]);
+  useEffect(() => {}, [post]);
 
   const handleLike = async (e) => {
     e.stopPropagation();
