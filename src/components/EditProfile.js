@@ -7,7 +7,7 @@ import { getMe } from '../store/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 function EditProfile({ description, closeModal, fetchUser }) {
-  const [isDescription, setIsDescription] = useState('');
+  const [isDescription, setIsDescription] = useState(description);
   const [isImageUrl, setIsImageUrl] = useState(null);
   const [isOldPassword, setIsOldPassword] = useState('');
   const [isNewPassword, setIsNewPassword] = useState('');
@@ -23,16 +23,16 @@ function EditProfile({ description, closeModal, fetchUser }) {
     dispatch(getMe(res.data));
   };
 
-  console.log(isDescription);
+  // console.log(isDescription);
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      console.log(formData);
-      if (isDescription) {
+      if (isDescription === description) {
         formData.append('description', isDescription);
       }
+      console.log(formData);
 
       if (isImageUrl) {
         formData.append('imageUrl', isImageUrl);
@@ -60,12 +60,14 @@ function EditProfile({ description, closeModal, fetchUser }) {
           formData.append('oldPassword', isOldPassword);
         }
       }
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ', ' + pair[1]);
+      }
       if (
         !isNewPassword &&
         !isOldPassword &&
         !isConfirmNewPassword &&
-        !isDescription &&
-        !isImageUrl
+        !!isImageUrl
       ) {
         toast.error('Nothing to update!!!!');
       } else {
@@ -145,7 +147,7 @@ function EditProfile({ description, closeModal, fetchUser }) {
           <textarea
             className="w-60  bg-gray-300 text-black max-h-20 min-h-[5rem]  p-2 text-xs rounded-md"
             placeholder="type here"
-            value={isDescription || description}
+            value={isDescription || description || ''}
             onChange={(e) => setIsDescription(e.target.value)}
           />
         </div>

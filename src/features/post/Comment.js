@@ -9,7 +9,7 @@ function Comment({ comment }) {
     <div className="flex flex-col gap-2">
       <hr />
       <div className="flex gap-3 pb-0 ">
-        <div>
+        <div className="flex">
           <Link to={`/profile/${comment.userId}`}>
             <img
               src={comment.User.imageUrl ? comment.User.imageUrl : profileImage}
@@ -25,13 +25,13 @@ function Comment({ comment }) {
             </div>
           </Link>
           <div className="text-xs">{date}</div>
-          <div className='my-3'>{comment.content}</div>
+          <div className="my-3">{comment.content}</div>
           {comment.imageUrl && (
             <div className="w-full">
               <img
                 src={comment.imageUrl}
                 alt=""
-                className="rounded-[5%] w-[30%] my-2"
+                className="rounded-[5%] w-[16rem] my-2"
               />
             </div>
           )}
