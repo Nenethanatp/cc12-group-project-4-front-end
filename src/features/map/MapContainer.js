@@ -16,10 +16,10 @@ function MapContainer() {
   };
 
   const handleSetMapCenter = (input) => {
-    console.log(input);
+    // console.log(input);
     setMapCenter({
       lat: +input.latitude,
-      lng: +input.longitude
+      lng: +input.longitude,
     });
   };
 

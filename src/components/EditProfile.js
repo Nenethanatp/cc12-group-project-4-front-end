@@ -23,20 +23,17 @@ function EditProfile({ description, closeModal, fetchUser }) {
     dispatch(getMe(res.data));
   };
 
-  // console.log(isDescription);
-
   const handleSubmitForm = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      if (isDescription === description) {
+      if (isDescription !== description) {
         formData.append('description', isDescription);
       }
       console.log(formData);
 
       if (isImageUrl) {
         formData.append('imageUrl', isImageUrl);
-        console.log(formData);
       }
 
       if (isNewPassword || isOldPassword || isConfirmNewPassword) {
@@ -64,12 +61,13 @@ function EditProfile({ description, closeModal, fetchUser }) {
         console.log(pair[0] + ', ' + pair[1]);
       }
       if (
+        isDescription === description &&
         !isNewPassword &&
         !isOldPassword &&
         !isConfirmNewPassword &&
-        !!isImageUrl
+        !isImageUrl
       ) {
-        toast.error('Nothing to update!!!!');
+        toast.error('Nothing to update!!');
       } else {
         await userService.updateUserApi(formData);
         await fetchUser();
@@ -147,7 +145,7 @@ function EditProfile({ description, closeModal, fetchUser }) {
           <textarea
             className="w-60  bg-gray-300 text-black max-h-20 min-h-[5rem]  p-2 text-xs rounded-md"
             placeholder="type here"
-            value={isDescription || description || ''}
+            value={isDescription || ''}
             onChange={(e) => setIsDescription(e.target.value)}
           />
         </div>

@@ -7,11 +7,9 @@ import * as adminService from '../../api/adminApi';
 import { toast } from 'react-toastify';
 
 function ReportCard({ isReported, getReported }) {
-  console.log(isReported);
   const { content, createdAt, User, Comments, Reports, id } = isReported;
   const { firstName, lastName, imageUrl } = User;
   const admin = useSelector((state) => state.auth.user);
-  console.log(admin);
   const countComment = Comments.length;
   const reportedList = Reports.map((report) => report.userId);
   const date = formatDate(createdAt);
