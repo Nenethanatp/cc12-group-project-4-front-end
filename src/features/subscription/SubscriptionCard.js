@@ -30,7 +30,6 @@ function SubscriptionCard({ allPac }) {
   const { type, price, id, detail } = allPac;
   const detailPerLine = detail.split('- ');
   detailPerLine.shift();
-  console.log(detailPerLine);
 
   const creditCardConfigure = () => {
     OmiseCard.configure({
@@ -53,10 +52,15 @@ function SubscriptionCard({ allPac }) {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      navigate(`/profile/${me.id}`);
-      const { startDate, endDate } = genStartEndDate(type);
-      dispatch(getEndDate());
-      toast.success(`Subscribed expire on ${endDate}`);
+      if (res.data.status === 'success') {
+        navigate(`/profile/${me.id}`);
+        const { startDate, endDate } = genStartEndDate(type);
+        dispatch(getEndDate());
+
+        toast.success(`Subscribed expire on ${endDate}`);
+      } else {
+        toast.error('Subscribe not success, please try again.');
+      }
     } catch (err) {
       console.log(err);
     }

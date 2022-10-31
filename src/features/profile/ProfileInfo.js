@@ -32,7 +32,6 @@ function ProfileInfo() {
   // console.log(me);
   const openEditProfile = () => {
     setIsEditProfile(true);
-    console.log(isEditProfile);
   };
 
   const fetchUser = async () => {
