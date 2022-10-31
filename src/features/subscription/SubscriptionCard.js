@@ -52,7 +52,7 @@ function SubscriptionCard({ allPac }) {
         headers: { 'Content-Type': 'application/json' },
       });
 
-      if (res.data.status === 'success') {
+      if (res.data.status === 'successful') {
         navigate(`/profile/${me.id}`);
         const { startDate, endDate } = genStartEndDate(type);
         dispatch(getEndDate());
