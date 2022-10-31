@@ -1,22 +1,22 @@
 import {
-  Circle,
   GoogleMap,
   InfoWindow,
   Marker,
-  MarkerClusterer
-} from '@react-google-maps/api';
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+  MarkerClusterer,
+} from "@react-google-maps/api";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   clearPostLocationIds,
   setLocation,
-  setPostLocationIds
-} from '../../store/mapSlice';
+  setPostLocationIds,
+} from "../../store/mapSlice";
+import CurrentButton from "./CurrentButton";
 
-function Map({handleOpenPost, mapCenter}) {
+function Map({ handleOpenPost, mapCenter }) {
   const [marker, setMarker] = useState();
-  const radius = process.env.REACT_APP_MARKER_RADIUS || 5000;
+
   const dispatch = useDispatch();
 
   const mapRef = useRef();
@@ -25,48 +25,72 @@ function Map({handleOpenPost, mapCenter}) {
   const posts = useSelector((state) => state.post.items);
   const favorites = useSelector((state) => state.favorite.items);
 
-  // const initCenter = useMemo(() => ({lat: 13.75, lng: 100.5}), []);
-
-  // const center = useMemo(() => {
-  //   return navigator.geolocation.getCurrentPosition(
-  //     (position) => {
-  //       console.log(position);
-  //       return {
-  //         lat: position.coords.latitude,
-  //         lng: position.coords.longitude,
-  //       };
-  //     },
-  //     () => ({ lat: 13.75, lng: 100.5 })
-  //   );
-  // }, []);
-
   const options = useMemo(
     () => ({
-      mapId: '3713c985864a0e82',
+      mapId: "3713c985864a0e82",
       disableDefaultUI: true,
-      clickableIcons: false
+      clickableIcons: false,
     }),
     []
   );
 
   useEffect(() => {
     if (location) {
-      mapRef.current?.panTo({lat: location.lat, lng: location.lng});
-      setMarker({lat: location.lat, lng: location.lng});
+      mapRef.current?.panTo({ lat: location.lat, lng: location.lng });
+      setMarker({ lat: location.lat, lng: location.lng });
     }
   }, [location]);
 
   const onMapLoad = useCallback((map) => (mapRef.current = map), []);
   const onMapClick = useCallback(
     (e) => {
-      setMarker({lat: e.latLng.lat(), lng: e.latLng.lng()});
-      dispatch(setLocation({lat: e.latLng.lat(), lng: e.latLng.lng()}));
+      dispatch(setLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() }));
     },
     [dispatch]
   );
 
+  const handleClickMyLocation = (input) => {
+    dispatch(setLocation(input));
+  };
+
+  const getGoogleClusterInlineSvg = function (color) {
+    let encoded = window.btoa(
+      `<svg xmlns="http://www.w3.org/2000/svg" height="120" width="120">
+        <circle cx="60px" cy="60px" r="36px" fill="${color}"/>
+        <circle cx="60px" cy="60px" r="48px" fill-opacity="0.5" fill="${color}"/>
+        <circle cx="60px" cy="60px" r="60px" fill-opacity="0.20" fill="${color}"/>
+      </svg>`
+    );
+    return "data:image/svg+xml;base64," + encoded;
+  };
+
+  const clusterStyles = [
+    {
+      width: 40,
+      height: 40,
+      url: getGoogleClusterInlineSvg("#F0D500"),
+      textColor: "white",
+      textSize: 12,
+    },
+    {
+      width: 50,
+      height: 50,
+      url: getGoogleClusterInlineSvg("#F32013"),
+      textColor: "white",
+      textSize: 14,
+    },
+    {
+      width: 60,
+      height: 60,
+      url: getGoogleClusterInlineSvg("#CA0B00"),
+      textColor: "white",
+      textSize: 16,
+    },
+  ];
+
   return (
-    <div className="h-screen">
+    <div className="h-screen relative">
+      <CurrentButton handleClickMyLocation={handleClickMyLocation} />
       <div className="h-full w-full">
         <GoogleMap
           zoom={11}
@@ -81,7 +105,7 @@ function Map({handleOpenPost, mapCenter}) {
               key={marker.lat + marker.lng}
               position={marker}
               onClick={() => {
-                dispatch(setLocation({lat: marker.lat, lng: marker.lng}));
+                dispatch(setLocation({ lat: marker.lat, lng: marker.lng }));
                 dispatch(clearPostLocationIds());
                 handleOpenPost();
               }}
@@ -89,38 +113,40 @@ function Map({handleOpenPost, mapCenter}) {
           )}
 
           {favorites &&
-            favorites.map((favorite, index) => (
+            favorites.map((favorite) => (
               <Marker
-                key={`favorite-${index}`}
+                key={`marker_${favorite.id}`}
                 position={{
                   lat: +favorite.latitude,
-                  lng: +favorite.longitude
+                  lng: +favorite.longitude,
                 }}
                 label={{
-                  text: favorite.name
+                  text: favorite.name,
+
+                  className: "mt-[-60px] bg-white bg-opacity-70 p-1",
+                  fontSize: "20px",
+                  fontWeight: "bold",
                 }}
-                // labelStyle={{
-                //   textAlign: "center",
-                //   width: labelSize.width + 'px',
-                //   backgroundColor: "#7fffd4",
-                //   fontSize: "14px",
-                //   padding: labelPadding + "px"
-                // }}
-                // labelAnchor={{x: (labelSize.width / 2) + labelPadding, y: 80}}
                 icon="/fav-pin.png"
                 onClick={() => {
-                  // handleOpenPost();
-                  dispatch(setLocation({lat: +favorite.latitude, lng: +favorite.longitude}));
+                  dispatch(
+                    setLocation({
+                      lat: +favorite.latitude,
+                      lng: +favorite.longitude,
+                    })
+                  );
                 }}
               />
             ))}
 
           <MarkerClusterer
             onClick={(e) => {
-              dispatch(setLocation({
-                lat: e.getMarkers()[0].getPosition().lat(),
-                lng: e.getMarkers()[0].getPosition().lng()
-              }));
+              dispatch(
+                setLocation({
+                  lat: e.getCenter().lat(),
+                  lng: e.getCenter().lng(),
+                })
+              );
               dispatch(
                 setPostLocationIds(e.getMarkers().map((el) => el.locationId))
               );
@@ -128,37 +154,49 @@ function Map({handleOpenPost, mapCenter}) {
             }}
             title="cluster"
             zoomOnClick={false}
+            // maxZoom={15}
+            gridSize={45}
+            styles={clusterStyles}
           >
             {(clusterer) =>
               posts.map((el, index) => (
-                <div key={index}>
-                  <Marker
-                    key={`marker_${el.id}`}
-                    options={{
-                      locationId: el.Location.id
-                    }}
-                    position={{
-                      lat: +el.Location.latitude,
-                      lng: +el.Location.longitude
-                    }}
-                    clusterer={clusterer}
-                    onClick={() => {
-                      dispatch(setLocation({lat: +el.Location.latitude, lng: +el.Location.longitude}));
-                      dispatch(setPostLocationIds([el.locationId]));
-                      handleOpenPost();
-                    }}
-                  />
-                  {/* <Circle
-                    key={`circle_${el.id}`}
-                    center={{
-                      lat: +el.Location.latitude,
-                      lng: +el.Location.longitude
-                    }}
-                    radius={radius}
-                    options={{strokeColor: "#ff0000", fillColor: "#9A9A9A"}}
-                  /> */}
-
-                </div>
+                <Marker
+                  key={`marker_${el.id}`}
+                  options={{
+                    locationId: el.Location.id,
+                  }}
+                  position={{
+                    lat: +el.Location.latitude,
+                    lng: +el.Location.longitude,
+                  }}
+                  clusterer={clusterer}
+                  onClick={() => {
+                    dispatch(
+                      setLocation({
+                        lat: +el.Location.latitude,
+                        lng: +el.Location.longitude,
+                      })
+                    );
+                    dispatch(setPostLocationIds([el.locationId]));
+                    handleOpenPost();
+                  }}
+                  icon={{
+                    path: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z",
+                    scale: 1.5,
+                    fillColor: `${
+                      el.Type.id === 1
+                        ? "red"
+                        : el.Type.id === 2
+                        ? "blue"
+                        : el.Type.id === 3
+                        ? "yellow"
+                        : ""
+                    }`,
+                    fillOpacity: 1,
+                    // strokeOpacity: 0.5,
+                    anchor: { x: 12, y: 24 },
+                  }}
+                />
               ))
             }
           </MarkerClusterer>
