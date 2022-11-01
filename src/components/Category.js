@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTypes, setSelectedType } from '../store/typeSlice';
 import { getPosts, getPostsByTypeId } from '../store/postSlice';
 
-function Category({ setOpenFavorite }) {
+function Category({ setOpenFavorite, setOpenSubscribe }) {
   const dispatch = useDispatch();
-
+  const status = useSelector((state) => state.auth.status);
   const types = useSelector((state) => state.types.value);
 
   const selectedType = useSelector((state) => state.types.selectedType);
@@ -28,6 +28,10 @@ function Category({ setOpenFavorite }) {
     }
   };
 
+  const handleClickFavorite = () => {
+    status === 'subscribed' ? setOpenFavorite() : setOpenSubscribe();
+  };
+
   return (
     <div
       // className={`grid grid-cols-${types?.length} gap-1 mx-auto text-center `}
@@ -46,8 +50,9 @@ function Category({ setOpenFavorite }) {
         </div>
       ))}
       <button
-        className='material-symbols-outlined text-white'
-        onClick={setOpenFavorite}
+        className="material-symbols-outlined text-white"
+        type="button"
+        onClick={handleClickFavorite}
       >
         star
       </button>

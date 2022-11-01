@@ -22,6 +22,7 @@ function EditProfile({ description, closeModal, fetchUser }) {
     const res = await authService.getMe();
     dispatch(getMe(res.data));
   };
+  const inputEl = useRef();
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
@@ -57,9 +58,7 @@ function EditProfile({ description, closeModal, fetchUser }) {
           formData.append('oldPassword', isOldPassword);
         }
       }
-      for (var pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
-      }
+
       if (
         isDescription === description &&
         !isNewPassword &&
@@ -91,7 +90,6 @@ function EditProfile({ description, closeModal, fetchUser }) {
     inputEl.current.value = null;
   };
 
-  const inputEl = useRef();
   return (
     <div className="flex justify-center  h-full w-full">
       <div className=" flex flex-col absolute w-80 bg-white  rounded-3xl z-30 p-10  items-center gap-2">
@@ -133,6 +131,7 @@ function EditProfile({ description, closeModal, fetchUser }) {
               ref={inputEl}
               className="hidden"
               onChange={(e) => {
+                console.log('go');
                 if (e.target.files[0]) {
                   setIsImageUrl(e.target.files[0]);
                 }

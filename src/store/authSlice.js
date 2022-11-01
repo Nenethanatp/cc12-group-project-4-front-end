@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as authService from '../api/authApi';
 import { addAccessToken, getAccessToken } from '../utils/localStorage';
