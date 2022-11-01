@@ -1,6 +1,5 @@
 import {
   GoogleMap,
-  InfoWindow,
   Marker,
   MarkerClusterer,
 } from "@react-google-maps/api";
