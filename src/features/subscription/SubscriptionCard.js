@@ -9,6 +9,7 @@ import { getMe } from '../../store/authSlice';
 import { getEndDate } from '../../store/subscribeSlice';
 import { dateObjToString, genStartEndDate } from '../../utils/formatDate';
 import LineConfirm from './LineConfirm';
+import * as authService from '../../api/authApi';
 
 let OmiseCard;
 const handleLoadScript = () => {
@@ -61,7 +62,8 @@ function SubscriptionCard({ allPac }) {
         const { endDate } = genStartEndDate(type);
         setOpenModal(true);
         dispatch(getEndDate());
-        // dispatch(getMe());
+        const resMe = await authService.getMe();
+        dispatch(getMe(resMe.data));
         toast.success(`Subscribed expire on ${endDate}`);
       } else {
         toast.error('Subscribe not success, please try again.');
