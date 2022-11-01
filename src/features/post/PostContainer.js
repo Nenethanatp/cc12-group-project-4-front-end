@@ -42,57 +42,52 @@ function PostContainer() {
     toggleAddFavorite();
   };
 
-
   return (
     <>
-      <div className="h-full">
-        <div className="bg-slate-200 h-full rounded-t-3xl p-6 relative">
-          <div className="grid grid-cols-2 gap-4">
-
-            <div>
-              <button
-                className="bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-full"
-                onClick={toggleCreatePost}
-              >
-                CREATE POST
-              </button>
-            </div>
-            <div>
-              <button
-                className="bg-slate-50 rounded-3xl p-3 text-lg font-semibold w-full"
-                onClick={toggleAddFavorite}
-              >
-                ADD FAVORITE
-              </button>
-            </div>
+      <div className="h-auto min-h-[70vh] bg-slate-200 rounded-t-3xl p-6 relative">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <button
+              className="bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-full"
+              onClick={toggleCreatePost}
+            >
+              CREATE POST
+            </button>
           </div>
-
-          <PostList />
-
+          <div>
+            <button
+              className="bg-slate-50 rounded-3xl p-3 text-lg font-semibold w-full"
+              onClick={toggleAddFavorite}
+            >
+              ADD FAVORITE
+            </button>
+          </div>
         </div>
 
-        <Modal
-          open={isCreatePostOpen}
-          content={
-            <PostForm
-              handleCreatePost={handleCreatePost}
-              toggleCreatePost={toggleCreatePost}
-            />
-          }
-          close={toggleCreatePost}
-        />
-
-        <Modal
-          open={isAddFavoriteOpen}
-          content={
-            <AddFavoriteForm
-              handleAddFavorite={handleAddFavorite}
-              toggleAddFavorite={toggleAddFavorite}
-            />
-          }
-          close={toggleCreatePost}
-        />
+        <PostList />
       </div>
+
+      <Modal
+        open={isCreatePostOpen}
+        content={
+          <PostForm
+            handleCreatePost={handleCreatePost}
+            toggleCreatePost={toggleCreatePost}
+          />
+        }
+        close={toggleCreatePost}
+      />
+
+      <Modal
+        open={isAddFavoriteOpen}
+        content={
+          <AddFavoriteForm
+            handleAddFavorite={handleAddFavorite}
+            toggleAddFavorite={toggleAddFavorite}
+          />
+        }
+        close={toggleCreatePost}
+      />
     </>
   );
 }
