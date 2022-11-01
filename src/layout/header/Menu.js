@@ -14,6 +14,8 @@ import PaymentIcon from '../../components/icons/PaymentIcon';
 import { useState } from 'react';
 import ModalSubscribe from '../../features/favorite/ModalSubscribe';
 import Modal from '../../components/Modal';
+import justLogo from '../../assets/images/justlogo.png';
+import name from '../../assets/images/name.png';
 
 function Menu({ handleMenu, openChat }) {
   const handleOpenChat = () => {
@@ -39,8 +41,11 @@ function Menu({ handleMenu, openChat }) {
       >
         <div>
           <div className="flex items-center gap-3 text-xl font-bold border-b-2 border-gray-300 pb-3 mb-2 ">
-            <div className="w-[50px] h-[50px] bg-slate-300 rounded-[40px] "></div>
-            <div>WEB</div>
+            <img src={justLogo} alt="logo" className="w-[100px] h-[50px]" />
+
+            <div>
+              <img src={name} alt="logo" className="w-[100px]" />
+            </div>
           </div>
           <div className="flex flex-wrap gap-4 justify-center mt-5 text-slate-500">
             <button
