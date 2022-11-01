@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 function CurrentButton({ handleClickMyLocation }) {
   return (
     <div
-      className="absolute right-5 top-5 z-10"
+      className="absolute right-5 top-5 z-[1]"
       onClick={() =>
         navigator.geolocation.getCurrentPosition(
           (position) =>
