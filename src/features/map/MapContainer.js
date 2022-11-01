@@ -5,6 +5,7 @@ import PostContainer from "../post/PostContainer";
 import FavoriteContainer from "../favorite/FavoriteContainer";
 import Map from "./Map";
 import { toast } from "react-toastify";
+import ModalSubscribe from "../favorite/ModalSubscribe";
 
 function MapContainer() {
   const [openPost, setOpenPost] = useState(false);
