@@ -140,6 +140,7 @@ function Map({ handleOpenPost, mapCenter }) {
 
           <MarkerClusterer
             onClick={(e) => {
+              console.log(e.getMarkers().map((marker) => marker.locationId))
               dispatch(
                 setLocation({
                   lat: e.getCenter().lat(),
@@ -147,7 +148,7 @@ function Map({ handleOpenPost, mapCenter }) {
                 })
               );
               dispatch(
-                setPostLocationIds(e.getMarkers().map((el) => el.locationId))
+                setPostLocationIds(e.getMarkers().map((marker) => marker.locationId))
               );
               handleOpenPost();
             }}
@@ -158,36 +159,36 @@ function Map({ handleOpenPost, mapCenter }) {
             styles={clusterStyles}
           >
             {(clusterer) =>
-              posts.map((el, index) => (
+              posts.map((post) => (
                 <Marker
-                  key={`marker_${el.id}`}
+                  key={`marker_${post.id}`}
                   options={{
-                    locationId: el.Location.id,
+                    locationId: post.Location.id,
                   }}
                   position={{
-                    lat: +el.Location.latitude,
-                    lng: +el.Location.longitude,
+                    lat: +post.Location.latitude,
+                    lng: +post.Location.longitude,
                   }}
                   clusterer={clusterer}
                   onClick={() => {
                     dispatch(
                       setLocation({
-                        lat: +el.Location.latitude,
-                        lng: +el.Location.longitude,
+                        lat: +post.Location.latitude,
+                        lng: +post.Location.longitude,
                       })
                     );
-                    dispatch(setPostLocationIds([el.locationId]));
+                    dispatch(setPostLocationIds([post.locationId]));
                     handleOpenPost();
                   }}
                   icon={{
                     path: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z",
                     scale: 1.5,
                     fillColor: `${
-                      el.Type.id === 1
+                      post.Type.id === 1
                         ? "red"
-                        : el.Type.id === 2
+                        : post.Type.id === 2
                         ? "blue"
-                        : el.Type.id === 3
+                        : post.Type.id === 3
                         ? "yellow"
                         : ""
                     }`,
