@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 import * as postService from '../api/postApi';
 import { toast } from 'react-toastify';
+import { LoadingContext, useLoading } from '../context/LoadingContext';
 
 const PostSlice = createSlice({
   name: 'post',
@@ -17,7 +18,7 @@ const PostSlice = createSlice({
     },
     setPosts: (state, action) => {
       state.items = action.payload;
-    },   
+    },
     updatePost: (state, action) => {
       const idx = state.items.findIndex(
         (item) => item.id === action.payload.id
@@ -98,13 +99,17 @@ export const getPostById = (id) => async (dispatch) => {
 };
 
 export const editPost = (id, payload) => async (dispatch) => {
+  const { startLoading, stopLoading } = useLoading();
   try {
+    startLoading();
     const res = await postService.update(id, payload);
     dispatch(updatePost(res.data.post));
     toast.success('Post updated');
   } catch (err) {
     console.log(err);
     toast.error('Failed to get posts!');
+  } finally {
+    stopLoading();
   }
 };
 

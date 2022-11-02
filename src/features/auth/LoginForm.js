@@ -4,6 +4,7 @@ import { login } from '../../store/authSlice';
 import { gapi } from 'gapi-script';
 import LoginGoogle from '../../components/LoginGoogle';
 import { toast } from 'react-toastify';
+import { useLoading } from '../../context/LoadingContext';
 
 const clientId =
   '713136136398-r4nrmvg52fnsad1f466mnnq48ldh1862.apps.googleusercontent.com';
@@ -11,16 +12,17 @@ const clientId =
 function LoginForm() {
   const [input, setInput] = useState({
     email: '',
-    password: ''
+    password: '',
   });
 
   const dispatch = useDispatch();
+  const { startLoading, stopLoading } = useLoading();
 
   useEffect(() => {
     function start() {
       gapi.client.init({
         clientId: clientId,
-        scope: ''
+        scope: '',
       });
     }
     gapi.load('client:auth2', start);
@@ -39,11 +41,13 @@ function LoginForm() {
     if (!input.password) {
       return toast.error('Password is required');
     }
+    startLoading();
     dispatch(login(input));
     setInput({
       email: '',
-      password: ''
+      password: '',
     });
+    stopLoading();
   };
 
   return (

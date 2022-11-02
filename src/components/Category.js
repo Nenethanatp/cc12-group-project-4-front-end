@@ -34,7 +34,6 @@ function Category({ setOpenFavorite, setOpenSubscribe }) {
 
   return (
     <div
-      // className={`grid grid-cols-${types?.length} gap-1 mx-auto text-center `}
       className={`flex gap-3 justify-evenly items-center bg-cyan-700 w-full h-12`}
     >
       {typeWithAll?.map((type) => (

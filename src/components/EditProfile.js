@@ -5,6 +5,7 @@ import profileImage from '../assets/images/profile-image.png';
 import * as authService from '../api/authApi';
 import { getMe } from '../store/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLoading } from '../context/LoadingContext';
 
 function EditProfile({ description, closeModal, fetchUser }) {
   const [isDescription, setIsDescription] = useState(description);
@@ -17,6 +18,7 @@ function EditProfile({ description, closeModal, fetchUser }) {
   const ggSignin = useSelector((state) => state.auth.ggSignin);
 
   const dispatch = useDispatch();
+  const { startLoading, stopLoading, loading } = useLoading();
 
   const updateGetMe = async () => {
     const res = await authService.getMe();
@@ -68,6 +70,7 @@ function EditProfile({ description, closeModal, fetchUser }) {
       ) {
         toast.error('Nothing to update!!');
       } else {
+        startLoading();
         await userService.updateUserApi(formData);
         await fetchUser();
         await updateGetMe();
@@ -75,13 +78,14 @@ function EditProfile({ description, closeModal, fetchUser }) {
         setIsOldPassword('');
         setIsNewPassword('');
         setIsConfirmNewPassword('');
+        stopLoading();
         toast.success('Success update');
-        closeModal(false);
       }
     } catch (err) {
       toast.error(err.response?.data.message);
-
       console.log(err);
+    } finally {
+      closeModal(false);
     }
   };
 

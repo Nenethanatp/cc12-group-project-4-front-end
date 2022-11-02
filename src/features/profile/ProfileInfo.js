@@ -8,6 +8,7 @@ import Modal from '../../components/Modal';
 import EditProfile from '../../components/EditProfile';
 import { dateObjToString } from '../../utils/formatDate';
 import { getEndDate } from '../../store/subscribeSlice';
+import { useLoading } from '../../context/LoadingContext';
 
 function ProfileInfo() {
   const [otherUser, setOtherUser] = useState(null);
@@ -16,6 +17,8 @@ function ProfileInfo() {
   const [isFollow, setIsFollow] = useState('');
   const { userId } = useParams();
   const me = useSelector((state) => state.auth.user);
+  const { startLoading, stopLoading } = useLoading();
+
   // const dispatch = useDispatch();
 
   // useEffect(() => {
@@ -34,6 +37,18 @@ function ProfileInfo() {
     setIsEditProfile(true);
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const fetchAll = async () => {
+      await fetchUser();
+      await fetchFollow();
+    };
+
+    startLoading();
+    fetchAll();
+    stopLoading();
+  }, [userId]);
+
   const fetchUser = async () => {
     try {
       const res = await getUserService.getUserById(userId);
@@ -46,12 +61,6 @@ function ProfileInfo() {
       console.log(err);
     }
   };
-  useEffect(() => {
-    window.scrollTo(0, 0);
-
-    fetchUser();
-    fetchFollow();
-  }, [userId]);
 
   const fetchFollow = async () => {
     try {

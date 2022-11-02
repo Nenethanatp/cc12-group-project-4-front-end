@@ -1,16 +1,21 @@
-import { formatDate } from "../../utils/formatDate";
-import { useState } from "react";
-import Modal from "../../components/Modal";
-import ConfirmDelete from "./ConfirmDelete";
-import { useDispatch } from "react-redux";
-import { destroyFavorite } from "../../store/favoriteSlice";
-import { setLocation } from "../../store/mapSlice";
-import { toast } from "react-toastify";
+import { formatDate } from '../../utils/formatDate';
+import { useState } from 'react';
+import Modal from '../../components/Modal';
+import ConfirmDelete from './ConfirmDelete';
+import { useDispatch } from 'react-redux';
+import { destroyFavorite } from '../../store/favoriteSlice';
+import { useLoading } from '../../context/LoadingContext';
+import { setLocation } from '../../store/mapSlice';
+import { toast } from 'react-toastify';
 
 function Favorite({ favorite, handleCloseFavorite }) {
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const dispatch = useDispatch();
+  const { startLoading, stopLoading } = useLoading();
+  // function onSetMapCenter(e) {
+  //   e.preventDefault();
+  //   handleSetMapCenter(favorite);
 
   function onClickFavorite() {
     handleCloseFavorite();
@@ -24,9 +29,12 @@ function Favorite({ favorite, handleCloseFavorite }) {
 
   const handleDeleteFavorite = async (favorite) => {
     try {
+      startLoading();
       dispatch(destroyFavorite(favorite.id));
     } catch (err) {
       toast.error(err);
+    } finally {
+      stopLoading();
     }
   };
 
@@ -35,7 +43,7 @@ function Favorite({ favorite, handleCloseFavorite }) {
       <div className="flex flex-col">
         <div
           className={`bg-white flex flex-col p-5 gap-2 rounded-3xl mb-5`}
-          style={{ border: "1px solid red" }}
+          style={{ border: '1px solid red' }}
         >
           <div className="flex justify-between items-center">
             <div className="text-xl font-semibold" onClick={onClickFavorite}>

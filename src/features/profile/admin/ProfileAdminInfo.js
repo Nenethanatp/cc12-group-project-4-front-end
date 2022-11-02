@@ -7,6 +7,7 @@ import { getMe } from '../../../store/authSlice';
 import profileImage from '../../../assets/images/profile-image.png';
 import * as getUserService from '../../../api/authApi';
 import { toast } from 'react-toastify';
+import { useLoading } from '../../../context/LoadingContext';
 
 function ProfileAdminInfo() {
   const [isAdmin, setIsAdmin] = useState();
@@ -16,6 +17,7 @@ function ProfileAdminInfo() {
   const [isOldPassword, setIsOldPassword] = useState('');
   const [isNewPassword, setIsNewPassword] = useState('');
   const dispatch = useDispatch();
+  const { startLoading, stopLoading } = useLoading();
 
   const updateGetMe = async () => {
     const res = await authService.getMe();
@@ -50,13 +52,14 @@ function ProfileAdminInfo() {
         toast.error('Nothing to update');
       } else {
         const res = await userService.updateUserApi(formData);
-
+        startLoading();
         await fetchUser();
         await updateGetMe();
         setIsImageUrl(null);
         setIsOldPassword('');
         setIsNewPassword('');
         toast.success('Success update');
+        stopLoading();
       }
     } catch (err) {
       toast.error(err.response?.data.message);
