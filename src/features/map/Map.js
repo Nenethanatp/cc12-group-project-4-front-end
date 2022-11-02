@@ -1,28 +1,39 @@
-import {
-  GoogleMap,
-  Marker,
-  MarkerClusterer,
-} from "@react-google-maps/api";
+import { GoogleMap, Marker, MarkerClusterer } from "@react-google-maps/api";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 import {
   clearPostLocationIds,
   setLocation,
+  setMarker,
   setPostLocationIds,
 } from "../../store/mapSlice";
 import CurrentButton from "./CurrentButton";
 
-function Map({ handleOpenPost, mapCenter }) {
-  const [marker, setMarker] = useState();
+function Map({ handleOpenPost }) {
+  const [mapCenter, setMapCenter] = useState({ lat: 13.75, lng: 100.5 });
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setMapCenter({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      },
+      () => toast.error("can not get your location")
+    );
+  }, []);
+
+  const marker = useSelector((state) => state.map.marker);
+  const location = useSelector((state) => state.map.location);
+  const posts = useSelector((state) => state.post.items);
+  const favorites = useSelector((state) => state.favorite.items);
 
   const dispatch = useDispatch();
 
   const mapRef = useRef();
-
-  const location = useSelector((state) => state.map.location);
-  const posts = useSelector((state) => state.post.items);
-  const favorites = useSelector((state) => state.favorite.items);
 
   const options = useMemo(
     () => ({
@@ -36,7 +47,6 @@ function Map({ handleOpenPost, mapCenter }) {
   useEffect(() => {
     if (location) {
       mapRef.current?.panTo({ lat: location.lat, lng: location.lng });
-      setMarker({ lat: location.lat, lng: location.lng });
     }
   }, [location]);
 
@@ -44,16 +54,21 @@ function Map({ handleOpenPost, mapCenter }) {
   const onMapClick = useCallback(
     (e) => {
       dispatch(setLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() }));
+      dispatch(setMarker({ lat: e.latLng.lat(), lng: e.latLng.lng() }));
     },
     [dispatch]
   );
 
-  const handleClickMyLocation = (input) => {
-    dispatch(setLocation(input));
-  };
+  const handleClickMyLocation = useCallback(
+    (input) => {
+      dispatch(setLocation(input));
+      dispatch(setMarker(input));
+    },
+    [dispatch]
+  );
 
-  const getGoogleClusterInlineSvg = function (color) {
-    let encoded = window.btoa(
+  const getGoogleClusterInlineSvg = useCallback((color) => {
+    const encoded = window.btoa(
       `<svg xmlns="http://www.w3.org/2000/svg" height="120" width="120">
         <circle cx="60px" cy="60px" r="36px" fill="${color}"/>
         <circle cx="60px" cy="60px" r="48px" fill-opacity="0.5" fill="${color}"/>
@@ -61,31 +76,34 @@ function Map({ handleOpenPost, mapCenter }) {
       </svg>`
     );
     return "data:image/svg+xml;base64," + encoded;
-  };
+  }, []);
 
-  const clusterStyles = [
-    {
-      width: 40,
-      height: 40,
-      url: getGoogleClusterInlineSvg("#F0D500"),
-      textColor: "white",
-      textSize: 12,
-    },
-    {
-      width: 50,
-      height: 50,
-      url: getGoogleClusterInlineSvg("#F32013"),
-      textColor: "white",
-      textSize: 14,
-    },
-    {
-      width: 60,
-      height: 60,
-      url: getGoogleClusterInlineSvg("#CA0B00"),
-      textColor: "white",
-      textSize: 16,
-    },
-  ];
+  const clusterStyles = useMemo(
+    () => [
+      {
+        width: 40,
+        height: 40,
+        url: getGoogleClusterInlineSvg("#F0D500"),
+        textColor: "white",
+        textSize: 12,
+      },
+      {
+        width: 50,
+        height: 50,
+        url: getGoogleClusterInlineSvg("#F32013"),
+        textColor: "white",
+        textSize: 14,
+      },
+      {
+        width: 60,
+        height: 60,
+        url: getGoogleClusterInlineSvg("#CA0B00"),
+        textColor: "white",
+        textSize: 16,
+      },
+    ],
+    [getGoogleClusterInlineSvg]
+  );
 
   return (
     <div className="h-screen relative">
@@ -140,6 +158,7 @@ function Map({ handleOpenPost, mapCenter }) {
 
           <MarkerClusterer
             onClick={(e) => {
+              dispatch(setMarker(null));
               dispatch(
                 setLocation({
                   lat: e.getCenter().lat(),
@@ -147,7 +166,9 @@ function Map({ handleOpenPost, mapCenter }) {
                 })
               );
               dispatch(
-                setPostLocationIds(e.getMarkers().map((el) => el.locationId))
+                setPostLocationIds(
+                  e.getMarkers().map((marker) => marker.locationId)
+                )
               );
               handleOpenPost();
             }}
@@ -158,36 +179,36 @@ function Map({ handleOpenPost, mapCenter }) {
             styles={clusterStyles}
           >
             {(clusterer) =>
-              posts.map((el, index) => (
+              posts.map((post) => (
                 <Marker
-                  key={`marker_${el.id}`}
+                  key={`marker_${post.id}`}
                   options={{
-                    locationId: el.Location.id,
+                    locationId: post.Location.id,
                   }}
                   position={{
-                    lat: +el.Location.latitude,
-                    lng: +el.Location.longitude,
+                    lat: +post.Location.latitude,
+                    lng: +post.Location.longitude,
                   }}
                   clusterer={clusterer}
                   onClick={() => {
                     dispatch(
                       setLocation({
-                        lat: +el.Location.latitude,
-                        lng: +el.Location.longitude,
+                        lat: +post.Location.latitude,
+                        lng: +post.Location.longitude,
                       })
                     );
-                    dispatch(setPostLocationIds([el.locationId]));
+                    dispatch(setPostLocationIds([post.locationId]));
                     handleOpenPost();
                   }}
                   icon={{
                     path: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z",
                     scale: 1.5,
                     fillColor: `${
-                      el.Type.id === 1
+                      post.Type.id === 1
                         ? "red"
-                        : el.Type.id === 2
+                        : post.Type.id === 2
                         ? "blue"
-                        : el.Type.id === 3
+                        : post.Type.id === 3
                         ? "yellow"
                         : ""
                     }`,

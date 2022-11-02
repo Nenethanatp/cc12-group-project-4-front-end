@@ -3,10 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 const mapSlice = createSlice({
   name: "map",
   initialState: {
+    marker: null,
     location: null,
     postLocationIds: [],
   },
   reducers: {
+    setMarker: (state, action) => {
+      state.marker = action.payload;
+    },
     setLocation: (state, action) => {
       state.location = action.payload;
     },
@@ -21,5 +25,9 @@ const mapSlice = createSlice({
 
 export default mapSlice.reducer;
 
-export const { setLocation, setPostLocationIds, clearPostLocationIds } =
-  mapSlice.actions;
+export const {
+  setMarker,
+  setLocation,
+  setPostLocationIds,
+  clearPostLocationIds,
+} = mapSlice.actions;
