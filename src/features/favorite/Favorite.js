@@ -5,15 +5,26 @@ import ConfirmDelete from './ConfirmDelete';
 import { useDispatch } from 'react-redux';
 import { destroyFavorite } from '../../store/favoriteSlice';
 import { useLoading } from '../../context/LoadingContext';
+import { setLocation } from '../../store/mapSlice';
+import { toast } from 'react-toastify';
 
-function Favorite({ favorite, handleSetMapCenter }) {
+function Favorite({ favorite, handleCloseFavorite }) {
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const dispatch = useDispatch();
   const { startLoading, stopLoading } = useLoading();
-  function onSetMapCenter(e) {
-    e.preventDefault();
-    handleSetMapCenter(favorite);
+  // function onSetMapCenter(e) {
+  //   e.preventDefault();
+  //   handleSetMapCenter(favorite);
+
+  function onClickFavorite() {
+    handleCloseFavorite();
+    dispatch(
+      setLocation({
+        lat: +favorite.latitude,
+        lng: +favorite.longitude,
+      })
+    );
   }
 
   const handleDeleteFavorite = async (favorite) => {
@@ -21,7 +32,7 @@ function Favorite({ favorite, handleSetMapCenter }) {
       startLoading();
       dispatch(destroyFavorite(favorite.id));
     } catch (err) {
-      console.log(err);
+      toast.error(err);
     } finally {
       stopLoading();
     }
@@ -35,10 +46,10 @@ function Favorite({ favorite, handleSetMapCenter }) {
           style={{ border: '1px solid red' }}
         >
           <div className="flex justify-between items-center">
-            <div className="text-xl font-semibold" onClick={onSetMapCenter}>
+            <div className="text-xl font-semibold" onClick={onClickFavorite}>
               <button
                 className="material-symbols-outlined float-left"
-                onClick={onSetMapCenter}
+                onClick={onClickFavorite}
               >
                 my_location
               </button>
