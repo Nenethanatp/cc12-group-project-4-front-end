@@ -2,15 +2,18 @@ import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as commentService from '../../api/commentApi';
+import { useLoading } from '../../context/LoadingContext';
 import { getPosts } from '../../store/postSlice';
 
 function CommentForm({ id }) {
   const [comment, setComment] = useState('');
   const [commentImage, setCommentImage] = useState(null);
   const dispatch = useDispatch();
+  const { startLoading, stopLoading, loading } = useLoading();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      startLoading();
       const formData = new FormData();
       if (!comment || !comment.trim()) {
         return toast.error('comment is required');
@@ -29,6 +32,8 @@ function CommentForm({ id }) {
       dispatch(getPosts());
     } catch (err) {
       console.log(err);
+    } finally {
+      stopLoading();
     }
   };
   const clear = () => {

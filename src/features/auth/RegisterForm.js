@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { register } from '../../store/authSlice';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import { useLoading } from '../../context/LoadingContext';
 
 function RegisterForm({ close }) {
   const [input, setInput] = useState({
@@ -9,10 +10,11 @@ function RegisterForm({ close }) {
     lastName: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
 
   const dispatch = useDispatch();
+  const { startLoading, stopLoading } = useLoading();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,15 +38,16 @@ function RegisterForm({ close }) {
     if (input.password !== input.confirmPassword) {
       return toast.error('Password and confirm password does not match');
     }
-
+    startLoading();
     dispatch(register(input));
     setInput({
       firstName: '',
       lastName: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
     });
+    stopLoading();
     close();
   };
 

@@ -7,8 +7,11 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import FollowList from '../../layout/profile/FollowList';
 import PostList from '../post/PostList';
+import { useLoading } from '../../context/LoadingContext';
 
 function ProfileContainer() {
+  const { startLoading, stopLoading } = useLoading();
+
   const [otherUser, setOtherUser] = useState(null);
   const [follow, setFollow] = useState(null);
   const [allFollower, setAllFollower] = useState([]);
@@ -47,10 +50,14 @@ function ProfileContainer() {
         console.log(err);
       }
     };
-
-    fetchUser();
-    fetchFollow();
-    getAllFollower();
+    const fetchAll = async () => {
+      await fetchUser();
+      await fetchFollow();
+      await getAllFollower();
+    };
+    startLoading();
+    fetchAll();
+    stopLoading();
   }, [userId]);
 
   const followUser = (isFollow || []).map((el) => el.followingId);

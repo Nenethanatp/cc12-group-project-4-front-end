@@ -4,12 +4,13 @@ import Modal from '../../components/Modal';
 import ConfirmDelete from './ConfirmDelete';
 import { useDispatch } from 'react-redux';
 import { destroyFavorite } from '../../store/favoriteSlice';
+import { useLoading } from '../../context/LoadingContext';
 
 function Favorite({ favorite, handleSetMapCenter }) {
   const [openConfirm, setOpenConfirm] = useState(false);
 
   const dispatch = useDispatch();
-
+  const { startLoading, stopLoading } = useLoading();
   function onSetMapCenter(e) {
     e.preventDefault();
     handleSetMapCenter(favorite);
@@ -17,9 +18,12 @@ function Favorite({ favorite, handleSetMapCenter }) {
 
   const handleDeleteFavorite = async (favorite) => {
     try {
+      startLoading();
       dispatch(destroyFavorite(favorite.id));
     } catch (err) {
       console.log(err);
+    } finally {
+      stopLoading();
     }
   };
 

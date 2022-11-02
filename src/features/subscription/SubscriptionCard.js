@@ -10,6 +10,7 @@ import { getEndDate } from '../../store/subscribeSlice';
 import { dateObjToString, genStartEndDate } from '../../utils/formatDate';
 import LineConfirm from './LineConfirm';
 import * as authService from '../../api/authApi';
+import Spinner from '../../components/Spinner';
 
 let OmiseCard;
 const handleLoadScript = () => {
@@ -17,7 +18,7 @@ const handleLoadScript = () => {
   OmiseCard.configure({
     publicKey: 'pkey_test_5ti90olxm9uackwxe26',
     currency: 'thb',
-    frameLabel: 'GOOGLEME',
+    frameLabel: 'WHISTLE',
     submitLabel: 'PAY NOW',
     buttonLabel: 'Pay with Omise',
   });
@@ -25,12 +26,11 @@ const handleLoadScript = () => {
 
 function SubscriptionCard({ allPac }) {
   const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const me = useSelector((state) => state.auth.user);
-  // const status = useSelector((state) => state.auth.status);
   const subEndDate = useSelector((state) => state.subscribe.endDate);
-
   const { type, price, id, detail } = allPac;
 
   const { endDate } = genStartEndDate(type);
@@ -48,6 +48,7 @@ function SubscriptionCard({ allPac }) {
 
   const createCharge = async (token) => {
     try {
+      setLoading(true);
       const res = await payment({
         email: me.email,
         name: me.firstName,
@@ -57,19 +58,22 @@ function SubscriptionCard({ allPac }) {
         type,
         headers: { 'Content-Type': 'application/json' },
       });
-
+      setLoading(false);
       if (res.data.status === 'successful') {
         const { endDate } = genStartEndDate(type);
         setOpenModal(true);
+
         dispatch(getEndDate());
         const resMe = await authService.getMe();
         dispatch(getMe(resMe.data));
+
         toast.success(`Subscribed expire on ${endDate}`);
       } else {
         toast.error('Subscribe not success, please try again.');
       }
     } catch (err) {
       console.log(err);
+    } finally {
     }
   };
   const OmiseCardHandler = () => {
@@ -85,7 +89,6 @@ function SubscriptionCard({ allPac }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-
     handleLoadScript();
     creditCardConfigure();
     OmiseCardHandler();
@@ -160,6 +163,11 @@ function SubscriptionCard({ allPac }) {
         }
         close={() => setOpenModal(false)}
       />
+      {loading && (
+        <div className="absolute w-screen h-screen left-0 top-0">
+          <Spinner />
+        </div>
+      )}
     </>
   );
 }
