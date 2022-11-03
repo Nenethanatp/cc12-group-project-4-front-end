@@ -16,6 +16,7 @@ function ProfileAdminInfo() {
   const [isImageUrl, setIsImageUrl] = useState(null);
   const [isOldPassword, setIsOldPassword] = useState('');
   const [isNewPassword, setIsNewPassword] = useState('');
+  const [isConfirmPassword, setIsConfirmPassword] = useState('');
   const dispatch = useDispatch();
   const { startLoading, stopLoading } = useLoading();
 
@@ -33,12 +34,15 @@ function ProfileAdminInfo() {
         formData.append('imageUrl', isImageUrl);
       }
 
-      if (isNewPassword || isOldPassword) {
+      if (isNewPassword || isOldPassword || isConfirmPassword) {
         if (!isOldPassword) {
           return toast.error('Old password is required');
         }
         if (!isNewPassword) {
           return toast.error('New password is required');
+        }
+        if (isNewPassword !== isConfirmPassword) {
+          return toast.error('New password not match with confirm password');
         }
         if (isNewPassword === isOldPassword) {
           return toast.error('New password is similar to old password');
@@ -51,8 +55,8 @@ function ProfileAdminInfo() {
       if (!isNewPassword && !isOldPassword && !isImageUrl) {
         toast.error('Nothing to update');
       } else {
-        const res = await userService.updateUserApi(formData);
         startLoading();
+        const res = await userService.updateUserApi(formData);
         await fetchUser();
         await updateGetMe();
         setIsImageUrl(null);
@@ -147,7 +151,7 @@ function ProfileAdminInfo() {
           <div className="text-lg">
             <>{`role: ${admin.role}`}</>
           </div>
-          <div className="flex gap-1 mb-3 pt-10">
+          <div className="flex flex-col gap-1 mb-3 pt-10">
             <div className="w-full">
               Old password:
               <input
@@ -156,12 +160,22 @@ function ProfileAdminInfo() {
                 onChange={(e) => setIsOldPassword(e.target.value)}
               />
             </div>
+
             <div className="w-full">
               New password:
               <input
                 type="password"
                 className="bg-gray-300  w-[100%]"
                 onChange={(e) => setIsNewPassword(e.target.value)}
+              />
+            </div>
+
+            <div className="w-full">
+              Confirm new password:
+              <input
+                type="password"
+                className="bg-gray-300  w-[100%]"
+                onChange={(e) => setIsConfirmPassword(e.target.value)}
               />
             </div>
           </div>
