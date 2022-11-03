@@ -55,9 +55,9 @@ function ProfileContainer() {
       await fetchFollow();
       await getAllFollower();
     };
-    startLoading();
+    // startLoading();
     fetchAll();
-    stopLoading();
+    // stopLoading();
   }, [userId]);
 
   const followUser = (isFollow || []).map((el) => el.followingId);
