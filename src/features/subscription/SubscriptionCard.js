@@ -81,15 +81,15 @@ function SubscriptionCard({ allPac }) {
   };
 
   return (
-    <div className="bg-white w-full p-5 rounded-2xl flex flex-col gap-3">
-      <div className="text-center">
-        <div className="text-lg font-semibold">{type.toUpperCase()}</div>
-        <div className="text-lg font-semibold">{`${Math.round(
+    <div className='bg-cyan-500 customBgMorphCyan w-full p-5 rounded-2xl flex flex-col gap-3'>
+      <div className='text-center text-cyan-100'>
+        <div className='text-lg font-semibold'>{type.toUpperCase()}</div>
+        <div className='text-lg font-semibold'>{`${Math.round(
           price
         )} THB`}</div>
       </div>
       <hr />
-      <div className="text-sm m-3 ">
+      <div className='text-sm m-3 text-cyan-100'>
         {detailPerLine.map((item) => (
           <p>{'- ' + item}</p>
         ))}
@@ -97,19 +97,19 @@ function SubscriptionCard({ allPac }) {
       <hr />
 
       {subEndDate === 'expired' ? (
-        <div className="flex flex-col gap-5 mt-3">
-          <div className="text-center text-red-400 font-normal text-md ">
+        <div className='flex flex-col gap-5 mt-3'>
+          <div className='text-center text-blue-800 font-bold text-md '>
             <p>Subscribe today will expire on</p>
             <p>{`${genStartEndDate(type).endDate}`}</p>
           </div>
 
-          <div className="">
-            <Script url="https://cdn.omise.co/omise.js" />
-            <form className="">
+          <div className=''>
+            <Script url='https://cdn.omise.co/omise.js' />
+            <form className=''>
               <button
-                id="credit-card"
-                className={`bg-yellow-400 text-lg p-1 font-semibold rounded-2xl w-full`}
-                type="button"
+                id='credit-card'
+                className={`bg-yellow-400 text-slate-700 text-lg p-1 font-semibold rounded-2xl w-full customBgMorphCyan`}
+                type='button'
                 onClick={handleClick}
               >
                 SELECT
@@ -118,16 +118,16 @@ function SubscriptionCard({ allPac }) {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col gap-5 mt-3">
-          <div className="text-center text-red-400 font-semibold text-md ">
+        <div className='flex flex-col gap-5 mt-3'>
+          <div className='text-center text-red-400 font-semibold text-md '>
             <p>You already subscribe!!</p>
-            <p className="font-normal">You can subscribe again</p>
-            <p className="font-normal">after {dateObjToString(subEndDate)}</p>
+            <p className='font-normal'>You can subscribe again</p>
+            <p className='font-normal'>after {dateObjToString(subEndDate)}</p>
           </div>
           <button
             className={`bg-yellow-400 text-lg p-1 font-semibold rounded-2xl w-full
         opacity-30 text-black`}
-            type="button"
+            type='button'
             onClick={handleClick}
             disabled={true}
           >

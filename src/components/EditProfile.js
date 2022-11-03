@@ -69,12 +69,12 @@ function EditProfile({ description, closeModal, fetchUser }) {
   const inputEl = useRef();
   return (
     // <form>
-    <div className="flex justify-center  h-full">
-      <div className=" flex flex-col absolute w-80 h-[30rem] bg-white  rounded-3xl z-30 p-3 pt-10  items-center">
-        <div className="flex flex-col items-center ">
+    <div className='flex justify-center h-full'>
+      <div className=' flex flex-col w-80 p-10 bg-slate-200 rounded-xl z-30 items-center'>
+        <div className='flex flex-col items-center '>
           {isImageUrl && (
             <button
-              className="material-symbols-outlined flex absolute right-20"
+              className='material-symbols-outlined flex absolute right-20'
               onClick={() => clear()}
             >
               close
@@ -82,8 +82,8 @@ function EditProfile({ description, closeModal, fetchUser }) {
           )}
           <img
             src={isImageUrl ? URL.createObjectURL(isImageUrl) : profileImage}
-            alt=""
-            className="w-[100px] h-[100px] rounded-full mb-3 object-cover"
+            alt=''
+            className='w-[100px] h-[100px] rounded-full mb-3 object-cover customBgMorph'
             onClick={() => {
               inputEl.current.click();
             }}
@@ -91,7 +91,7 @@ function EditProfile({ description, closeModal, fetchUser }) {
 
           <div>
             <button
-              className="bg-yellow-400 px-3 rounded-lg"
+              className='mt-2 customBgMorph py-1 px-2 rounded-xl bg-slate-200 text-cyan-600'
               onClick={() => {
                 inputEl.current.click();
               }}
@@ -99,9 +99,9 @@ function EditProfile({ description, closeModal, fetchUser }) {
               Edit profile image
             </button>
             <input
-              type="file"
+              type='file'
               ref={inputEl}
-              className="hidden"
+              className='hidden'
               onChange={(e) => {
                 if (e.target.files[0]) {
                   setIsImageUrl(e.target.files[0]);
@@ -110,25 +110,31 @@ function EditProfile({ description, closeModal, fetchUser }) {
             ></input>
           </div>
         </div>
-        <div className="mt-3">
-          <div>About you:</div>
+        <div className='mt-3 flex flex-col items-center gap-3'>
+          <div className='text-cyan-700 font-bold'>About you :</div>
           <textarea
-            className="w-60 h-20 bg-gray-300 text-black max-h-20 min-h-[5rem] mb-2"
-            placeholder="type here"
+            className='w-60 h-20 bg-gray-300 text-black max-h-20 min-h-[5rem] mb-2 px-3 py-1 customBgMorph'
+            placeholder='Tell us about yourself'
             value={isDescription}
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        <div className="w-60 mb-2">
-          <div>Old password</div>
-          <input type="password" className="bg-gray-300 w-60" />
+        <div className='w-60 mt-2 mb-2 flex flex-col items-center gap-3'>
+          <div className='font-bold text-cyan-700'>Old password :</div>
+          <input
+            type='password'
+            className='bg-gray-300 w-60 h-10 customBgMorph'
+          />
         </div>
-        <div className="w-60 mb-2">
-          <div>New password</div>
-          <input type="password" className="bg-gray-300 w-60" />
+        <div className='mt-2 mb-2 flex flex-col items-center gap-3'>
+          <div className='text-cyan-700 font-bold'>New password :</div>
+          <input
+            type='password'
+            className='bg-gray-300 w-60 h-10 customBgMorph'
+          />
         </div>
         <button
-          className="bg-yellow-400 rounded-lg w-20"
+          className='text-lg bg-green-500 text-white font-bold mt-5 customBgMorph py-1 px-2 rounded-xl'
           onClick={handleSubmitForm}
         >
           Confirm

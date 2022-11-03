@@ -94,3 +94,7 @@ code {
   background: #22c55e;
   box-shadow: inset 5px 5px 10px #1eaf54, inset -5px -5px 10px #26db68;
 }
+
+.customBgMorphCyan {
+  box-shadow: 13px 13px 26px #077b97, -13px -13px 26px #09a7cd;
+}

@@ -24,7 +24,7 @@ function SubscriptionPackage() {
   };
 
   return (
-    <div className="bg-slate-100 w-full  rounded-t-3xl p-10  flex flex-col gap-5">
+    <div className='bg-cyan-500 w-full  rounded-t-3xl p-10  flex flex-col gap-5'>
       {allPackages.length !== 0 &&
         allPackages.map((allPac, index) => (
           <SubscriptionCard key={allPac.id} allPac={allPac} />

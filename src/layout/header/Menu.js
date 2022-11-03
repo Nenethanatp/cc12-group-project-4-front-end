@@ -25,7 +25,7 @@ function Menu({ handleMenu, openChat }) {
   return (
     <div
       onClick={handleMenu}
-      className='flex  bg-black bg-opacity-40 fixed z-50  top-0 right-0 bottom-0 left-0 justify-end '
+      className='flex bg-black bg-opacity-40 fixed top-0 right-0 bottom-0 left-0 justify-end z-50'
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -36,45 +36,51 @@ function Menu({ handleMenu, openChat }) {
             <div className='w-[50px] h-[50px] bg-slate-300 rounded-[40px] '></div>
             <div>WEB</div>
           </div>
-          <div className='flex flex-wrap gap-4 justify-center mt-5 text-slate-500'>
-            <button
-              onClick={handleMenu}
-              className='morphIcon flex justify-center items-center'
-            >
-              <Link to='/'>
-                <HomeIcon />
-              </Link>
-            </button>
-            <div
-              className='morphIcon flex justify-center items-center'
-              onClick={handleOpenChat}
-            >
-              <MessageIcon />
+          <div className='flex flex-col justify-between items-center h-[670px] mt-6 text-slate-500'>
+            <div className='flex flex-col gap-8'>
+              <button
+                onClick={handleMenu}
+                className='morphIcon flex justify-center items-center'
+              >
+                <Link to='/'>
+                  <HomeIcon />
+                </Link>
+              </button>
+              <div
+                className='morphIcon flex justify-center items-center'
+                onClick={handleOpenChat}
+              >
+                <MessageIcon />
+              </div>
+              <div
+                onClick={handleMenu}
+                className='morphIcon flex justify-center items-center'
+              >
+                <Link to='/subscription'>
+                  <PaymentIcon />
+                </Link>
+              </div>
+              <div className='morphIcon flex justify-center items-center'>
+                <a target='_blank' rel='noreferrer' href={lineloginUrl}>
+                  <AlertIcon />
+                </a>
+              </div>
+              <div
+                className='morphIcon flex justify-center items-center'
+                onClick={handleMenu}
+              >
+                <Link to={`/profile/${user.id}`}>
+                  <ProfileIcon />
+                </Link>
+              </div>
             </div>
-            <div
-              onClick={handleMenu}
-              className='morphIcon flex justify-center items-center'
-            >
-              <Link to='/subscription'>
-                <PaymentIcon />
-              </Link>
-            </div>
-            <div className='morphIcon flex justify-center items-center'>
-              <AboutIcon />
-            </div>
-            <div className='morphIcon flex justify-center items-center'>
-              <a target='_blank' rel='noreferrer' href={lineloginUrl}>
-                <AlertIcon />
-              </a>
-            </div>
-            <div className='morphIcon flex justify-center items-center'>
-              <Link to={`/profile/${user.id}`}>
-                <ProfileIcon />
-              </Link>
-            </div>
-            <div className='w-[80%] border-b-2 border-gray-400'></div>
-            <div className='flex justify-end'>
-              <Logout />
+            <div className='flex flex-col gap-7 items-center'>
+              <div className='w-full border-b-2 border-gray-400'></div>
+              <div className='flex justify-end'>
+                <Link to='/'>
+                  <Logout />
+                </Link>
+              </div>
             </div>
           </div>
         </div>

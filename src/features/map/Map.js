@@ -66,12 +66,12 @@ function Map({ handleOpenPost, mapCenter }) {
   );
 
   return (
-    <div className="h-screen">
-      <div className="h-full w-full">
+    <div className='h-screen'>
+      <div className='h-full w-full'>
         <GoogleMap
           zoom={11}
           center={mapCenter}
-          mapContainerClassName="h-full w-full"
+          mapContainerClassName='h-full w-full'
           options={options}
           onLoad={onMapLoad}
           onClick={onMapClick}
@@ -107,23 +107,33 @@ function Map({ handleOpenPost, mapCenter }) {
                 //   padding: labelPadding + "px"
                 // }}
                 // labelAnchor={{x: (labelSize.width / 2) + labelPadding, y: 80}}
-                icon="/fav-pin.png"
+                icon='/fav-pin.png'
                 onClick={() => {
                   // handleOpenPost();
-                  dispatch(setLocation({ lat: +favorite.latitude, lng: +favorite.longitude }));
+                  dispatch(
+                    setLocation({
+                      lat: +favorite.latitude,
+                      lng: +favorite.longitude
+                    })
+                  );
                 }}
               />
             ))}
 
           <MarkerClusterer
             onClick={(e) => {
-              dispatch(setLocation({ lat: e.getMarkers()[0].getPosition().lat(), lng: e.getMarkers()[0].getPosition().lng() }));
+              dispatch(
+                setLocation({
+                  lat: e.getMarkers()[0].getPosition().lat(),
+                  lng: e.getMarkers()[0].getPosition().lng()
+                })
+              );
               dispatch(
                 setPostLocationIds(e.getMarkers().map((el) => el.locationId))
               );
               handleOpenPost();
             }}
-            title="cluster"
+            title='cluster'
             zoomOnClick={false}
           >
             {(clusterer) =>
@@ -139,7 +149,12 @@ function Map({ handleOpenPost, mapCenter }) {
                   }}
                   clusterer={clusterer}
                   onClick={() => {
-                    dispatch(setLocation({ lat: +el.Location.latitude, lng: +el.Location.longitude }));
+                    dispatch(
+                      setLocation({
+                        lat: +el.Location.latitude,
+                        lng: +el.Location.longitude
+                      })
+                    );
                     dispatch(setPostLocationIds([el.locationId]));
                     handleOpenPost();
                   }}

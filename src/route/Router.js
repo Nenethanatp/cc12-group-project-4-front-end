@@ -17,32 +17,30 @@ function Router() {
     <Routes>
       {user ? (
         <>
-          <Route path="/" element={<AuthLayout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/post/:postId" element={<PostDetailPage />} />
+          <Route path='/' element={<AuthLayout />}>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/post/:postId' element={<PostDetailPage />} />
             <Route path={`/profile/:userId`} element={<ProfileLayout />}>
-              <Route path="map" element={<HomePage />} />
-              <Route path="savePlace" element={<SavePlacePage />} />
+              <Route path='map' element={<HomePage />} />
+              <Route path='savePlace' element={<SavePlacePage />} />
             </Route>
-            <Route path="/subscription" element={<SubscriptionPage />} />
-            <Route path="*" element={<Navigate to="/" />} />
-            {user.role === 'admin' ? (
+            <Route path='/subscription' element={<SubscriptionPage />} />
+            <Route path='*' element={<Navigate to='/' />} />
+            {user.role === 'admin' && (
               <>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/reported" element={<ReportedPage />} />
+                <Route path='/' element={<HomePage />} />
+                <Route path='/reported' element={<ReportedPage />} />
                 <Route
-                  path="/editProfile/:userId"
+                  path='/editProfile/:userId'
                   element={<ProfileAdminInfo />}
                 />
               </>
-            ) : (
-              <></>
             )}
           </Route>
         </>
       ) : (
         <>
-          <Route path="/" element={<LoginPage />} />
+          <Route path='/' element={<LoginPage />} />
           {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </>
       )}

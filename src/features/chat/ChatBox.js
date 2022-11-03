@@ -67,14 +67,14 @@ function ChatBox({
 
   return (
     <>
-      <div className='w-[100%] h-[100%] flex flex-col items-center gap-5'>
+      <div className='w-[100%] h-[100%] flex flex-col items-center gap-5 mt-6'>
         <div className='w-full flex justify-center relative'>
           <div className='text-2xl text-cyan-600'>
             {firstName} {lastName}
           </div>
           <div
             onClick={close}
-            className='absolute top-0 left-10 bg-red-300 rounded-full h-10 w-10 flex justify-center items-center'
+            className='absolute -top-[53px] left-3 customBgMorph rounded-full h-12 w-12 flex justify-center items-center bg-red-500 text-white'
           >
             <BackIcon />
           </div>

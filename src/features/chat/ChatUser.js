@@ -1,4 +1,6 @@
 import Avatar from '../../components/Avatar';
+import TextIcon from '../../components/icons/TextIcon';
+import profileImage from '../../assets/images/profile-image.png';
 
 function ChatUser({
   src,
@@ -16,10 +18,23 @@ function ChatUser({
   };
 
   return (
-    <div onClick={handleSelectUser} className='flex flex-col items-center'>
-      <Avatar src={src} size='80' />
-      <div>{firstName}</div>
-      <div>{lastName}</div>
+    <div
+      onClick={handleSelectUser}
+      className='flex w-full h-16 justify-between items-center px-3 customBgMorph py-2 rounded-xl'
+    >
+      <div className='flex items-center gap-3'>
+        {/* <Avatar src={src} size='50' /> */}
+        <img
+          src={src || profileImage}
+          className='w-12 h-12 rounded-full object-cover'
+        />
+        <div className='text-cyan-800'>
+          {firstName} {lastName}
+        </div>
+      </div>
+      <div className='customBgMorph px-3 py-2 rounded-xl bg-cyan-600 text-white'>
+        <TextIcon />
+      </div>
     </div>
   );
 }

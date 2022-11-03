@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import * as userService from '../../api/userApi';
+import BackIcon from '../../components/icons/BackIcon';
 
 function ChatSearchBar({ searchUsers, openChatHistory }) {
   const [input, setInput] = useState('');
@@ -13,22 +14,22 @@ function ChatSearchBar({ searchUsers, openChatHistory }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className='flex justify-center items-center gap-2'>
+      <div className='flex justify-center items-center gap-2 pb-5 shadow-md'>
         <button
           type='button'
-          className='bg-orange-500 w-10 h-10 rounded-xl text-white'
+          className='customBgMorph flex justify-center items-center w-10 h-10 rounded-full text-red-500'
           onClick={openChatHistory}
         >
-          X
+          <BackIcon />
         </button>
         <input
           type='text'
           placeholder='Search for user'
-          className='bg-gray-300 w-[60vw] h-10 rounded-full p-5'
+          className='bg-gray-300 w-[60vw] h-10 rounded-full p-5 customBgMorph'
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <button className='bg-yellow-500 text-white px-3 h-[40px] rounded-full'>
+        <button className='bg-yellow-500 text-white px-3 h-[40px] rounded-full customBgMorph'>
           Search
         </button>
       </div>
