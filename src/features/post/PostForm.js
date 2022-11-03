@@ -71,8 +71,8 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
   };
 
   return (
-    <form onSubmit={onCreatePost} className="h-full w-full p-6 flex justify-center bg-white rounded-t-xl">
-      <div className='flex flex-col items-center h-auto w-[100%]  '>
+    <form onSubmit={onCreatePost} className="h-auto min-h-[70vh] w-full p-6 flex justify-center bg-white rounded-t-xl">
+      <div className='flex flex-col items-center w-[100%]  '>
         <div className='items-center w-full'>
           <div className='h-12 w-12'>
             <button
@@ -161,7 +161,7 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
             />
           </div>
         </div>
-        <div className='h-[240px] w-full flex items-center'>
+        <div className='mt-5 w-full flex items-center'>
           <div className='w-full flex flex-col gap-2'>
             <button
               type='button'

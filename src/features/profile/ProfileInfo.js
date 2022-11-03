@@ -8,6 +8,8 @@ import EditProfile from '../../components/EditProfile';
 import { dateObjToString } from '../../utils/formatDate';
 import SettingIcon from '../../components/icons/SettingIcon';
 import CenterModal from '../../components/CenterModal';
+import { getEndDate } from '../../store/subscribeSlice';
+import { useLoading } from '../../context/LoadingContext';
 
 function ProfileInfo() {
   const [otherUser, setOtherUser] = useState(null);
@@ -16,21 +18,37 @@ function ProfileInfo() {
   const [isFollow, setIsFollow] = useState('');
   const { userId } = useParams();
   const me = useSelector((state) => state.auth.user);
+  const { startLoading, stopLoading } = useLoading();
+
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(getEndDate());
+  // }, []);
   const isMe = me.id === otherUser?.id;
   const subEndDate = useSelector((state) => state.subscribe.endDate);
 
   let endDateNewFormat;
-  if (subEndDate !== 'expired' && subEndDate !== '') {
+  if (subEndDate !== 'expired' && subEndDate) {
     endDateNewFormat = dateObjToString(subEndDate);
   }
 
   // console.log(me);
   const openEditProfile = () => {
     setIsEditProfile(true);
-    console.log(isEditProfile);
   };
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const fetchAll = async () => {
+      await fetchUser();
+      await fetchFollow();
+    };
+
+    startLoading();
+    fetchAll();
+    stopLoading();
+  }, [userId]);
 
   const fetchUser = async () => {
     try {
@@ -44,12 +62,6 @@ function ProfileInfo() {
       console.log(err);
     }
   };
-  useEffect(() => {
-    window.scrollTo(0, 0);
-
-    fetchUser();
-    fetchFollow();
-  }, [userId]);
 
   const fetchFollow = async () => {
     try {
@@ -138,14 +150,14 @@ function ProfileInfo() {
                 </>
               ) : (
                 <>
-                  {subEndDate !== 'expired' && subEndDate !== '' ? (
-                    <div className='border-red-300 border-2 p-1 rounded-lg bg-red-300 text-white'>
-                      Your subscribe will expire on {endDateNewFormat}
+                  {subEndDate !== 'expired' && subEndDate ? (
+                    <div className="border-red-300 border-2 p-1 rounded-lg text-red-300 absolute top-0 text-xs left-[-150px]">
+                      <p>Subscribe expire on</p>
+                      <p>{endDateNewFormat}</p>
                     </div>
                   ) : (
                     ''
                   )}
-
                   <button
                     className='bg-yellow-400 w-40 h-6 rounded-full'
                     onClick={openEditProfile}
@@ -216,9 +228,10 @@ function ProfileInfo() {
               </>
             ) : (
               <>
-                {subEndDate !== 'expired' && subEndDate !== '' ? (
-                  <div className='border-red-300 border-2 p-1 rounded-lg bg-red-300 text-white'>
-                    Your subscribe will expire on {endDateNewFormat}
+                {subEndDate !== 'expired' && subEndDate ? (
+                  <div className='border-red-300 border-2 p-1 rounded-lg text-red-300 absolute top-0 text-xs left-[-150px]'>
+                    <p>Subscribe expire on</p>
+                    <p>{endDateNewFormat}</p>
                   </div>
                 ) : (
                   ''

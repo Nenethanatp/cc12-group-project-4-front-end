@@ -4,59 +4,88 @@ import { toast } from 'react-toastify';
 import profileImage from '../assets/images/profile-image.png';
 import * as authService from '../api/authApi';
 import { getMe } from '../store/authSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLoading } from '../context/LoadingContext';
 
 function EditProfile({ description, closeModal, fetchUser }) {
-  const [isDescription, setDescription] = useState(description);
+  const [isDescription, setIsDescription] = useState(description);
   const [isImageUrl, setIsImageUrl] = useState(null);
   const [isOldPassword, setIsOldPassword] = useState('');
   const [isNewPassword, setIsNewPassword] = useState('');
+  const [isConfirmNewPassword, setIsConfirmNewPassword] = useState('');
+
+  const user = useSelector((state) => state.auth.user);
+  const ggSignin = useSelector((state) => state.auth.ggSignin);
 
   const dispatch = useDispatch();
+  const { startLoading, stopLoading, loading } = useLoading();
 
   const updateGetMe = async () => {
     const res = await authService.getMe();
     dispatch(getMe(res.data));
   };
+  const inputEl = useRef();
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      if (isDescription) {
+      if (isDescription !== description) {
         formData.append('description', isDescription);
       }
+      console.log(formData);
 
       if (isImageUrl) {
         formData.append('imageUrl', isImageUrl);
       }
 
-      if (isNewPassword || isOldPassword) {
+      if (isNewPassword || isOldPassword || isConfirmNewPassword) {
         if (!isOldPassword) {
-          return toast.error('old password is required');
+          return toast.error('Old password is required');
         }
         if (!isNewPassword) {
-          return toast.error('new password is required');
+          return toast.error('New password is required');
         }
-        if (isNewPassword !== isOldPassword) {
-          return toast.error('new password or old password is invalid');
+        if (!isConfirmNewPassword) {
+          return toast.error('Confirm new password is required');
+        }
+        if (isNewPassword !== isConfirmNewPassword) {
+          return toast.error('New password not match with confirm password');
         }
         if (isNewPassword === isOldPassword) {
+          return toast.error('New password is similar to old password');
+        }
+        if (isNewPassword === isConfirmNewPassword) {
           formData.append('newPassword', isNewPassword);
           formData.append('oldPassword', isOldPassword);
         }
       }
 
-      await userService.updateUserApi(formData);
-
-      await fetchUser();
-      await updateGetMe();
-      setIsImageUrl(null);
-      setIsOldPassword('');
-      setIsNewPassword('');
-      closeModal(false);
+      if (
+        isDescription === description &&
+        !isNewPassword &&
+        !isOldPassword &&
+        !isConfirmNewPassword &&
+        !isImageUrl
+      ) {
+        toast.error('Nothing to update!!');
+      } else {
+        startLoading();
+        await userService.updateUserApi(formData);
+        await fetchUser();
+        await updateGetMe();
+        setIsImageUrl(null);
+        setIsOldPassword('');
+        setIsNewPassword('');
+        setIsConfirmNewPassword('');
+        stopLoading();
+        toast.success('Success update');
+      }
     } catch (err) {
+      toast.error(err.response?.data.message);
       console.log(err);
+    } finally {
+      closeModal(false);
     }
   };
 
@@ -65,10 +94,7 @@ function EditProfile({ description, closeModal, fetchUser }) {
     inputEl.current.value = null;
   };
 
-  //   const whatEditProfile = {};
-  const inputEl = useRef();
   return (
-    // <form>
     <div className='flex justify-center h-full'>
       <div className=' flex flex-col w-80 p-10 bg-slate-200 rounded-xl z-30 items-center'>
         <div className='flex flex-col items-center '>
@@ -81,9 +107,15 @@ function EditProfile({ description, closeModal, fetchUser }) {
             </button>
           )}
           <img
-            src={isImageUrl ? URL.createObjectURL(isImageUrl) : profileImage}
+            src={
+              !isImageUrl
+                ? user.imageUrl
+                  ? user.imageUrl
+                  : profileImage
+                : URL.createObjectURL(isImageUrl)
+            }
             alt=''
-            className='w-[100px] h-[100px] rounded-full mb-3 object-cover customBgMorph'
+            className='w-[100px] h-[100px] rounded-full mb-3 object-cover'
             onClick={() => {
               inputEl.current.click();
             }}
@@ -103,6 +135,7 @@ function EditProfile({ description, closeModal, fetchUser }) {
               ref={inputEl}
               className='hidden'
               onChange={(e) => {
+                console.log('go');
                 if (e.target.files[0]) {
                   setIsImageUrl(e.target.files[0]);
                 }
@@ -110,38 +143,55 @@ function EditProfile({ description, closeModal, fetchUser }) {
             ></input>
           </div>
         </div>
-        <div className='mt-3 flex flex-col items-center gap-3'>
-          <div className='text-cyan-700 font-bold'>About you :</div>
+        <div>
+          <div>About you:</div>
           <textarea
-            className='w-60 h-20 bg-gray-300 text-black max-h-20 min-h-[5rem] mb-2 px-3 py-1 customBgMorph'
-            placeholder='Tell us about yourself'
-            value={isDescription}
-            onChange={(e) => setDescription(e.target.value)}
+            className='w-60  bg-gray-300 text-black max-h-20 min-h-[5rem]  p-2 text-xs rounded-md'
+            placeholder='type here'
+            value={isDescription || ''}
+            onChange={(e) => setIsDescription(e.target.value)}
           />
         </div>
-        <div className='w-60 mt-2 mb-2 flex flex-col items-center gap-3'>
-          <div className='font-bold text-cyan-700'>Old password :</div>
-          <input
-            type='password'
-            className='bg-gray-300 w-60 h-10 customBgMorph'
-          />
-        </div>
-        <div className='mt-2 mb-2 flex flex-col items-center gap-3'>
-          <div className='text-cyan-700 font-bold'>New password :</div>
-          <input
-            type='password'
-            className='bg-gray-300 w-60 h-10 customBgMorph'
-          />
-        </div>
+
+        {ggSignin ? (
+          ''
+        ) : (
+          <div>
+            <div className='w-60 '>
+              <div>Old password:</div>
+              <input
+                type='password'
+                className='bg-gray-300 w-60 rounded-md'
+                onChange={(e) => setIsOldPassword(e.target.value)}
+              />
+            </div>
+            <div className='w-60 '>
+              <div>New password:</div>
+              <input
+                type='password'
+                className='bg-gray-300 w-60 rounded-md'
+                onChange={(e) => setIsNewPassword(e.target.value)}
+              />
+            </div>
+            <div className='w-60 '>
+              <div>Confirm new password:</div>
+              <input
+                type='password'
+                className='bg-gray-300 w-60 rounded-md'
+                onChange={(e) => setIsConfirmNewPassword(e.target.value)}
+              />
+            </div>{' '}
+          </div>
+        )}
+
         <button
-          className='text-lg bg-green-500 text-white font-bold mt-5 customBgMorph py-1 px-2 rounded-xl'
+          className='bg-yellow-400 rounded-lg mt-4 p-2 w-[140px]'
           onClick={handleSubmitForm}
         >
           Confirm
         </button>
       </div>
     </div>
-    // </form>
   );
 }
 

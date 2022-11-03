@@ -2,16 +2,19 @@ import { useState } from "react";
 import PostForm from "./PostForm";
 import AddFavoriteForm from "./AddFavoriteForm";
 import PostList from "./PostList";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../../store/postSlice";
 import { createFavorite } from "../../store/favoriteSlice";
 import Modal from "../../components/Modal";
+import ModalSubscribe from "../favorite/ModalSubscribe";
 
 function PostContainer() {
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
   const [isAddFavoriteOpen, setIsAddFavoriteOpen] = useState(false);
+  const [subscribeModalOpen, setSubscribeModalOpen] = useState(false);
 
   const dispatch = useDispatch();
+  const status = useSelector((state) => state.auth.status);
 
   const toggleCreatePost = () => {
     setIsCreatePostOpen((prev) => !prev);
@@ -19,6 +22,14 @@ function PostContainer() {
 
   const toggleAddFavorite = () => {
     setIsAddFavoriteOpen((prev) => !prev);
+  };
+
+  const handleClickFav = () => {
+    if (status === "subscribed") {
+      toggleAddFavorite();
+    } else {
+      setSubscribeModalOpen(true);
+    }
   };
 
   const handleCreatePost = (input) => {
@@ -42,57 +53,87 @@ function PostContainer() {
     toggleAddFavorite();
   };
 
-
   return (
     <>
-      <div className="h-full">
-        <div className="bg-slate-200 h-full rounded-t-3xl p-6 relative">
-          <div className="grid grid-cols-2 gap-4">
-
-            <div>
-              <button
-                className="bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-full"
-                onClick={toggleCreatePost}
-              >
-                CREATE POST
-              </button>
-            </div>
-            <div>
-              <button
-                className="bg-slate-50 rounded-3xl p-3 text-lg font-semibold w-full"
-                onClick={toggleAddFavorite}
-              >
-                ADD FAVORITE
-              </button>
-            </div>
+      <div className="h-auto min-h-[70vh] bg-slate-200 rounded-t-3xl p-6 relative">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <button
+              className="bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-full"
+              onClick={toggleCreatePost}
+            >
+              CREATE POST
+            </button>
           </div>
-
-          <PostList />
-
+          <div>
+            <button
+              className="bg-slate-50 rounded-3xl p-3 text-lg font-semibold w-full"
+              onClick={handleClickFav}
+            >
+              ADD FAVORITE
+            </button>
+          </div>
         </div>
 
-        <Modal
-          open={isCreatePostOpen}
-          content={
-            <PostForm
-              handleCreatePost={handleCreatePost}
-              toggleCreatePost={toggleCreatePost}
-            />
-          }
-          close={toggleCreatePost}
-        />
-
-        <Modal
-          open={isAddFavoriteOpen}
-          content={
-            <AddFavoriteForm
-              handleAddFavorite={handleAddFavorite}
-              toggleAddFavorite={toggleAddFavorite}
-            />
-          }
-          close={toggleCreatePost}
-        />
+        <PostList />
       </div>
+
+      <Modal
+        open={isCreatePostOpen}
+        content={
+          <PostForm
+            handleCreatePost={handleCreatePost}
+            toggleCreatePost={toggleCreatePost}
+          />
+        }
+        close={toggleCreatePost}
+      />
+
+      <Modal
+        open={isAddFavoriteOpen}
+        content={
+          <AddFavoriteForm
+            handleAddFavorite={handleAddFavorite}
+            toggleAddFavorite={toggleAddFavorite}
+          />
+        }
+        close={toggleCreatePost}
+      />
+      <Modal
+        open={subscribeModalOpen}
+        content={
+          <ModalSubscribe
+            closeModal={() => {
+              setSubscribeModalOpen(false);
+            }}
+          />
+        }
+        close={() => {
+          setSubscribeModalOpen(false);
+        }}
+      />
+
+      <Modal
+        open={isCreatePostOpen}
+        content={
+          <PostForm
+            handleCreatePost={handleCreatePost}
+            toggleCreatePost={toggleCreatePost}
+          />
+        }
+        close={toggleCreatePost}
+      />
+
+      <Modal
+        open={isAddFavoriteOpen}
+        content={
+          <AddFavoriteForm
+            handleAddFavorite={handleAddFavorite}
+            toggleAddFavorite={toggleAddFavorite}
+          />
+        }
+        close={toggleCreatePost}
+      />
     </>
   );
 }

@@ -7,18 +7,24 @@ const AuthSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
-    status: null
+    status: null,
+    isLogin: false,
   },
   reducers: {
     getMe: (state, action) => {
       state.user = action.payload.user;
       state.status = action.payload.status;
+      state.ggSignin = action.payload.ggSignin;
+      state.isLogin = true;
     },
 
     logout: (state, action) => {
       state.user = null;
-    }
-  }
+      state.status = null;
+      state.ggSignin = null;
+      state.isLogin = false;
+    },
+  },
 });
 
 export default AuthSlice.reducer;

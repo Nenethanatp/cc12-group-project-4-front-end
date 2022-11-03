@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Logout from './Logout';
 
 import { getAccessToken } from '../../utils/localStorage';
@@ -11,6 +11,11 @@ import SubscribeIcon from '../../components/icons/SubscribeIcon';
 import AboutIcon from '../../components/icons/AboutIcon';
 import ProfileIcon from '../../components/icons/ProfileIcon';
 import PaymentIcon from '../../components/icons/PaymentIcon';
+import { useState } from 'react';
+import ModalSubscribe from '../../features/favorite/ModalSubscribe';
+import Modal from '../../components/Modal';
+import justLogo from '../../assets/images/justlogo.png';
+import name from '../../assets/images/name.png';
 
 function Menu({ handleMenu, openChat }) {
   const handleOpenChat = () => {
@@ -18,6 +23,9 @@ function Menu({ handleMenu, openChat }) {
     openChat();
   };
   const user = useSelector((state) => state.auth.user);
+  const status = useSelector((state) => state.auth.status);
+  const navigate = useNavigate();
+  const [openModal, setOpenModal] = useState(false);
 
   const accessToken = getAccessToken();
   const lineloginUrl = `https://notify-bot.line.me/oauth/authorize?response_type=code&client_id=XfyZEDKOR7ihHaJwCDaqkh&redirect_uri=http://localhost:8080/user/line/callback&scope=notify&state=${accessToken}`;
@@ -33,55 +41,76 @@ function Menu({ handleMenu, openChat }) {
       >
         <div>
           <div className='flex items-center gap-3 text-xl font-bold border-b-2 border-gray-300 pb-3 mb-2 '>
-            <div className='w-[50px] h-[50px] bg-slate-300 rounded-[40px] '></div>
-            <div>WEB</div>
+            <img src={justLogo} alt='logo' className='w-[100px] h-[50px]' />
+
+            <div>
+              <img src={name} alt='logo' className='w-[100px]' />
+            </div>
           </div>
-          <div className='flex flex-col justify-between items-center h-[670px] mt-6 text-slate-500'>
-            <div className='flex flex-col gap-8'>
-              <button
-                onClick={handleMenu}
-                className='morphIcon flex justify-center items-center'
-              >
-                <Link to='/'>
-                  <HomeIcon />
-                </Link>
-              </button>
-              <div
-                className='morphIcon flex justify-center items-center'
-                onClick={handleOpenChat}
-              >
-                <MessageIcon />
-              </div>
-              <div
-                onClick={handleMenu}
-                className='morphIcon flex justify-center items-center'
-              >
-                <Link to='/subscription'>
-                  <PaymentIcon />
-                </Link>
-              </div>
-              <div className='morphIcon flex justify-center items-center'>
+          <div className='flex flex-wrap gap-4 justify-center mt-5 text-slate-500'>
+            <button
+              onClick={handleMenu}
+              className='morphIcon flex justify-center items-center'
+            >
+              <Link to='/'>
+                <HomeIcon />
+              </Link>
+            </button>
+            <div
+              className='morphIcon flex justify-center items-center'
+              onClick={handleOpenChat}
+            >
+              <MessageIcon />
+            </div>
+            <div
+              onClick={handleMenu}
+              className='morphIcon flex justify-center items-center'
+            >
+              <Link to='/subscription'>
+                <PaymentIcon />
+              </Link>
+            </div>
+            <div className='morphIcon flex justify-center items-center'>
+              <AboutIcon />
+            </div>
+            <div className='morphIcon flex justify-center items-center'>
+              {status === 'subscribed' ? (
                 <a target='_blank' rel='noreferrer' href={lineloginUrl}>
                   <AlertIcon />
                 </a>
-              </div>
-              <div
-                className='morphIcon flex justify-center items-center'
-                onClick={handleMenu}
-              >
-                <Link to={`/profile/${user.id}`}>
-                  <ProfileIcon />
-                </Link>
-              </div>
+              ) : (
+                <div
+                  onClick={() => {
+                    setOpenModal(true);
+                  }}
+                >
+                  <AlertIcon />
+                </div>
+              )}
             </div>
-            <div className='flex flex-col gap-7 items-center'>
-              <div className='w-full border-b-2 border-gray-400'></div>
-              <div className='flex justify-end'>
-                <Link to='/'>
-                  <Logout />
-                </Link>
-              </div>
+            <div className='morphIcon flex justify-center items-center'>
+              <Link to={`/profile/${user.id}`}>
+                <ProfileIcon />
+              </Link>
             </div>
+            <div className='w-[80%] border-b-2 border-gray-400'></div>
+            <div className='flex justify-end'>
+              <Logout />
+            </div>
+
+            <Modal
+              open={openModal}
+              content={
+                <ModalSubscribe
+                  closeModal={() => {
+                    setOpenModal(false);
+                  }}
+                />
+              }
+              close={() => {
+                setOpenModal(false);
+              }}
+            />
           </div>
         </div>
       </div>

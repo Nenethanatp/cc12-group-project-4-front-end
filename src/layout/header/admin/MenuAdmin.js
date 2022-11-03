@@ -60,6 +60,14 @@ function Menu({ handleMenu }) {
               </Link>
             </div>
             <div
+              className='morphIcon flex justify-center items-center text-blue-500'
+              onClick={handleMenu}
+            >
+              <Link to={`/profile/${user.id}`}>
+                <ProfileIcon />
+              </Link>
+            </div>
+            <div
               className='morphIcon flex justify-center items-center'
               onClick={handleMenu}
             >

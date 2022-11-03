@@ -5,18 +5,21 @@ import * as subscriptionApi from '../api/subscriptionApi';
 const SubscribeSlice = createSlice({
   name: 'subscribe',
   initialState: {
-    endDate: ''
+    endDate: '',
   },
   reducers: {
     setEndDate: (state, action) => {
       state.endDate = action.payload;
-    }
-  }
+    },
+    resetEndDate: (state, action) => {
+      state.endDate = null;
+    },
+  },
 });
 
 export default SubscribeSlice.reducer;
 
-export const { setEndDate } = SubscribeSlice.actions;
+export const { setEndDate, resetEndDate } = SubscribeSlice.actions;
 
 export const getEndDate = () => async (dispatch) => {
   try {

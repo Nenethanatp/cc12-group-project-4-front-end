@@ -5,6 +5,8 @@ import { useState } from 'react';
 import ChatContainer from '../../features/chat/ChatContainer';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import logo from '../../assets/images/logo.png';
+import logo3 from '../../assets/images/logo3.png';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,11 +24,7 @@ function Header() {
         <>
           <div id='logo'>
             <Link to='/'>
-              <img
-                src='/logo-placeholder.png'
-                alt='Logo'
-                style={{ maxHeight: '50px' }}
-              />
+              <img src={logo} alt='Logo' style={{ maxHeight: '50px' }} />
             </Link>
           </div>
           <SearchBar />
@@ -47,11 +45,7 @@ function Header() {
         <>
           <div id='logo'>
             <Link to='/'>
-              <img
-                src='/logo-placeholder.png'
-                alt='Logo'
-                style={{ maxHeight: '50px' }}
-              />
+              <img src={logo} alt='Logo' style={{ maxHeight: '50px' }} />
             </Link>
           </div>
           <SearchBar />

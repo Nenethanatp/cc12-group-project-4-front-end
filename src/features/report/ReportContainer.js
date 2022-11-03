@@ -16,7 +16,6 @@ function ReportContainer() {
       console.log(err);
     }
   };
-  console.log(isReport);
   return (
     <div className="flex flex-col gap-10 p-5">
       {isReport?.map((reported) => (

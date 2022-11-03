@@ -10,7 +10,7 @@ function PostFormImage({ postImage, index, input, setInput }) {
   return (
     <div className="relative">
       <i
-        className="fa-regular fa-xmark absolute top-3 right-2 w-[20px] "
+        className="fa-solid fa-xmark absolute top-3 right-2 w-[20px] "
         onClick={handleDeletePhoto}
       />
 
