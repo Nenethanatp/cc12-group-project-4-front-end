@@ -8,7 +8,6 @@ import HomeIcon from '../../components/icons/HomeIcon';
 import MessageIcon from '../../components/icons/MessageIcon';
 import AlertIcon from '../../components/icons/AlertIcon';
 import SubscribeIcon from '../../components/icons/SubscribeIcon';
-import AboutIcon from '../../components/icons/AboutIcon';
 import ProfileIcon from '../../components/icons/ProfileIcon';
 import PaymentIcon from '../../components/icons/PaymentIcon';
 import { useState } from 'react';
@@ -71,9 +70,6 @@ function Menu({ handleMenu, openChat }) {
               </Link>
             </div>
             <div className='morphIcon flex justify-center items-center'>
-              <AboutIcon />
-            </div>
-            <div className='morphIcon flex justify-center items-center'>
               {status === 'subscribed' ? (
                 <a target='_blank' rel='noreferrer' href={lineloginUrl}>
                   <AlertIcon />
@@ -88,14 +84,19 @@ function Menu({ handleMenu, openChat }) {
                 </div>
               )}
             </div>
-            <div className='morphIcon flex justify-center items-center'>
+            <div
+              onClick={handleMenu}
+              className='morphIcon flex justify-center items-center'
+            >
               <Link to={`/profile/${user.id}`}>
                 <ProfileIcon />
               </Link>
             </div>
-            <div className='w-[80%] border-b-2 border-gray-400'></div>
-            <div className='flex justify-end'>
-              <Logout />
+            <div className='flex flex-col h-[200px] justify-end gap-5'>
+              <div className='w-full border-b-2 border-gray-400'></div>
+              <div className='flex justify-end'>
+                <Logout />
+              </div>
             </div>
 
             <Modal

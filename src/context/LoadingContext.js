@@ -5,9 +5,15 @@ const LoadingContext = createContext();
 function LoadingContextProvider({ children }) {
   const [loading, setLoading] = useState(false);
 
-  const startLoading = () => setLoading(true);
-  const stopLoading = () => setLoading(false);
-
+  const startLoading = () => {
+    console.log('startLoading');
+    setLoading(true);
+  };
+  const stopLoading = () => {
+    console.log('stopLoading');
+    setLoading(false);
+  };
+  console.log('first');
   return (
     <LoadingContext.Provider
       value={{
