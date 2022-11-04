@@ -128,3 +128,15 @@ export const destroyPostImage = (id, imageId) => async (dispatch) => {
     toast.error("Failed to delete post image!");
   }
 };
+
+export const getPostsByFollowing = () => async (dispatch) => {
+  try {
+    const res = await postService.getPostsByFollowing();
+    dispatch(setPosts(res.data.posts));
+    if (res.data.posts.length === 0) {
+      toast.error("you did not follow anyone");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};

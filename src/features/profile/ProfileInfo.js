@@ -36,7 +36,7 @@ function ProfileInfo() {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     const fetchAll = async () => {
       await fetchUser();
       await fetchFollow();

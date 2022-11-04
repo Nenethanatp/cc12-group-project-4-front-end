@@ -1,7 +1,11 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getTypes, setSelectedType } from '../store/typeSlice';
-import { getPosts, getPostsByTypeId } from '../store/postSlice';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getTypes, setSelectedType } from "../store/typeSlice";
+import {
+  getPosts,
+  getPostsByFollowing,
+  getPostsByTypeId,
+} from "../store/postSlice";
 
 function Category({ setOpenFavorite, setOpenSubscribe }) {
   const dispatch = useDispatch();
@@ -16,30 +20,36 @@ function Category({ setOpenFavorite, setOpenSubscribe }) {
 
   let typeWithAll = [];
   if (types) {
-    typeWithAll = [{ type: 'all', id: 0 }, ...types];
+    typeWithAll = [
+      { type: "all", id: "all" },
+      ...types,
+      { type: "following", id: "follow" },
+    ];
   }
 
   const handleSelectedType = (id) => {
     dispatch(setSelectedType(id));
-    if (id === 0) {
+    if (id === "all") {
       dispatch(getPosts());
+    } else if (id === "follow") {
+      dispatch(getPostsByFollowing());
     } else {
       dispatch(getPostsByTypeId(id));
     }
   };
 
   const handleClickFavorite = () => {
-    status === 'subscribed' ? setOpenFavorite() : setOpenSubscribe();
+    status === "subscribed" ? setOpenFavorite() : setOpenSubscribe();
   };
 
   return (
     <div
-      className={`flex gap-3 justify-evenly items-center bg-cyan-700 w-full h-12`}
+      className={`p-5 flex gap-9 items-center bg-cyan-700 h-12 overflow-auto`}
     >
       {typeWithAll?.map((type) => (
         <div
           className={`px-2 py-1 text-center rounded-2xl font-bold ${
-            selectedType === type.id ? 'text-yellow-400' : 'text-white'
+            selectedType === type.id ? "text-yellow-400" : "text-white"
           } `}
           key={type.id}
           value={type.id}
@@ -48,12 +58,7 @@ function Category({ setOpenFavorite, setOpenSubscribe }) {
           {type.type}
         </div>
       ))}
-      <button
-        className=" text-white"
-        type="button"
-      >
-        following
-      </button>
+
       <button
         className="material-symbols-outlined text-white"
         type="button"
