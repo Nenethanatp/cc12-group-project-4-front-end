@@ -6,14 +6,12 @@ function LoadingContextProvider({ children }) {
   const [loading, setLoading] = useState(false);
 
   const startLoading = () => {
-    console.log('startLoading');
     setLoading(true);
   };
   const stopLoading = () => {
-    console.log('stopLoading');
     setLoading(false);
   };
-  console.log('first');
+  // console.log('first');
   return (
     <LoadingContext.Provider
       value={{

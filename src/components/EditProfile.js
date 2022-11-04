@@ -78,13 +78,13 @@ function EditProfile({ description, closeModal, fetchUser }) {
         setIsOldPassword('');
         setIsNewPassword('');
         setIsConfirmNewPassword('');
-        stopLoading();
         toast.success('Success update');
       }
     } catch (err) {
       toast.error(err.response?.data.message);
       console.log(err);
     } finally {
+      stopLoading();
       closeModal(false);
     }
   };

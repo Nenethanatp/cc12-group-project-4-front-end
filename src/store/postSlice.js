@@ -1,11 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
-import * as postService from '../api/postApi';
-import { toast } from 'react-toastify';
-import { LoadingContext, useLoading } from '../context/LoadingContext';
+import { createSlice } from "@reduxjs/toolkit";
+import * as postService from "../api/postApi";
+import { toast } from "react-toastify";
 
 const PostSlice = createSlice({
-  name: 'post',
+  name: "post",
   initialState: {
     items: [],
     filter1: [],
@@ -60,11 +58,10 @@ export const createPost = (input) => async (dispatch) => {
   try {
     const res = await postService.create(input);
     dispatch(addPost(res.data.post));
-    toast.success('Post created');
+    toast.success("Post created");
   } catch (err) {
     console.log(err);
-    // toast.error(err.response?.data.message)
-    toast.error('Failed to created post!');
+    toast.error("Failed to created post!");
   }
 };
 
@@ -74,7 +71,7 @@ export const getPosts = () => async (dispatch) => {
     dispatch(setPosts(res.data.posts));
   } catch (err) {
     console.log(err);
-    toast.error('Failed to get posts!');
+    toast.error("Failed to get posts!");
   }
 };
 
@@ -84,7 +81,7 @@ export const getPostsByTypeId = (typeId) => async (dispatch) => {
     dispatch(setPosts(res.data.posts));
   } catch (err) {
     console.log(err);
-    toast.error('No any post about this type');
+    toast.error("No any post about this type");
   }
 };
 
@@ -94,22 +91,19 @@ export const getPostById = (id) => async (dispatch) => {
     dispatch(updatePost(res.data.post));
   } catch (err) {
     console.log(err);
-    toast.error('Failed to get posts!');
+    toast.error("Failed to get posts!");
   }
 };
 
 export const editPost = (id, payload) => async (dispatch) => {
-  const { startLoading, stopLoading } = useLoading();
   try {
-    startLoading();
     const res = await postService.update(id, payload);
-    dispatch(updatePost(res.data.post));
-    toast.success('Post updated');
+    // dispatch(updatePost(res.data.post));
+    dispatch(getPosts());
+    toast.success("Post updated");
   } catch (err) {
     console.log(err);
-    toast.error('Failed to get posts!');
-  } finally {
-    stopLoading();
+    toast.error("Failed to get posts!");
   }
 };
 
@@ -117,10 +111,10 @@ export const destroyPost = (id) => async (dispatch) => {
   try {
     const res = await postService.destroy(id);
     dispatch(deletePost(id));
-    toast.success('Post deleted');
+    toast.success("Post deleted");
   } catch (err) {
     console.log(err);
-    toast.error('Failed to delete post!');
+    toast.error("Failed to delete post!");
   }
 };
 
@@ -128,9 +122,9 @@ export const destroyPostImage = (id, imageId) => async (dispatch) => {
   try {
     const res = await postService.deletePostImage(id, imageId);
     dispatch(deletePostImage({ id, imageId }));
-    toast.success('Post Image deleted');
+    toast.success("Post Image deleted");
   } catch (err) {
     console.log(err);
-    toast.error('Failed to delete post image!');
+    toast.error("Failed to delete post image!");
   }
 };

@@ -13,14 +13,14 @@ function PostFormRemoteImage({ postImage, post }) {
   return (
     <div className="relative">
       <i
-        className="fa-regular fa-xmark absolute top-3 right-2 w-[20px] "
+        className="fa-solid fa-xmark absolute top-3 right-2 w-[20px] "
         style={{cursor: 'pointer'}}
         onClick={handleDeletePhoto}
       />
 
       <img
         src={postImage.imageUrl}
-        className="w-full"
+        className="img-fluid mt-2"
         alt="post"
       />
     </div>

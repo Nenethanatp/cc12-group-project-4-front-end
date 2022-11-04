@@ -49,6 +49,12 @@ function Category({ setOpenFavorite, setOpenSubscribe }) {
         </div>
       ))}
       <button
+        className=" text-white"
+        type="button"
+      >
+        following
+      </button>
+      <button
         className="material-symbols-outlined text-white"
         type="button"
         onClick={handleClickFavorite}

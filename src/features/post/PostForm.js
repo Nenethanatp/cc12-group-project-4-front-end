@@ -116,31 +116,22 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
             </select>
           </div>
 
-          {post && post.PostImages && post.PostImages.length > 0 && (
-            <div className="w-full pt-5">
-              <div className="grid grid-cols-3 gap-4">
-                {post.PostImages.map((postImage, index) => {
-                  return (
-                    <PostFormRemoteImage
-                      postImage={postImage}
-                      post={post}
-                      key={index}
-                    />
-                    // <img src={postImage.imageUrl} key={index} alt={postImage.id} style={{maxWidth: "150px"}} />
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          <div
-            className="flex flex-col items-center w-full mt-5"
-            style={{ maxWidth: '300px' }}
-          >
-            {/* <label htmlFor='postImage' className='form-label'>
-              อัพโหลดรูปภาพ
-            </label> */}
+          <div className="flex flex-col items-center w-full mt-5 max-w-[300px]">
             <div>
+              {post && post.PostImages && post.PostImages.length > 0 && (
+                <>
+                  {post.PostImages.map((postImage, index) => {
+                    return (
+                      <PostFormRemoteImage
+                        postImage={postImage}
+                        post={post}
+                        key={index}
+                      />
+                      // <img src={postImage.imageUrl} key={index} alt={postImage.id} style={{maxWidth: "150px"}} />
+                    );
+                  })}
+                </>
+              )}
               {input.postImages.length !== 0 &&
                 input.postImages.map((postImage, index) => {
                   return (

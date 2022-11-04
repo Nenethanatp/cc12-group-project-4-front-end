@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import FsLightbox from 'fslightbox-react';
+import { useState } from "react";
+import FsLightbox from "fslightbox-react";
 
 function PostDetailGallery({ post }) {
   const [toggler, setToggler] = useState(false);
@@ -13,13 +13,13 @@ function PostDetailGallery({ post }) {
           {post.PostImages.length !== 0 &&
             post.PostImages.map((posterImage, index) => {
               return (
-                <div key={index}>
+                <div key={index} className="h-[250px]">
                   <img
                     key={index}
                     src={posterImage.imageUrl}
                     alt={post.content}
                     onClick={() => setToggler(!toggler)}
-                    className="w-[100%]"
+                    className="w-full h-full object-cover"
                   />
                 </div>
               );

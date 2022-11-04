@@ -1,13 +1,13 @@
-import ProfileInfo from './ProfileInfo';
-import ProfileNav from '../../layout/profile/ProfileNav';
-import { useEffect, useState } from 'react';
-import * as followService from '../../api/followApi';
-import * as getUserService from '../../api/authApi';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import FollowList from '../../layout/profile/FollowList';
-import PostList from '../post/PostList';
-import { useLoading } from '../../context/LoadingContext';
+import ProfileInfo from "./ProfileInfo";
+import ProfileNav from "../../layout/profile/ProfileNav";
+import { useEffect, useState } from "react";
+import * as followService from "../../api/followApi";
+import * as getUserService from "../../api/authApi";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import FollowList from "../../layout/profile/FollowList";
+import PostList from "../post/PostList";
+import { useLoading } from "../../context/LoadingContext";
 
 function ProfileContainer() {
   const { startLoading, stopLoading } = useLoading();
@@ -38,35 +38,13 @@ function ProfileContainer() {
     }
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await getUserService.getUserById(userId);
-        setOtherUser(res.data.user);
-        if (me === otherUser) {
-          return setOtherUser(null);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    const fetchAll = async () => {
-      await fetchUser();
-      await fetchFollow();
-      await getAllFollower();
-    };
-    // startLoading();
-    fetchAll();
-    // stopLoading();
-  }, [userId]);
-
-  const followUser = (isFollow || []).map((el) => el.followingId);
-  const followed = followUser.includes(otherUser?.id);
-
-  const handleFollow = async () => {
+  const fetchUser = async (id) => {
     try {
-      const res = await followService.toggleFollow(userId);
-      setFollow(res.data);
+      const res = await getUserService.getUserById(id);
+      setOtherUser(res.data.user);
+      if (me === otherUser) {
+        return setOtherUser(null);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -81,6 +59,35 @@ function ProfileContainer() {
     }
   };
 
+  useEffect(() => {
+    try {
+      startLoading();
+      const fetchAll = async () => {
+        await fetchUser(userId);
+        await fetchFollow();
+        await getAllFollower();
+      };
+      fetchAll();
+      setIsPost(true);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      stopLoading();
+    }
+  }, [userId]);
+
+  const followUser = (isFollow || []).map((el) => el.followingId);
+  const followed = followUser.includes(otherUser?.id);
+
+  const handleFollow = async () => {
+    try {
+      const res = await followService.toggleFollow(userId);
+      setFollow(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleClickFollow = async () => {
     await getAllFollower();
     await fetchFollow();
@@ -89,7 +96,7 @@ function ProfileContainer() {
 
   return (
     <div>
-      <div className="flex flex-col gap-5 ">
+      <div className="flex flex-col ">
         <ProfileInfo />
 
         <ProfileNav
@@ -102,7 +109,9 @@ function ProfileContainer() {
         />
 
         {isPost ? (
-          <PostList myPosts={myPosts} />
+          <div className="p-6 bg-gray-200">
+            <PostList myPosts={myPosts} />
+          </div>
         ) : (
           <FollowList
             allFollower={allFollower}
