@@ -205,11 +205,11 @@ function Map({ handleOpenPost }) {
                     scale: 1.5,
                     fillColor: `${
                       post.Type.id === 1
-                        ? 'red'
+                        ? '#ef4444'
                         : post.Type.id === 2
-                        ? 'blue'
+                        ? '#3b82f6'
                         : post.Type.id === 3
-                        ? 'yellow'
+                        ? '#eab308'
                         : ''
                     }`,
                     fillOpacity: 1,

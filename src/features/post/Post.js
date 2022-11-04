@@ -11,8 +11,17 @@ import { toast } from "react-toastify";
 import { useLoading } from "../../context/LoadingContext";
 
 function Post({ post }) {
-  const { id, content, createdAt, PostImages, User, Likes, Comments, Reports } =
-    post;
+  const {
+    id,
+    content,
+    createdAt,
+    PostImages,
+    User,
+    Likes,
+    Comments,
+    Reports,
+    typeId,
+  } = post;
 
   const [isEditPostOpen, setIsEditPostOpen] = useState(false);
   const [openConfirm, setOpenConfirm] = useState(false);
@@ -83,7 +92,7 @@ function Post({ post }) {
 
   const handleEditPost = (input) => {
     try {
-      startLoading()
+      startLoading();
       const formData = new FormData();
       formData.append("content", input.content);
       formData.append("typeId", input.typeId);
@@ -100,29 +109,35 @@ function Post({ post }) {
     } catch (err) {
       toast.error(err);
     } finally {
-      stopLoading()
+      stopLoading();
     }
   };
 
   return (
     <>
-      <div className="flex flex-col mt-8">
+      <div
+        className={`flex flex-col mt-8 rounded-3xl overflow-hidden border-l-8 border-l-${
+          typeId === 1
+            ? "red"
+            : typeId === 2
+            ? "blue"
+            : typeId === 3
+            ? "yellow"
+            : ""
+        }-500   `}
+      >
         {PostImages.length !== 0 && (
           <div className="w-full">
             <Link to={`/post/${post.id}`}>
               <img
                 src={PostImages[0].imageUrl}
                 alt=""
-                className="rounded-t-3xl w-full object-cover"
+                className=" w-full object-cover"
               />
             </Link>
           </div>
         )}
-        <div
-          className={`bg-white flex flex-col p-5 gap-2 ${
-            PostImages.length !== 0 ? "rounded-b-3xl" : "rounded-3xl"
-          }`}
-        >
+        <div className="bg-white flex flex-col p-5 gap-2">
           <div className="flex justify-between items-center">
             <div className="text-xl font-semibold">
               <Link to={`/post/${post.id}`}>{content}</Link>

@@ -1,12 +1,14 @@
-import axios from '../config/axios';
+import axios from "../config/axios";
 
-export const getAll = () => axios.get('/posts');
+export const getAll = () => axios.get("/posts");
 
 export const getByTypeId = (typeId) => axios.get(`/posts?typeId=${typeId}`);
 
 export const getById = (id) => axios.get(`/posts/${id}`);
 
-export const create = (input) => axios.post('/posts', input);
+export const getPostsByFollowing = () => axios.get("/posts/follows");
+
+export const create = (input) => axios.post("/posts", input);
 
 export const update = (id, input) => axios.put(`/posts/${id}`, input);
 

@@ -68,7 +68,6 @@ function ProfileContainer() {
         await getAllFollower();
       };
       fetchAll();
-      setIsPost(true);
     } catch (err) {
       console.log(err);
     } finally {
@@ -119,7 +118,6 @@ function ProfileContainer() {
             follow={follow}
             followed={followed}
             handleClickFollow={handleClickFollow}
-            openPost={openPost}
           />
         )}
       </div>
