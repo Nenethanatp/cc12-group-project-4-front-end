@@ -74,7 +74,6 @@ function PostContainer() {
             </button>
           </div>
         </div>
-
         <PostList />
       </div>
 

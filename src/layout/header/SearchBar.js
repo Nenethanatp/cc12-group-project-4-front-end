@@ -6,6 +6,7 @@ import {
   ComboboxPopover,
 } from "@reach/combobox";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import usePlacesAutocomplete, {
   getGeocode,
@@ -22,11 +23,14 @@ function SearchBar() {
     clearSuggestions,
   } = usePlacesAutocomplete({ requestOptions: { region: "th" } });
 
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
   const handleSelect = async (address) => {
     setValue(address, false);
     clearSuggestions();
+    navigate("/");
 
     try {
       const results = await getGeocode({ address: address });

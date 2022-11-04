@@ -1,20 +1,19 @@
-import { useEffect, useState } from 'react';
-import { getPosts, getPostById } from '../../store/postSlice';
-import Comment from './Comment';
-import CommentForm from './CommentForm';
-import { toggleLike, toggleReport } from '../../api/postApi';
-import * as postService from '../../api/postApi';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import FsLightbox from 'fslightbox-react';
+import { useEffect, useState } from "react";
+import { getPosts } from "../../store/postSlice";
+import Comment from "./Comment";
+import CommentForm from "./CommentForm";
+import { toggleLike } from "../../api/postApi";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import FsLightbox from "fslightbox-react";
 
 function PostDetailPage() {
   const dispatch = useDispatch();
   const { postId } = useParams();
   const [post, setPost] = useState({
     User: {
-      firstName: '',
-      lastName: '',
+      firstName: "",
+      lastName: "",
     },
     PostImages: [],
     Likes: [],
@@ -85,20 +84,19 @@ function PostDetailPage() {
               toggler={toggler}
               // src={[PostImages]}
               sources={[
-                'https://i.imgur.com/fsyrScY.jpg',
-                'https://www.youtube.com/watch?v=3nQNiWdeH2Q',
-                'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                "https://i.imgur.com/fsyrScY.jpg",
+                "https://www.youtube.com/watch?v=3nQNiWdeH2Q",
+                "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
               ]}
             />
           </>
-          {/* ); */}
 
           <div className="flex justify-between">
             <div className="flex gap-5">
               <div className="flex items-center gap-1 text-sm">
                 <i
                   className={`fa-regular fa-thumbs-up${
-                    liked ? ' text-blue-600' : ''
+                    liked ? " text-blue-600" : ""
                   }`}
                   onClick={handleLike}
                 />
@@ -111,7 +109,7 @@ function PostDetailPage() {
             </div>
           </div>
           {post.Comments.length > 0 &&
-            post.Comments.map((comment, index) => (
+            post.Comments.map((comment) => (
               <Comment key={comment.id} comment={comment} />
             ))}
 

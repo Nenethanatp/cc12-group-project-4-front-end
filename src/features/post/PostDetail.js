@@ -1,29 +1,21 @@
-import {useEffect, useState, useMemo, useCallback, useRef, Fragment} from "react";
-import {getPosts, getPostById} from "../../store/postSlice";
-import {formatDate} from "../../utils/formatDate";
-import {toggleLike, toggleReport} from "../../api/postApi";
+import { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import { getPosts, getPostById } from "../../store/postSlice";
+import { formatDate } from "../../utils/formatDate";
+import { toggleLike } from "../../api/postApi";
 import * as postService from "../../api/postApi";
-import {useDispatch, useSelector} from "react-redux";
-import {Link, useParams} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import PostDetailGallery from "./PostDetailGallery";
 import PostDetailComment from "./PostDetailComment";
-import {
-  Circle,
-  GoogleMap,
-  InfoWindow,
-  Marker,
-  MarkerClusterer
-} from '@react-google-maps/api';
+import { GoogleMap, Marker } from "@react-google-maps/api";
 
 function PostDetail() {
   const mapRef = useRef();
 
-  const radius = process.env.REACT_APP_MARKER_RADIUS || 5000;
-
   const dispatch = useDispatch();
-  const {postId} = useParams();
+  const { postId } = useParams();
 
-  const [mapCenter, setMapCenter] = useState({lat: 13.75, lng: 100.5})
+  const [mapCenter, setMapCenter] = useState({ lat: 13.75, lng: 100.5 });
 
   const [post, setPost] = useState({
     User: {
@@ -33,8 +25,8 @@ function PostDetail() {
     PostImages: [],
     Likes: [],
     Comments: [],
-    Type: {type: ''},
-    Location: {latitude: 13.75, longitude: 100.5},
+    Type: { type: "" },
+    Location: { latitude: 13.75, longitude: 100.5 },
   });
   const me = useSelector((state) => state.auth.user);
   const posts = useSelector((state) => state.post.items);
@@ -44,21 +36,14 @@ function PostDetail() {
 
   const options = useMemo(
     () => ({
-      mapId: '3713c985864a0e82',
+      mapId: "3713c985864a0e82",
       disableDefaultUI: true,
-      clickableIcons: false
+      clickableIcons: false,
     }),
     []
   );
 
   const onMapLoad = useCallback((map) => (mapRef.current = map), []);
-  const onMapClick = useCallback(
-    (e) => {
-      // setMarker({ lat: e.latLng.lat(), lng: e.latLng.lng() });
-      // dispatch(setLocation({ lat: e.latLng.lat(), lng: e.latLng.lng() }));
-    },
-    [dispatch]
-  );
 
   useEffect(() => {
     setPost(posts.find((post) => post.id === Number(postId)));
@@ -68,7 +53,7 @@ function PostDetail() {
     setMapCenter({
       lat: +post.Location.latitude,
       lng: +post.Location.longitude,
-    })
+    });
   }, [post]);
 
   const handleLike = async (e) => {
@@ -102,44 +87,33 @@ function PostDetail() {
             </div>
           </Link>
 
-          <div className="text-lg font-semibold mt-5">{post.content}</div>
+          <div className="text-lg font-semibold my-5">{post.content}</div>
 
-          <p className="text-base font-medium">Location</p>
-          <div style={{height: '500px'}}>
+          <div style={{ height: "250px" }}>
             <GoogleMap
               zoom={11}
               center={mapCenter}
               mapContainerClassName="h-full w-full"
               options={options}
               onLoad={onMapLoad}
-              onClick={onMapClick}
             >
-              <Fragment>
-                <Marker
-                  key={post.id}
-                  position={{lat: +post.Location.latitude, lng: +post.Location.longitude}}
-                  onClick={() => {
-                  }}
-                />
-                {/* <Circle
-                  center={{
-                    lat: +post.Location.latitude,
-                    lng: +post.Location.longitude
-                  }}
-                  radius={radius}
-                  options={{strokeColor: "#ff0000", fillColor: "#9A9A9A"}}
-                /> */}
-              </Fragment>
+              <Marker
+                key={post.id}
+                position={{
+                  lat: +post.Location.latitude,
+                  lng: +post.Location.longitude,
+                }}
+                onClick={() => {}}
+              />
             </GoogleMap>
           </div>
 
-          <p className="text-base font-medium">Gallery</p>
           {post && <PostDetailGallery post={post}></PostDetailGallery>}
 
-          <hr/>
+          <hr />
           <div className="w-[100%]">
             <div className="float-left">
-              <span>หมวดหมู่ {post.Type.type}</span>
+              <span>category: {post.Type.type}</span>
             </div>
             <div className="float-right">
               <span>{formatDate(post.createdAt)}</span>
