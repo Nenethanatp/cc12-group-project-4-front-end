@@ -1,12 +1,16 @@
-import { useState } from "react";
-import PostForm from "./PostForm";
-import AddFavoriteForm from "./AddFavoriteForm";
-import PostList from "./PostList";
-import { useDispatch, useSelector } from "react-redux";
-import { createPost } from "../../store/postSlice";
-import { createFavorite } from "../../store/favoriteSlice";
-import Modal from "../../components/Modal";
-import ModalSubscribe from "../favorite/ModalSubscribe";
+import { useState } from 'react';
+import PostForm from './PostForm';
+import AddFavoriteForm from './AddFavoriteForm';
+import PostList from './PostList';
+import { useDispatch, useSelector } from 'react-redux';
+import { createPost } from '../../store/postSlice';
+import { createFavorite } from '../../store/favoriteSlice';
+import * as postService from '../../api/postApi';
+
+import Modal from '../../components/Modal';
+import ModalSubscribe from '../favorite/ModalSubscribe';
+import { toast } from 'react-toastify';
+import { addPost } from '../../store/postSlice';
 
 function PostContainer() {
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
@@ -25,27 +29,35 @@ function PostContainer() {
   };
 
   const handleClickFav = () => {
-    if (status === "subscribed") {
+    if (status === 'subscribed') {
       toggleAddFavorite();
     } else {
       setSubscribeModalOpen(true);
     }
   };
 
-  const handleCreatePost = (input) => {
-    const formData = new FormData();
-    formData.append("content", input.content);
-    formData.append("typeId", input.typeId);
-    formData.append("userId", input.userId);
-    formData.append("latitude", input.latitude);
-    formData.append("longitude", input.longitude);
-    for (let i = 0; i < input.postImages.length; i++) {
-      formData.append("postImage", input.postImages[i]);
+  const handleCreatePost = async (input) => {
+    try {
+      const formData = new FormData();
+      formData.append('content', input.content);
+      formData.append('typeId', input.typeId);
+      formData.append('userId', input.userId);
+      formData.append('latitude', input.latitude);
+      formData.append('longitude', input.longitude);
+      for (let i = 0; i < input.postImages.length; i++) {
+        formData.append('postImage', input.postImages[i]);
+      }
+      // console.log(formData);
+      // dispatch(createPost(formData));
+
+      const res = await postService.create(formData);
+      dispatch(addPost(res.data.post));
+      toast.success('Post created');
+      // then close create post pane
+      toggleCreatePost();
+    } catch (err) {
+      toast.error('Failed to created post!');
     }
-    // console.log(formData);
-    dispatch(createPost(formData));
-    // then close create post pane
-    toggleCreatePost();
   };
 
   const handleAddFavorite = (input) => {
@@ -112,7 +124,7 @@ function PostContainer() {
         }}
       />
 
-      <Modal
+      {/* <Modal
         open={isCreatePostOpen}
         content={
           <PostForm
@@ -132,7 +144,7 @@ function PostContainer() {
           />
         }
         close={toggleCreatePost}
-      />
+      /> */}
     </>
   );
 }

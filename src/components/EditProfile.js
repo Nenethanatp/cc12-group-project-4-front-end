@@ -1,18 +1,18 @@
-import { useRef, useState } from "react";
-import * as userService from "../api/userApi";
-import { toast } from "react-toastify";
-import profileImage from "../assets/images/profile-image.png";
-import * as authService from "../api/authApi";
-import { getMe } from "../store/authSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useLoading } from "../context/LoadingContext";
+import { useRef, useState } from 'react';
+import * as userService from '../api/userApi';
+import { toast } from 'react-toastify';
+import profileImage from '../assets/images/profile-image.png';
+import * as authService from '../api/authApi';
+import { getMe } from '../store/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLoading } from '../context/LoadingContext';
 
 function EditProfile({ description, closeModal, fetchUser }) {
   const [isDescription, setIsDescription] = useState(description);
   const [isImageUrl, setIsImageUrl] = useState(null);
-  const [isOldPassword, setIsOldPassword] = useState("");
-  const [isNewPassword, setIsNewPassword] = useState("");
-  const [isConfirmNewPassword, setIsConfirmNewPassword] = useState("");
+  const [isOldPassword, setIsOldPassword] = useState('');
+  const [isNewPassword, setIsNewPassword] = useState('');
+  const [isConfirmNewPassword, setIsConfirmNewPassword] = useState('');
 
   const user = useSelector((state) => state.auth.user);
   const ggSignin = useSelector((state) => state.auth.ggSignin);
@@ -31,33 +31,33 @@ function EditProfile({ description, closeModal, fetchUser }) {
     try {
       const formData = new FormData();
       if (isDescription !== description) {
-        formData.append("description", isDescription);
+        formData.append('description', isDescription);
       }
-      console.log(formData);
+      // console.log(formData);
 
       if (isImageUrl) {
-        formData.append("imageUrl", isImageUrl);
+        formData.append('imageUrl', isImageUrl);
       }
 
       if (isNewPassword || isOldPassword || isConfirmNewPassword) {
         if (!isOldPassword) {
-          return toast.error("Old password is required");
+          return toast.error('Old password is required');
         }
         if (!isNewPassword) {
-          return toast.error("New password is required");
+          return toast.error('New password is required');
         }
         if (!isConfirmNewPassword) {
-          return toast.error("Confirm new password is required");
+          return toast.error('Confirm new password is required');
         }
         if (isNewPassword !== isConfirmNewPassword) {
-          return toast.error("New password not match with confirm password");
+          return toast.error('New password not match with confirm password');
         }
         if (isNewPassword === isOldPassword) {
-          return toast.error("New password is similar to old password");
+          return toast.error('New password is similar to old password');
         }
         if (isNewPassword === isConfirmNewPassword) {
-          formData.append("newPassword", isNewPassword);
-          formData.append("oldPassword", isOldPassword);
+          formData.append('newPassword', isNewPassword);
+          formData.append('oldPassword', isOldPassword);
         }
       }
 
@@ -68,17 +68,17 @@ function EditProfile({ description, closeModal, fetchUser }) {
         !isConfirmNewPassword &&
         !isImageUrl
       ) {
-        toast.error("Nothing to update!!");
+        toast.error('Nothing to update!!');
       } else {
         startLoading();
         await userService.updateUserApi(formData);
         await fetchUser();
         await updateGetMe();
         setIsImageUrl(null);
-        setIsOldPassword("");
-        setIsNewPassword("");
-        setIsConfirmNewPassword("");
-        toast.success("Success update");
+        setIsOldPassword('');
+        setIsNewPassword('');
+        setIsConfirmNewPassword('');
+        toast.success('Success update');
       }
     } catch (err) {
       toast.error(err.response?.data.message);
@@ -135,7 +135,7 @@ function EditProfile({ description, closeModal, fetchUser }) {
               ref={inputEl}
               className="hidden"
               onChange={(e) => {
-                console.log("go");
+                console.log('go');
                 if (e.target.files[0]) {
                   setIsImageUrl(e.target.files[0]);
                 }
@@ -148,13 +148,13 @@ function EditProfile({ description, closeModal, fetchUser }) {
           <textarea
             className="w-60  bg-gray-300 text-black max-h-20 min-h-[5rem]  p-2 text-xs rounded-md"
             placeholder="type here"
-            value={isDescription || ""}
+            value={isDescription || ''}
             onChange={(e) => setIsDescription(e.target.value)}
           />
         </div>
 
         {ggSignin ? (
-          ""
+          ''
         ) : (
           <div>
             <div className="w-60 ">
@@ -180,7 +180,7 @@ function EditProfile({ description, closeModal, fetchUser }) {
                 className="bg-gray-300 w-60 rounded-md"
                 onChange={(e) => setIsConfirmNewPassword(e.target.value)}
               />
-            </div>{" "}
+            </div>{' '}
           </div>
         )}
 

@@ -1,9 +1,9 @@
-import { useState, useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useLoading } from "../../context/LoadingContext";
-import { toast } from "react-toastify";
-import PostFormImage from "./PostFormImage";
-import PostFormRemoteImage from "./PostFormRemoteImage";
+import { useState, useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useLoading } from '../../context/LoadingContext';
+import { toast } from 'react-toastify';
+import PostFormImage from './PostFormImage';
+import PostFormRemoteImage from './PostFormRemoteImage';
 
 function PostForm({ post, handleCreatePost, toggleCreatePost }) {
   const fileEl = useRef();
@@ -15,7 +15,7 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
 
   const user = useSelector((state) => state.auth.user);
   const [input, setInput] = useState({
-    content: "",
+    content: '',
     typeId: 1,
     userId: user.id,
     latitude: post ? post.Location.latitude : location.lat,
@@ -45,19 +45,20 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
       e.preventDefault();
 
       if (!input.content) {
-        return toast.error("content is required");
+        return toast.error('Content is required');
       }
       if (!input.typeId) {
-        return toast.error("type is required");
+        return toast.error('Type is required');
       }
       if (!input.latitude || !input.longitude) {
-        return toast.error("location is required");
+        return toast.error('Location is required');
       }
 
       startLoading();
+      console.log('aj earth');
       await handleCreatePost(input);
 
-      input.content = "";
+      input.content = '';
       input.typeId = 1;
       input.userId = user.id;
       input.latitude = location.lat;
@@ -80,7 +81,7 @@ function PostForm({ post, handleCreatePost, toggleCreatePost }) {
           <div className="h-12 w-12">
             <button
               className="bg-gray-200 rounded-full p-2 material-symbols-outlined"
-              type={"button"}
+              type={'button'}
               onClick={toggleCreatePost}
             >
               keyboard_arrow_down
