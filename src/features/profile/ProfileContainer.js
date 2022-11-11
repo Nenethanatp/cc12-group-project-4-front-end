@@ -1,13 +1,13 @@
-import ProfileInfo from "./ProfileInfo";
-import ProfileNav from "../../layout/profile/ProfileNav";
-import { useEffect, useState } from "react";
-import * as followService from "../../api/followApi";
-import * as getUserService from "../../api/authApi";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import FollowList from "../../layout/profile/FollowList";
-import PostList from "../post/PostList";
-import { useLoading } from "../../context/LoadingContext";
+import ProfileInfo from './ProfileInfo';
+import ProfileNav from '../../layout/profile/ProfileNav';
+import { useEffect, useState } from 'react';
+import * as followService from '../../api/followApi';
+import * as getUserService from '../../api/authApi';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import FollowList from '../../layout/profile/FollowList';
+import PostList from '../post/PostList';
+import { useLoading } from '../../context/LoadingContext';
 
 function ProfileContainer() {
   const { startLoading, stopLoading } = useLoading();
@@ -95,7 +95,7 @@ function ProfileContainer() {
 
   return (
     <div>
-      <div className="flex flex-col ">
+      <div className='flex flex-col '>
         <ProfileInfo />
 
         <ProfileNav
@@ -106,20 +106,21 @@ function ProfileContainer() {
           handleClickFollow={handleClickFollow}
           openPost={openPost}
         />
-
-        {isPost ? (
-          <div className="p-6 bg-gray-200">
-            <PostList myPosts={myPosts} />
-          </div>
-        ) : (
-          <FollowList
-            allFollower={allFollower}
-            isFollow={isFollow}
-            follow={follow}
-            followed={followed}
-            handleClickFollow={handleClickFollow}
-          />
-        )}
+        <div className='bg-cyan-500 h-[100vh]'>
+          {isPost ? (
+            <div className='p-6 bg-cyan-500'>
+              <PostList myPosts={myPosts} />
+            </div>
+          ) : (
+            <FollowList
+              allFollower={allFollower}
+              isFollow={isFollow}
+              follow={follow}
+              followed={followed}
+              handleClickFollow={handleClickFollow}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

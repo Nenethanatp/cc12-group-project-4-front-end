@@ -98,3 +98,12 @@ code {
 .customBgMorphCyan {
   box-shadow: 13px 13px 26px #077b97, -13px -13px 26px #09a7cd;
 }
+
+.emailCyanMorph {
+  background: #06b6d4;
+  box-shadow: inset 5px 5px 21px #0599b2, inset -5px -5px 21px #07d3f6;
+}
+
+.editProfileMorph {
+  box-shadow: 20px 20px 60px #059bb4, -20px -20px 60px #07d1f4;
+}
