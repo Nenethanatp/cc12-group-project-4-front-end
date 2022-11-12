@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toggleLike, toggleReport } from '../../api/postApi';
-import { getPosts, editPost, destroyPost } from '../../store/postSlice';
-import { formatDate } from '../../utils/formatDate';
-import PostForm from './PostForm';
-import Modal from '../../components/Modal';
-import { Link } from 'react-router-dom';
-import ConfirmDelete from './ConfirmDelete';
-import { toast } from 'react-toastify';
-import { useLoading } from '../../context/LoadingContext';
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleLike, toggleReport } from "../../api/postApi";
+import { getPosts, editPost, destroyPost } from "../../store/postSlice";
+import { formatDate } from "../../utils/formatDate";
+import PostForm from "./PostForm";
+import Modal from "../../components/Modal";
+import { Link } from "react-router-dom";
+import ConfirmDelete from "./ConfirmDelete";
+import { toast } from "react-toastify";
+import { useLoading } from "../../context/LoadingContext";
 
 function Post({ post }) {
   const {
@@ -20,7 +20,7 @@ function Post({ post }) {
     Likes,
     Comments,
     Reports,
-    typeId
+    typeId,
   } = post;
 
   const [isEditPostOpen, setIsEditPostOpen] = useState(false);
@@ -94,13 +94,13 @@ function Post({ post }) {
     try {
       startLoading();
       const formData = new FormData();
-      formData.append('content', input.content);
-      formData.append('typeId', input.typeId);
-      formData.append('userId', input.userId);
-      formData.append('latitude', input.latitude);
-      formData.append('longitude', input.longitude);
+      formData.append("content", input.content);
+      formData.append("typeId", input.typeId);
+      formData.append("userId", input.userId);
+      formData.append("latitude", input.latitude);
+      formData.append("longitude", input.longitude);
       for (let i = 0; i < input.postImages.length; i++) {
-        formData.append('postImage', input.postImages[i]);
+        formData.append("postImage", input.postImages[i]);
       }
       // console.log(formData);
       dispatch(editPost(post.id, formData));
@@ -116,55 +116,56 @@ function Post({ post }) {
   return (
     <>
       <div
-        className={`flex flex-col mt-8 rounded-3xl overflow-hidden border-l-8 border-l-${
+        className={`flex flex-col mt-8 rounded-3xl overflow-hidden customBgMorph border-l-8 border-l-${
           typeId === 1
-            ? 'red'
+            ? "red"
             : typeId === 2
-            ? 'blue'
+            ? "blue"
             : typeId === 3
-            ? 'yellow'
-            : ''
-        }-500 customBgMorph`}
+            ? "yellow"
+            : ""
+        }-500
+        `}
       >
         {PostImages.length !== 0 && (
-          <div className='w-full'>
+          <div className="w-full">
             <Link to={`/post/${post.id}`}>
               <img
                 src={PostImages[0].imageUrl}
-                alt=''
-                className=' w-full object-cover'
+                alt=""
+                className=" w-full object-cover"
               />
             </Link>
           </div>
         )}
-        <div className='bg-white flex flex-col p-5 gap-2'>
-          <div className='flex justify-between items-center'>
-            <div className='text-xl font-semibold'>
+        <div className="bg-white flex flex-col p-5 gap-2">
+          <div className="flex justify-between items-center">
+            <div className="text-xl font-semibold">
               <Link to={`/post/${post.id}`}>{content}</Link>
             </div>
-            <div className='relative inline-block'>
-              <button onClick={toggleShowActions} className='p-5'>
-                <i className='fa-solid fa-ellipsis-vertical'></i>
+            <div className="relative inline-block">
+              <button onClick={toggleShowActions} className="p-5">
+                <i className="fa-solid fa-ellipsis-vertical"></i>
               </button>
 
               {isShowActions && (
                 <div
                   onClick={toggleShowActions}
-                  className='absolute right-0  w-32 py-2 mt-2 bg-white rounded-md shadow-xl dark:bg-gray-300'
+                  className="absolute right-0 top-8 w-32 py-2 mt-2 bg-white rounded-md shadow-xl dark:bg-gray-300"
                 >
                   {User.id !== me.id && (
                     <>
                       {reported ? (
                         <div
-                          type='button'
-                          className='block px-4 py-3 text-sm dark:text-black-300'
+                          type="button"
+                          className="block px-4 py-3 text-sm dark:text-black-300"
                         >
                           Reported
                         </div>
                       ) : (
                         <div
-                          type='button'
-                          className='block px-4 py-3 text-sm dark:text-black-300'
+                          type="button"
+                          className="block px-4 py-3 text-sm dark:text-black-300"
                           onClick={handleReport}
                         >
                           Report
@@ -175,21 +176,21 @@ function Post({ post }) {
 
                   {User.id === me.id && (
                     <div
-                      type='button'
-                      className='block px-4 py-3 text-sm dark:text-black-300'
-                      style={{ cursor: 'pointer' }}
+                      type="button"
+                      className="block px-4 py-3 text-sm dark:text-black-300"
+                      style={{ cursor: "pointer" }}
                       onClick={toggleEditPost}
                     >
                       Edit
                     </div>
                   )}
 
-                  {(User.id === me.id || User.role === 'admin') && (
+                  {(User.id === me.id || User.role === "admin") && (
                     <>
                       <div
-                        type='button'
-                        className='block px-4 py-3 text-sm dark:text-black-300'
-                        style={{ cursor: 'pointer' }}
+                        type="button"
+                        className="block px-4 py-3 text-sm dark:text-black-300"
+                        style={{ cursor: "pointer" }}
                         onClick={() => setOpenConfirm(true)}
                       >
                         Delete
@@ -200,23 +201,23 @@ function Post({ post }) {
               )}
             </div>
           </div>
-          <div className='flex justify-between'>
-            <div className='flex gap-5'>
-              <div className='flex items-center gap-1 text-sm'>
+          <div className="flex justify-between">
+            <div className="flex gap-5">
+              <div className="flex items-center gap-1 text-sm">
                 <i
                   className={`fa-regular fa-thumbs-up${
-                    liked ? ' text-blue-600' : ''
+                    liked ? " text-blue-600" : ""
                   }`}
                   onClick={handleLike}
                 />
                 <div>{countLike}</div>
               </div>
-              <div className='flex items-center gap-1 text-sm'>
-                <i className='fa-regular fa-message ' />
+              <div className="flex items-center gap-1 text-sm">
+                <i className="fa-regular fa-message " />
                 <div>{countComment}</div>
               </div>
             </div>
-            <div className='text-sm'>{date}</div>
+            <div className="text-sm">{date}</div>
           </div>
           <Link to={`/post/${post.id}`}>อ่านต่อ...</Link>
         </div>

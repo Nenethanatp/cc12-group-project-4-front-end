@@ -157,10 +157,7 @@ function ProfileInfo() {
                     <>
                       {subEndDate !== 'expired' && subEndDate ? (
                         <div className='border-white border-2 p-1 rounded-lg text-white absolute top-[130px] text-xs right-[5px] bg-cyan-600 '>
-                          <p>
-                            Subscribe expire on
-                            {endDateNewFormat}
-                          </p>
+                          <p>Subscribe expire on {endDateNewFormat}</p>
                         </div>
                       ) : (
                         ''
