@@ -91,49 +91,49 @@ function ProfileInfo() {
   return (
     <>
       {!loading ? (
-        <div className="flex flex-col-reverse bg-slate-200q top-0 right-0 bottom-0 left-0">
-          <div className="flex text-black h-[200px] w-[100%]  pt-7 px-7   bg-cyan-500 rounded-t-3xl mt-5">
-            <div className="flex relative justify-end items-center w-full h-[50%] ">
-              <div className="w-[20%] absolute top-0 left-0">
-                <div className="mt-5 w-[100px] h-[100px] bg-slate-300 rounded-full flex justify-center items-center">
+        <div className='flex flex-col-reverse bg-slate-200q top-0 right-0 bottom-0 left-0'>
+          <div className='flex text-black h-[200px] w-[100%]  pt-7 px-7   bg-cyan-500 rounded-t-3xl mt-5'>
+            <div className='flex relative justify-end items-center w-full h-[50%] '>
+              <div className='w-[20%] absolute top-0 left-0'>
+                <div className='mt-5 w-[100px] h-[100px] bg-slate-300 rounded-full flex justify-center items-center'>
                   {otherUser ? (
                     <>
                       <img
                         src={`${
                           otherUser.imageUrl ? otherUser.imageUrl : profileImage
                         }`}
-                        alt="profileImg"
-                        className="rounded-full object-cover w-[100px] h-[100px]"
+                        alt='profileImg'
+                        className='rounded-full object-cover w-[100px] h-[100px]'
                       />
                     </>
                   ) : (
                     <>
                       <img
                         src={`${me.imageUrl ? me.imageUrl : profileImage}`}
-                        alt="profileImg"
-                        className="rounded-full object-fill w-[100px] h-[100px]"
+                        alt='profileImg'
+                        className='rounded-full object-fill w-[100px] h-[100px]'
                       />
                     </>
                   )}
                 </div>
               </div>
-              <div className="mt-14 flex justify-center top-10 flex-col  h-[178px] w-[65%]">
-                <div className="h-[100px] flex flex-col items-center justify-center gap-2">
-                  <div className="text-xl text-white font-bold">
+              <div className='mt-14 flex justify-center top-10 flex-col  h-[178px] w-[65%]'>
+                <div className='h-[100px] w-[230px] flex flex-col items-center justify-center gap-2'>
+                  <div className='text-xl text-white font-bold'>
                     {otherUser ? (
                       <>{`${otherUser.firstName} ${otherUser.lastName}`}</>
                     ) : (
                       <>{`${me.firstName} ${me.lastName}`}</>
                     )}
                   </div>
-                  <div className="text-white emailCyanMorph rounded-lg px-3 py-1">
+                  <div className='text-white emailCyanMorph rounded-lg px-3 py-1 mt-2'>
                     {otherUser ? (
                       <>{`${otherUser.email}`}</>
                     ) : (
                       <>{`${me.email}`}</>
                     )}
                   </div>
-                  <div className="text-xs">
+                  <div className='text-xs'>
                     {otherUser ? (
                       <>{`${
                         otherUser.description ? otherUser.description : ''
@@ -143,11 +143,11 @@ function ProfileInfo() {
                     )}
                   </div>
                 </div>
-                <div className="flex justify-center gap-5 text-xs bottom-0 left-7">
+                <div className='flex justify-center gap-5 text-xs bottom-0 left-7'>
                   {!isMe ? (
                     <>
                       <button
-                        className="bg-yellow-400 p-2 rounded-xl font-bold text-cyan-900"
+                        className='bg-yellow-400 p-2 rounded-xl font-bold text-cyan-900'
                         onClick={handleClickFollow}
                       >
                         {followed ? FOLLOWING : FOLLOW}
@@ -156,7 +156,7 @@ function ProfileInfo() {
                   ) : (
                     <>
                       {subEndDate !== 'expired' && subEndDate ? (
-                        <div className="border-white border-2 p-1 rounded-lg text-white absolute top-[130px] text-xs right-[5px] bg-cyan-600 ">
+                        <div className='border-white border-2 p-1 rounded-lg text-white absolute top-[130px] text-xs right-[5px] bg-cyan-600 '>
                           <p>
                             Subscribe expire on
                             {endDateNewFormat}
@@ -166,7 +166,7 @@ function ProfileInfo() {
                         ''
                       )}
                       <button
-                        className="text-yellow-300 p-3 mb-3 rounded-full"
+                        className='text-white p-3 mb-3 rounded-full'
                         onClick={openEditProfile}
                       >
                         <SettingIcon />
