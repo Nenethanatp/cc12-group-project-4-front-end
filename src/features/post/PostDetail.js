@@ -1,13 +1,13 @@
-import { useEffect, useState, useMemo, useCallback, useRef } from "react";
-import { getPosts, getPostById } from "../../store/postSlice";
-import { formatDate } from "../../utils/formatDate";
-import { toggleLike } from "../../api/postApi";
-import * as postService from "../../api/postApi";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import PostDetailGallery from "./PostDetailGallery";
-import PostDetailComment from "./PostDetailComment";
-import { GoogleMap, Marker } from "@react-google-maps/api";
+import { useEffect, useState, useMemo, useCallback, useRef } from 'react';
+import { getPosts, getPostById } from '../../store/postSlice';
+import { formatDate } from '../../utils/formatDate';
+import { toggleLike } from '../../api/postApi';
+import * as postService from '../../api/postApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import PostDetailGallery from './PostDetailGallery';
+import PostDetailComment from './PostDetailComment';
+import { GoogleMap, Marker } from '@react-google-maps/api';
 
 function PostDetail() {
   const mapRef = useRef();
@@ -19,14 +19,14 @@ function PostDetail() {
 
   const [post, setPost] = useState({
     User: {
-      firstName: "",
-      lastName: "",
+      firstName: '',
+      lastName: ''
     },
     PostImages: [],
     Likes: [],
     Comments: [],
-    Type: { type: "" },
-    Location: { latitude: 13.75, longitude: 100.5 },
+    Type: { type: '' },
+    Location: { latitude: 13.75, longitude: 100.5 }
   });
   const me = useSelector((state) => state.auth.user);
   const posts = useSelector((state) => state.post.items);
@@ -36,9 +36,9 @@ function PostDetail() {
 
   const options = useMemo(
     () => ({
-      mapId: "3713c985864a0e82",
+      mapId: '3713c985864a0e82',
       disableDefaultUI: true,
-      clickableIcons: false,
+      clickableIcons: false
     }),
     []
   );
@@ -52,7 +52,7 @@ function PostDetail() {
   useEffect(() => {
     setMapCenter({
       lat: +post.Location.latitude,
-      lng: +post.Location.longitude,
+      lng: +post.Location.longitude
     });
   }, [post]);
 
@@ -69,31 +69,33 @@ function PostDetail() {
   return (
     <>
       {post && (
-        <div className="bg-white flex flex-col p-5 gap-2 rounded-b-3xl">
+        <div className='bg-slate-200 flex flex-col p-5 gap-2 rounded-b-3xl'>
           <Link to={`/profile/${post.User.id}`}>
-            <div className="flex gap-3 ">
-              <div className="">
+            <div className='flex gap-3 '>
+              <div className=''>
                 {post.User && (
                   <img
                     src={post.User.imageUrl}
-                    alt=""
-                    className="bg-orange-500 rounded-full w-[40px] h-[40px]  object-cover"
+                    alt=''
+                    className='bg-orange-500 rounded-full w-[40px] h-[40px]  object-cover'
                   ></img>
                 )}
               </div>
-              <div className="flex flex-col justify-center">
-                <div className="text-md">{`${post.User.firstName} ${post.User.lastName}`}</div>
+              <div className='flex flex-col justify-center'>
+                <div className='text-md'>{`${post.User.firstName} ${post.User.lastName}`}</div>
               </div>
             </div>
           </Link>
 
-          <div className="text-lg font-semibold my-5">{post.content}</div>
+          <div className='text-lg text-cyan-600 font-semibold my-5 customBgMorph text-center p-2 rounded-xl'>
+            {post.content}
+          </div>
 
-          <div style={{ height: "250px" }}>
+          <div style={{ height: '250px' }} className='customBgMorph'>
             <GoogleMap
               zoom={11}
               center={mapCenter}
-              mapContainerClassName="h-full w-full"
+              mapContainerClassName='h-full w-full'
               options={options}
               onLoad={onMapLoad}
             >
@@ -101,7 +103,7 @@ function PostDetail() {
                 key={post.id}
                 position={{
                   lat: +post.Location.latitude,
-                  lng: +post.Location.longitude,
+                  lng: +post.Location.longitude
                 }}
                 onClick={() => {}}
               />
@@ -111,11 +113,11 @@ function PostDetail() {
           {post && <PostDetailGallery post={post}></PostDetailGallery>}
 
           <hr />
-          <div className="w-[100%]">
-            <div className="float-left">
+          <div className='w-[100%]'>
+            <div className='float-left'>
               <span>category: {post.Type.type}</span>
             </div>
-            <div className="float-right">
+            <div className='float-right'>
               <span>{formatDate(post.createdAt)}</span>
             </div>
           </div>

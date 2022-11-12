@@ -147,7 +147,7 @@ function ProfileInfo() {
                   {!isMe ? (
                     <>
                       <button
-                        className='bg-yellow-400 w-40 h-6 rounded-full'
+                        className='bg-yellow-400 p-2 rounded-xl font-bold text-cyan-900'
                         onClick={handleClickFollow}
                       >
                         {followed ? FOLLOWING : FOLLOW}

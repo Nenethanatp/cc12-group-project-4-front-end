@@ -1,11 +1,11 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getTypes, setSelectedType } from "../store/typeSlice";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTypes, setSelectedType } from '../store/typeSlice';
 import {
   getPosts,
   getPostsByFollowing,
-  getPostsByTypeId,
-} from "../store/postSlice";
+  getPostsByTypeId
+} from '../store/postSlice';
 
 function Category({ setOpenFavorite, setOpenSubscribe }) {
   const dispatch = useDispatch();
@@ -21,17 +21,17 @@ function Category({ setOpenFavorite, setOpenSubscribe }) {
   let typeWithAll = [];
   if (types) {
     typeWithAll = [
-      { type: "all", id: "all" },
+      { type: 'all', id: 'all' },
       ...types,
-      { type: "following", id: "follow" },
+      { type: 'following', id: 'follow' }
     ];
   }
 
   const handleSelectedType = (id) => {
     dispatch(setSelectedType(id));
-    if (id === "all") {
+    if (id === 'all') {
       dispatch(getPosts());
-    } else if (id === "follow") {
+    } else if (id === 'follow') {
       dispatch(getPostsByFollowing());
     } else {
       dispatch(getPostsByTypeId(id));
@@ -39,17 +39,17 @@ function Category({ setOpenFavorite, setOpenSubscribe }) {
   };
 
   const handleClickFavorite = () => {
-    status === "subscribed" ? setOpenFavorite() : setOpenSubscribe();
+    status === 'subscribed' ? setOpenFavorite() : setOpenSubscribe();
   };
 
   return (
     <div
-      className={`p-5 flex gap-9 items-center bg-cyan-700 h-12 overflow-auto`}
+      className={`p-5 flex gap-9 items-center bg-cyan-700 h-12 overflow-auto overflow-y-hidden`}
     >
       {typeWithAll?.map((type) => (
         <div
           className={`px-2 py-1 text-center rounded-2xl font-bold ${
-            selectedType === type.id ? "text-yellow-400" : "text-white"
+            selectedType === type.id ? 'text-yellow-400' : 'text-white'
           } `}
           key={type.id}
           value={type.id}
@@ -60,8 +60,8 @@ function Category({ setOpenFavorite, setOpenSubscribe }) {
       ))}
 
       <button
-        className="material-symbols-outlined text-white"
-        type="button"
+        className='material-symbols-outlined text-white'
+        type='button'
         onClick={handleClickFavorite}
       >
         star

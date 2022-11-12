@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PostForm from './PostForm';
 import AddFavoriteForm from './AddFavoriteForm';
 import PostList from './PostList';
@@ -19,6 +19,12 @@ function PostContainer() {
 
   const dispatch = useDispatch();
   const status = useSelector((state) => state.auth.status);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+
+    return () => (document.body.style.overflow = 'unset');
+  }, []);
 
   const toggleCreatePost = () => {
     setIsCreatePostOpen((prev) => !prev);
@@ -67,11 +73,11 @@ function PostContainer() {
 
   return (
     <>
-      <div className="h-auto min-h-[70vh] bg-slate-200 rounded-t-3xl p-6 relative">
-        <div className="grid grid-cols-2 gap-4">
+      <div className='h-auto min-h-[70vh] bg-slate-200 rounded-t-3xl p-6 relative'>
+        <div className='grid grid-cols-2 gap-4'>
           <div>
             <button
-              className="bg-amber-400 rounded-3xl p-3 text-lg font-semibold w-full"
+              className='bg-amber-400 customBgMorph rounded-3xl p-3 text-blue-500 text-lg font-semibold w-full'
               onClick={toggleCreatePost}
             >
               CREATE POST
@@ -79,7 +85,7 @@ function PostContainer() {
           </div>
           <div>
             <button
-              className="bg-slate-50 rounded-3xl p-3 text-lg font-semibold w-full"
+              className='bg-slate-200 customBgMorph rounded-3xl p-3 text-cyan-600 text-lg font-semibold w-full'
               onClick={handleClickFav}
             >
               ADD FAVORITE

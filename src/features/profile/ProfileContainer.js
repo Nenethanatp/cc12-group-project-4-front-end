@@ -106,9 +106,9 @@ function ProfileContainer() {
           handleClickFollow={handleClickFollow}
           openPost={openPost}
         />
-        <div className='bg-cyan-500 h-[100vh]'>
+        <div className='bg-slate-200 h-[100vh]'>
           {isPost ? (
-            <div className='p-6 bg-cyan-500'>
+            <div className='p-6 bg-slate-200'>
               <PostList myPosts={myPosts} />
             </div>
           ) : (

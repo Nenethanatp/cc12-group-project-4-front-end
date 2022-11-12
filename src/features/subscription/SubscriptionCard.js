@@ -96,15 +96,15 @@ function SubscriptionCard({ allPac }) {
 
   return (
     <>
-      <div className='bg-white w-full p-5 rounded-2xl flex flex-col gap-3'>
-        <div className='text-center'>
+      <div className='bg-slate-200 customBgMorph w-full p-5 rounded-2xl flex flex-col gap-3'>
+        <div className='text-center text-cyan-800'>
           <div className='text-lg font-semibold'>{type.toUpperCase()}</div>
           <div className='text-lg font-semibold'>{`${Math.round(
             price
           )} THB`}</div>
         </div>
         <hr />
-        <div className='text-sm m-3 '>
+        <div className='text-sm m-3 text-cyan-800'>
           {detailPerLine.map((item, index) => (
             <p key={index}>{'- ' + item}</p>
           ))}
@@ -123,7 +123,7 @@ function SubscriptionCard({ allPac }) {
               <form className=''>
                 <button
                   id='credit-card'
-                  className={`bg-yellow-400 text-lg p-1 font-semibold rounded-2xl w-full`}
+                  className={`bg-yellow-400 customBgMorph text-lg text-blue-600 p-1 font-semibold rounded-2xl w-full`}
                   type='button'
                   onClick={handleClick}
                 >

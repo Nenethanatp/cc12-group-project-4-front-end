@@ -34,11 +34,13 @@ function SubscriptionContainer() {
   return (
     <>
       {!loading ? (
-        <div className='bg-slate-300 rounded-t-3xl '>
+        <div className='bg-slate-300 rounded-t-3xl mt-3'>
           <div className='h-full w-full rounded-t-3xl px-7 py-5 text-center flex flex-col items-center gap-5'>
             <div className='w-full  text-center flex flex-col items-center gap-3 py-3'>
-              <div className='text-2xl font-bold'>SUBSCRIPTION</div>
-              <div className='text-md'>
+              <div className='text-2xl font-bold text-cyan-900'>
+                SUBSCRIPTION
+              </div>
+              <div className='text-md text-cyan-700'>
                 There are 2 packages available for now.
                 <br /> Try your new experience !
               </div>
