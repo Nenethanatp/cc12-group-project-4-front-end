@@ -44,7 +44,7 @@ function Category({ setOpenFavorite, setOpenSubscribe }) {
 
   return (
     <div
-      className={`p-5 flex gap-9 items-center bg-cyan-700 h-12 overflow-auto overflow-y-hidden`}
+      className={`p-5 flex gap-9 items-center bg-cyan-700 h-[6vh] overflow-auto overflow-y-hidden`}
     >
       {typeWithAll?.map((type) => (
         <div

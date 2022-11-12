@@ -18,7 +18,7 @@ function Header() {
   };
 
   return (
-    <nav className='flex justify-center items-end gap-2 w-full bg-cyan-600 p-3 px-6 h-24 shadow-md'>
+    <nav className='flex justify-center items-end gap-2 w-full bg-cyan-600 p-3 px-6 h-[10vh] shadow-md'>
       <>
         <div id='logo'>
           <Link to='/'>
