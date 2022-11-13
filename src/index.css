@@ -107,3 +107,8 @@ code {
 .editProfileMorph {
   box-shadow: 20px 20px 60px #059bb4, -20px -20px 60px #07d1f4;
 }
+
+.adminButtonMorph {
+  background: linear-gradient(145deg, #06c3e3, #05a4bf);
+  box-shadow: 5px 5px 12px #05a0bb, -5px -5px 12px #07cced;
+}

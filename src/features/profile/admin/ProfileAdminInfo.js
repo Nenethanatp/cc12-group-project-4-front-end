@@ -92,8 +92,8 @@ function ProfileAdminInfo() {
     fetchUser();
   }, [userId]);
   return (
-    <div className="flex flex-col-reverse bg-red-500     top-0 right-0 bottom-0 left-0 h-96]">
-      <div className="flex flex-col items-center text-black    pt-14 px-10 bg-white rounded-t-3xl">
+    <div className="flex flex-col-reverse bg-white top-0 right-0 bottom-0 left-0">
+      <div className="flex flex-col h-[88vh] items-center text-black pt-14 px-10 bg-cyan-500 rounded-t-3xl mt-5">
         <div>
           <div>
             <div className="flex flex-col items-center ">
@@ -114,13 +114,13 @@ function ProfileAdminInfo() {
                     : URL.createObjectURL(isImageUrl)
                 }
                 alt=""
-                className="w-[150px] h-[150px] rounded-full  object-cover mb-4"
+                className="w-[150px] h-[150px] rounded-full  object-cover mb-6 shadow-lg"
                 onClick={() => {
                   inputEl.current.click();
                 }}
               />
               <button
-                className="bg-yellow-400 px-3 rounded-lg"
+                className="adminButtonMorph px-3 py-1 rounded-lg text-cyan-900"
                 onClick={() => {
                   inputEl.current.click();
                 }}
@@ -143,20 +143,17 @@ function ProfileAdminInfo() {
           </div>
         </div>
 
-        <div className="flex  flex-col items-center  w-full pt-10">
-          <div className="text-xl">
+        <div className="flex  flex-col items-center text-cyan-900  w-full pt-8">
+          <div className="text-3xl text-cyan-200 mb-2">
             <>{`${admin.firstName} ${admin.lastName}`}</>
           </div>
-          <div>{<>{`${admin.email}`}</>}</div>
-          <div className="text-lg">
-            <>{`role: ${admin.role}`}</>
-          </div>
-          <div className="flex flex-col gap-1 mb-3 pt-10">
+          <div className="italic">{<>{`${admin.email}`}</>}</div>
+          <div className="flex flex-col gap-1 mb-3 pt-6">
             <div className="w-full">
               Old password:
               <input
                 type="password"
-                className="bg-gray-300  w-[100%]"
+                className="bg-gray-300  w-[100%] px-3 py-2 my-1 shadow-md rounded-lg"
                 onChange={(e) => setIsOldPassword(e.target.value)}
               />
             </div>
@@ -165,7 +162,7 @@ function ProfileAdminInfo() {
               New password:
               <input
                 type="password"
-                className="bg-gray-300  w-[100%]"
+                className="bg-gray-300  w-[100%] px-3 py-2 my-1 shadow-md rounded-lg"
                 onChange={(e) => setIsNewPassword(e.target.value)}
               />
             </div>
@@ -174,16 +171,16 @@ function ProfileAdminInfo() {
               Confirm new password:
               <input
                 type="password"
-                className="bg-gray-300  w-[100%]"
+                className="bg-gray-300  w-[100%] px-3 py-2 my-1 shadow-md rounded-lg"
                 onChange={(e) => setIsConfirmPassword(e.target.value)}
               />
             </div>
           </div>
 
-          <div className="flex flex-col justify-center  gap-5 text-xs pt-10">
+          <div className="flex flex-col justify-center  gap-5 text-xs pt-4">
             <>
               <button
-                className="bg-yellow-400 w-40 h-10 rounded-full text-[1.5rem]"
+                className="bg-yellow-400 w-40 h-10 rounded-full text-[1.5rem] shadow-md mt-3"
                 onClick={handleSubmitForm}
               >
                 UPDATE

@@ -25,7 +25,7 @@ function ReportCard({ isReported, getReported }) {
   };
 
   return (
-    <div className="flex flex-col border-black border-2 rounded-3xl ">
+    <div className="flex flex-col customBgMorph rounded-3xl ">
       {isReported.PostImages.length !== 0 && (
         <div className="w-full  ">
           <img
